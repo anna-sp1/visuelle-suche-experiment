@@ -29,7 +29,7 @@ const glasses_check_trial = {
     <div class="glasses-screen" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: white; color: black; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: sans-serif; z-index: 9999;">
         <div class="glasses-card" style="max-width: 900px; padding: 40px; text-align: center;">
             <p style="font-size: 24px; line-height: 1.4; margin-bottom: 80px;">
-                This study involves looking closely at small shapes and colors on your screen. If you normally wear glasses or contacts for computer work, please put them on now.
+                This study involves looking closely at small shapes and colors on your screen. <br>If you normally wear glasses or contacts for computer work, please put them on now.
             </p>
             
             <div style="display: flex; flex-direction: column; align-items: flex-end; width: max-content; margin: 0 auto 50px auto; gap: 25px;">
