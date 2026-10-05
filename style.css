@@ -459,3 +459,13 @@ body, #jspsych-content, .jspsych-display-element {
 #jspsych-content .right-column h3 {
     font-size: var(--titel-spalte) !important;
 }
+
+/* 4. Abstand zwischen Absätzen (eine Leerzeile) */
+#jspsych-content p {
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+/* Kein Extra-Abstand nach dem letzten Absatz eines Blocks */
+#jspsych-content p:last-child {
+    margin-bottom: 0;
+}
