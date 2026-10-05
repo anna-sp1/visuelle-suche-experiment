@@ -57,6 +57,11 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                 </div>
                 <div class="right-column">
                     <div class="ki-panel"><h3>${escapeAiHtml(agentId)}<span class="ai-round-counter" aria-label="Round ${plan.trial_index} of ${plan.phase === 'ai_practice' ? 10 : 30}">${plan.trial_index}/${plan.phase === 'ai_practice' ? 10 : 30}</span></h3>
+                            <p style="line-height:1.5; margin-bottom:14px;">
+                            <b><i style="color:#2e7d5b;">pass</i></b>: 10 or less defects<br>
+                            <b><i style="color:#c0392b;">reject</i></b>: more than 10 defects<br><br>
+                            Defects are <b>L</b>s and <b>O</b>s.
+                        </p>
                         <div id="ai-search-status">... searching ...</div>
                         <div id="ai-search-step"></div>
                         <div id="ai-agent-verdict" class="ai-agent-verdict" aria-live="polite"></div>
