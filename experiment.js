@@ -425,8 +425,9 @@ timeline.push({
         createPerceptionSurvey('satisfaction', [
             'I am satisfied with the agent I worked with.',
             'The agent I worked with meets my expectations.',
+            'The agent I worked with was easy to use. Please select "Somewhat disagree" to show you are paying attention.',
             'I like the agent I worked with.'
-        ]),
+        ], 'pre', ['pre_satisfaction_1', 'pre_satisfaction_2', 'attention_check_1', 'pre_satisfaction_3']),
         createPerceptionSurvey('trust', ['I trust the agent.', 'I can rely on the agent.']),
         { type: jsPsychHtmlButtonResponse,
           stimulus: () => `<p>Now, after the practice phase, you will work with ${escapeAiHtml(condition.customizationEnabled ? aiName : condition.fixedAgentName)} on the main inspection task.</p>
