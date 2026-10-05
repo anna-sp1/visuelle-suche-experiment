@@ -92,7 +92,7 @@ let intro_timeline = [
             "The Task", 
             `<p>You will view component images one by one. Your task is to classify each part based on its defects.</p>
              <p>An <strong>L</strong> or an <strong>O</strong> is a defect. Ignore all other letters. Orange and blue letters as well as large and small ones are equally important.</p>
-             <p>Flag a component as <i style="color: #d9534f;">reject</i> if it contains <strong style="color: #d9534f;">more than 10</strong> defects. Otherwise, flag it as <i style="color: #5cb85c;">pass</i>.</p>
+             <p>Flag a component as <strong><i style="color: #d9534f;">reject</i></strong> if it contains <strong style="color: #d9534f;">more than 10</strong> defects. Otherwise, flag it as <strong><i style="color: #5cb85c;">pass</i></strong>.</p>
              <p>You can click on defects to mark them for easier counting. Click again to deselect.</p>`
         ),
         choices: [], 
