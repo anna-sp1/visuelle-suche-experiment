@@ -408,3 +408,54 @@ body, #jspsych-content, .jspsych-display-element {
 .glasses-card label { width: 100%; justify-content: space-between; gap: 1.25rem; text-align: left; }
 .glasses-card input[type="radio"] { flex: none; margin-left: auto !important; }
 
+/* =========================================================
+   EINHEITLICHE TYPOGRAFIE
+   - Alles zentriert
+   - Fließtext überall gleich groß, Überschriften leicht größer
+   - Schmale rechte Spalte (Trainings-/KI-Kasten) bekommt
+     etwas kleinere Werte, damit der Text dort noch passt
+   Zum Anpassen nur die vier Zahlen unten ändern.
+   ========================================================= */
+:root {
+    --text-gross: 20px;        /* Fließtext auf normalen Bildschirmen */
+    --titel-gross: 26px;       /* Überschriften auf normalen Bildschirmen */
+    --text-spalte: 16px;       /* Fließtext im schmalen Kasten rechts */
+    --titel-spalte: 19px;      /* Überschrift im schmalen Kasten rechts */
+}
+
+/* 1. Ausrichtung: alles zentriert */
+#jspsych-content,
+#jspsych-content * {
+    text-align: center !important;
+}
+/* Ausnahme: Aufzählungen bleiben als Block zentriert,
+   die Punkte darin aber linksbündig */
+#jspsych-content ul,
+#jspsych-content ul * {
+    text-align: left !important;
+}
+/* Ausnahme: Einstellungszeilen der Customization (Tabellenlayout) */
+#jspsych-content [id^="row-"],
+#jspsych-content [id^="row-"] * {
+    text-align: left !important;
+}
+
+/* 2. Schriftgrößen auf normalen Bildschirmen */
+#jspsych-content p,
+#jspsych-content li,
+#jspsych-content label:not(.jspsych-survey-likert-opt-label) {
+    font-size: var(--text-gross) !important;
+}
+#jspsych-content h2,
+#jspsych-content h3 {
+    font-size: var(--titel-gross) !important;
+}
+
+/* 3. Schriftgrößen im schmalen Kasten rechts (Training, KI-Panel) */
+#jspsych-content .right-column p,
+#jspsych-content .right-column li {
+    font-size: var(--text-spalte) !important;
+}
+#jspsych-content .right-column h3 {
+    font-size: var(--titel-spalte) !important;
+}
