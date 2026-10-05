@@ -135,7 +135,7 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
                     marked.filter(row => !rendered.has(row)).forEach(draw);
                     const verdict = rendered.size > 10 ? 'reject' : 'pass';
                     wrapper.classList.add(`preview-${verdict}`);
-                    status.textContent = `Final verdict: ${rendered.size} defects`;
+                    status.textContent = `Final verdict: ${verdict.toUpperCase()}`;
                     setBusy(false);
                 }
             }, PREVIEW_SEARCH_STEP_MS);
