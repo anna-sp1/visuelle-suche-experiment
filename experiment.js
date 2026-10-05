@@ -429,7 +429,13 @@ timeline.push({
         ]),
         createPerceptionSurvey('trust', ['I trust the agent.', 'I can rely on the agent.']),
         { type: jsPsychHtmlButtonResponse,
-          stimulus: () => `<p>After the practice phase, you will work with ${escapeAiHtml(condition.customizationEnabled ? aiName : condition.fixedAgentName)} on real defect detection.</p>`,
+          stimulus: () => `<p>Now, after the practice phase, you will work with ${escapeAiHtml(condition.customizationEnabled ? aiName : condition.fixedAgentName)} on the main inspection task.</p>
+            <p>Remember:</p>
+            <ul style="display: inline-block; margin: 0 auto 10px auto; padding-left: 20px;">
+                <li><i style="color: #5cb85c; font-weight: bold;">pass</i>: 10 or less defects</li>
+                <li><i style="color: #d9534f; font-weight: bold;">reject</i>: more than 10 defects</li>
+                <li>Defects: <strong>Ls</strong> and <strong>Os</strong></li>
+            </ul>`,
           choices: ['Start'], data: { phase: 'main_task_transition' } }
     ]
 });
