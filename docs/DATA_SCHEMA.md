@@ -35,6 +35,7 @@ Alle folgenden Likert-Felder sind ganzzahlig 1-7. Pluginindices 0-6 werden einma
 
 - pre_ownership_1, pre_ownership_2, pre_ownership_3, pre_ownership_4
 - pre_satisfaction_1, pre_satisfaction_2, pre_satisfaction_3
+- attention_check_1: Instructed-Response-Item im pre-Satisfaction-Block (3. Position). Korrekte Antwort = 3 ("Somewhat disagree"); jeder andere Wert = nicht bestanden. Kein Bestandteil der Satisfaction-Skala.
 - pre_trust_1, pre_trust_2
 - post_satisfaction_1, post_satisfaction_2, post_satisfaction_3
 - post_trust_1, post_trust_2
@@ -42,7 +43,7 @@ Alle folgenden Likert-Felder sind ganzzahlig 1-7. Pluginindices 0-6 werden einma
 - manip_customized, manip_instructions, manip_search_strategy, manip_search_order, manip_predictable
 - ai_attitude_1, ai_attitude_2, ai_attitude_3, ai_attitude_4, ai_attitude_5, ai_attitude_6
 
-Anker: 1=Strongly Disagree, 7=Strongly Agree; nur AI attitude: 1=Not at all, 7=Definitely.
+Anker (alle Stufen verbalisiert): 1=Strongly disagree, 2=Disagree, 3=Somewhat disagree, 4=Neither agree nor disagree, 5=Somewhat agree, 6=Agree, 7=Strongly agree; nur AI attitude: 1=Not at all, 7=Definitely.
 
 Pattern-Spalten: defect_pattern_noticed und ai_error_pattern_noticed: YES_NO_CODES yes=1/no=2 in config.js. defect_pattern_text und ai_error_pattern_text bleiben als Originaltext erhalten. Entscheidungszeile: Code und Text=null. Nur Yes erzeugt anschliessend eine Freitextzeile mit demselben Code und Pflichttext. Bei No keine Freitextzeile. Fuer Analysen den vorhandenen nicht-null Text je Teilnehmer nutzen.
 
