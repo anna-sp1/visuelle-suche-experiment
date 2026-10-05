@@ -144,8 +144,8 @@ for (let t = 1; t <= ANZAHL_TRAINING_RUNDEN; t++) {
                 <div style="background:#1e2229; padding:20px; border-radius:10px; color:white; font-family:sans-serif; border: 2px solid #555;">
                     <h3 style="margin-top:0; border-bottom:1px solid #333; padding-bottom:10px;">TRAINING (${t}/${ANZAHL_TRAINING_RUNDEN})</h3>
                     <p style="line-height:1.5; margin-bottom:14px;">
-                        <b><i style="color:#c0392b;">reject</i></b>: more than 10 defects<br>
                         <b><i style="color:#2e7d5b;">pass</i></b>: 10 or less defects<br><br>
+                        <b><i style="color:#c0392b;">reject</i></b>: more than 10 defects<br>
                         Defects are <b>L</b>s and <b>O</b>s.
                     </p>
                     <p style="color:#e0e0e0; line-height:1.5;">You can click anywhere on the image to place a marker as a counting aid.</p>
