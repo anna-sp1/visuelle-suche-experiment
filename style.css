@@ -493,3 +493,9 @@ body, #jspsych-content, .jspsych-display-element {
     font-size: 15px !important;
     line-height: 1.25 !important;
 }
+/* 6. Einheitliche Schriftart auf allen Bildschirmen */
+body,
+#jspsych-content,
+#jspsych-content * {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+}
