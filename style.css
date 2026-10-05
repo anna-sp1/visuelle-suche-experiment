@@ -471,3 +471,25 @@ body, #jspsych-content, .jspsych-display-element {
 }
 
 #ai-search-step { font-size: 13px; white-space: nowrap; }
+
+/* 5. Fragebögen: keine Linien, Antwortstufen exakt unter den Kreisen */
+#jspsych-content ul.jspsych-survey-likert-opts,
+#jspsych-content ul.jspsych-survey-likert-opts * {
+    text-align: center !important;
+}
+.jspsych-survey-likert-opts { background: none !important; }
+.jspsych-survey-likert-question { border-bottom: 0 !important; }
+.jspsych-survey-likert-opts li { vertical-align: top; }
+.jspsych-survey-likert-opts li input[type="radio"] {
+    display: block !important;
+    position: static !important;
+    margin: 0 auto 6px auto !important;
+}
+.jspsych-survey-likert-opt-label {
+    display: block;
+    width: 100%;
+    padding: 0 4px;
+    box-sizing: border-box;
+    font-size: 15px !important;
+    line-height: 1.25 !important;
+}
