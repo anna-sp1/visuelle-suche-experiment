@@ -453,7 +453,7 @@ timeline.push(
     ], 'post'),
     createPerceptionSurvey('trust', ['I trust the agent.', 'I can rely on the agent.'], 'post'),
     { type: jsPsychHtmlButtonResponse,
-      stimulus: '<p>Now, imagine that you have submitted your classifications to your company. During routine quality assurance, a discrepancy was identified for one of the components you inspected: the recorded number of defects did not match the result of the follow-up examination. An experienced engineer has raised concerns about the accuracy of the defect detection for this component and about how it was classified. In short, they gave a negative evaluation of the classification for this component.</p>',
+      stimulus: '<p>Now, imagine that you have submitted your classifications to your company.<br>During routine quality assurance, a discrepancy was identified for one of the components you inspected: the recorded number of defects did not match the result of the follow-up examination.<br>An experienced engineer has raised concerns about the accuracy of the defect detection for this component and about how it was classified.<br>In short, they gave a negative evaluation of the classification for this component.</p>',
       choices: ['Next'], data: { phase: 'responsibility_scenario' } },
     createPerceptionSurvey('responsibility', [
         'I am personally responsible for the misclassified component.',
