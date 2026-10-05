@@ -345,8 +345,8 @@ const ai_practice_reminder_trial = {
             
             <p style="font-size: 20px; margin-bottom: 10px;">Remember:</p>
             <ul style="display: inline-block; text-align: left; font-size: 20px; line-height: 1.6; margin: 0 auto 30px auto; padding-left: 20px;">
-                <li><i style="color: #d9534f; font-weight: bold;">reject</i>: more than 10 defects</li>
                 <li><i style="color: #5cb85c; font-weight: bold;">pass</i>: 10 or less defects</li>
+                <li><i style="color: #d9534f; font-weight: bold;">reject</i>: more than 10 defects</li>
                 <li>Defects: <strong>Ls</strong> and <strong>Os</strong></li>
             </ul>
             <br>
