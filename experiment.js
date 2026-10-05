@@ -518,7 +518,7 @@ timeline.push({ timeline: [
 // 6.5 Outro
 const outro_trial = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: '<p>Thank you very much for taking part in this study. Your responses have been recorded, please click Submit to finish.</p>',
+    stimulus: '<p>Thank you very much for taking part in this study.<br>Your responses have been recorded, please click Submit to finish.</p>',
     choices: ['Submit'],
     data: { phase: 'submission' },
     on_finish: data => { submitted = true; data.submitted = true; }
