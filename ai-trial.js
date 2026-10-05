@@ -122,7 +122,7 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                         renderRing('ai-image-wrapper', s.center_x, s.center_y, s.size === 'small' ? 'klein' : 'groß', image.naturalWidth, image);
                     });
                     const recommendation = document.getElementById('ai-agent-verdict');
-                    recommendation.textContent = `Final verdict: ${plan.agent_verdict.toUpperCase()} | Defects found: ${plan.ai_marked_symbol_ids.length}`;
+                    recommendation.textContent = `Final verdict: ${plan.agent_verdict.toUpperCase()}`;
                     recommendation.classList.add(plan.agent_verdict === 'Pass' ? 'ai-verdict-pass' : 'ai-verdict-reject');
                     status.textContent = '';
                     animationDuration = performance.now() - startTime;
