@@ -469,3 +469,5 @@ body, #jspsych-content, .jspsych-display-element {
 #jspsych-content p:last-child {
     margin-bottom: 0;
 }
+
+#ai-search-step { font-size: 13px; white-space: nowrap; }
