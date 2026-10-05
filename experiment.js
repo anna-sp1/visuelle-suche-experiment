@@ -383,7 +383,7 @@ timeline.push(aiPracticeTimeline);
 // ==========================================
 
 const likert_scale = ["1 - Strongly Disagree", "2", "3", "4", "5", "6", "7 - Strongly Agree"];
-const preamble_text = `<div style="max-width: 800px; margin: 0 auto; text-align: left; margin-bottom: 20px;"><p>We are interested in your perceptions of the agent.<br>Please take your time to answer the following questions based on your experiences so far. There are no right or wrong answers.<br><br>Please indicate the degree to which you personally agree or disagree with the following statements.</p></div>`;
+const preamble_text = `<div style="max-width: 800px; margin: 0 auto; text-align: left; margin-bottom: 20px;"><p>We are interested in your perceptions of the agent.<br>Please take your time to answer the following questions based on your experiences so far.<br>There are no right or wrong answers.</p></div>`;
 const short_preamble = `<div style="max-width: 800px; margin: 0 auto; text-align: left; margin-bottom: 20px;"><p>Please indicate the degree to which you personally agree or disagree with the following statements.</p></div>`;
 
 // Survey Likert 1.1.3 returns zero-based indices. Export only named 1–7 values.
