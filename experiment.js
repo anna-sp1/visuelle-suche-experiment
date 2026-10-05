@@ -280,7 +280,7 @@ const customization_settings_trial = {
             <div style="background:#0f172a; padding:30px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; width: 100%; box-sizing: border-box;">
                 
                 <p id="instructions-text" style="text-align:center; font-size: 16px; line-height: 1.5; margin-top: 0; margin-bottom: 20px;">
-                    <strong>${aiName}</strong> has a fixed search order (Direction → Background → Size → Type). You can customize its starting preferences using the dropdown menus.<br><br>
+                    Think about how you searched the images during the training. <strong>${aiName}</strong> searches the categories in a fixed order (Direction → Background → Size → Type), but you can choose where it starts within each category. Use the dropdown menus to align <strong>${aiName}</strong>'s search with your own approach.<br><br>
                     Feel free to adjust these settings as often as you like. Click <strong style="color: #32b5a1;">Apply</strong> to run a demo with your current settings, or click <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with your agent.
                 </p>
                 
