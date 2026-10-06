@@ -24,3 +24,17 @@
         for (const record of records) for (const node of record.addedNodes) decorate(node);
     }).observe(document.body, { childList: true, subtree: true });
 })();
+
+// Browser validation bubbles follow the participant's browser language; force English text.
+document.addEventListener('invalid', event => {
+    const el = event.target;
+    if (el.type === 'radio') el.setCustomValidity('Please select one of these options.');
+    else if (el.validity && el.validity.valueMissing) el.setCustomValidity('Please fill out this field.');
+}, true);
+function clearValidation(el) {
+    if (el.type === 'radio' && el.name) {
+        document.querySelectorAll(`input[type="radio"][name="${CSS.escape(el.name)}"]`).forEach(r => r.setCustomValidity(''));
+    } else if (el.setCustomValidity) el.setCustomValidity('');
+}
+document.addEventListener('input', event => clearValidation(event.target), true);
+document.addEventListener('change', event => clearValidation(event.target), true);
