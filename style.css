@@ -499,3 +499,28 @@ body,
 #jspsych-content * {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
 }
+
+/* 7. KI-"Denkprozess": schimmernder grauer Text mit animierten Punkten */
+.ai-thinking {
+    display: inline-block;
+    min-width: 7.5em;
+    font-style: italic;
+    color: #94a3b8;
+    background: linear-gradient(90deg, #94a3b8 0%, #94a3b8 35%, #e2e8f0 50%, #94a3b8 65%, #94a3b8 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: ai-shimmer 1.8s linear infinite;
+}
+.ai-thinking::after {
+    content: '';
+    animation: ai-dots 1.2s steps(1, end) infinite;
+}
+@keyframes ai-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@keyframes ai-dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
+#ai-search-step { color: #64748b; }
+@media (prefers-reduced-motion: reduce) {
+    .ai-thinking, .ai-thinking::after { animation: none; }
+    .ai-thinking::after { content: '...'; }
+}
