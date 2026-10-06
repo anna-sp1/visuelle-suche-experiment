@@ -123,8 +123,8 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
                 status.style.whiteSpace = 'pre-line';
                 status.textContent = `... searching ...\n${step.direction.replaceAll('_', ' ')} → ${step.background} → ${step.size} → ${step.type}`;
                 marked.forEach(row => {
-                    const left = row.center_x <= ORIGINAL_BILD_BREITE / 2;
-                    const top = row.center_y <= ORIGINAL_BILD_HOEHE / 2;
+                    const left = row.center_x <= image.naturalWidth / 2;
+                    const top = row.center_y <= image.naturalHeight / 2;
                     const direction = `${top ? 'top' : 'bottom'}_${left ? 'left' : 'right'}`;
                     if (direction === step.direction && (truth(row.bg_dark) ? 'dark' : 'light') === step.background &&
                         (truth(row.is_small) ? 'small' : 'large') === step.size && row.shape === step.type) draw(row);
@@ -147,7 +147,7 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
         image.addEventListener('load', start, { once: true });
         image.addEventListener('error', fail, { once: true });
         if (image.complete && !image.naturalWidth) { fail(); return; }
-        Papa.parse('tabellen/stimulus_001.csv', {
+        Papa.parse('tabellen/preview_stimulus.csv', {
             // The source CSV ends with a newline; it is not an incomplete symbol row.
             download: true, header: true, dynamicTyping: true, skipEmptyLines: true,
             complete(result) {
