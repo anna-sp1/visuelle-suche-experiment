@@ -124,5 +124,11 @@ function createStandardPreparation(jsPsych, agentId) {
             conditional_function() { return selected.includes(option.id); }
         };
     });
-    return [preview, changeQuestion, ...followups];
+        const thanks = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '<p>Thank you for your feedback.</p>',
+        choices: ['Next'],
+        data: { phase: 'standard_change_thanks' }
+    };
+    return [preview, changeQuestion, ...followups, thanks];
 }
