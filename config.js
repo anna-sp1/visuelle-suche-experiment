@@ -11,7 +11,7 @@ const ANZAHL_TRAINING_RUNDEN = 5;
 const VERDICT_CODES = Object.freeze({ pass: 1, reject: 2 });
 const YES_NO_CODES = Object.freeze({ yes: 1, no: 2 });
 // AI practice/main search timing remains 32 combinations * 15 ms = 480 ms.
-const SEARCH_STEP_MS = 15;
+const SEARCH_STEP_MS = 80;
 // Preview-only pacing requested for a visibly sequential demonstration (5.76 seconds).
 const PREVIEW_SEARCH_STEP_MS = 180;
 let participantCustomization = null;
