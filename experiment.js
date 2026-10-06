@@ -259,8 +259,8 @@ const customization_settings_trial = {
             <div style="display: flex; gap: 20px; width: 100%; justify-content: center; align-items: stretch;">
                 
                 <!-- VORSCHAU-BILD -->
-                <div id="preview-image-wrapper" style="position:relative; width: 700px; flex-shrink: 0; aspect-ratio: 1920/1080; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
-                    <img id="preview-image" src="bilder/stimulus_001.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;" />
+                <div id="preview-image-wrapper" style="position:relative; width: 500px; flex-shrink: 0; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                    <img id="preview-image" src="bilder/preview_stimulus.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;" />
                     <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">Preview Example</div>
                 </div>
 
