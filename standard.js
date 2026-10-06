@@ -2,7 +2,7 @@
 function createStandardPreparation(jsPsych, agentId) {
     const settings = buildCustomization(STANDARD_SEARCH_STARTS);
     let disposePreview = () => {};
-    let selected = null;
+    let selected = [];
     const options = [
         { id: 'name', label: 'The agent‘s name', prompt: 'How would you change the agent‘s name?' },
         { id: 'search_strategy', label: 'The agent‘s search strategy', prompt: 'How would you change the agent‘s search strategy?' },
@@ -71,23 +71,34 @@ function createStandardPreparation(jsPsych, agentId) {
         type: jsPsychHtmlButtonResponse,
         stimulus: `<div style="max-width:800px;margin:40px auto;text-align:left;">
             <p>If you were able to change anything about the agent‘s features to improve it, what would it be?</p>
-            ${options.map(option => `<label style="display:block;margin:18px 0;"><input type="radio" name="standard-change" value="${option.id}"> ${option.label}</label>`).join('')}
+            <p style="font-size:15px;color:#526276;margin-top:-6px;">Please select all that apply.</p>
+            ${options.map(option => `<label style="display:block;margin:18px 0;"><input type="checkbox" name="standard-change" value="${option.id}"> ${option.label}</label>`).join('')}
+            <p id="standard-change-error" style="display:none;color:#a32935;font-size:15px;">Please select at least one option.</p>
             <button id="standard-change-next" class="action-btn btn-start">Next</button>
         </div>`,
         choices: [],
         on_load() {
             let submitted = false;
+            const boxes = [...document.querySelectorAll('input[name="standard-change"]')];
+            const error = document.getElementById('standard-change-error');
+            // "I wouldn't change anything" excludes all other options and vice versa.
+            boxes.forEach(box => box.addEventListener('change', () => {
+                if (!box.checked) return;
+                error.style.display = 'none';
+                boxes.forEach(other => {
+                    if (other !== box && (box.value === 'none' || other.value === 'none')) other.checked = false;
+                });
+            }));
             document.getElementById('standard-change-next').addEventListener('click', () => {
                 if (submitted) return;
-                const input = document.querySelector('input[name="standard-change"]:checked');
-                const option = options.find(option => option.id === input?.value);
-                if (!option) return;
+                const chosen = options.filter(option => boxes.some(box => box.checked && box.value === option.id));
+                if (!chosen.length) { error.style.display = 'block'; return; }
                 submitted = true;
-                selected = option.id;
+                selected = chosen.map(option => option.id);
                 const data = {
                     agent_id: agentId,
-                    standard_change_options: JSON.stringify([option.id]),
-                    standard_change_option_labels: JSON.stringify([option.label]),
+                    standard_change_options: JSON.stringify(selected),
+                    standard_change_option_labels: JSON.stringify(chosen.map(option => option.label)),
                     standard_change_name_text: null,
                     standard_change_search_strategy_text: null,
                     standard_change_other_text: null
@@ -110,7 +121,7 @@ function createStandardPreparation(jsPsych, agentId) {
                     jsPsych.data.addProperties({ [field]: text });
                 }
             }],
-            conditional_function() { return selected === option.id; }
+            conditional_function() { return selected.includes(option.id); }
         };
     });
     return [preview, changeQuestion, ...followups];
