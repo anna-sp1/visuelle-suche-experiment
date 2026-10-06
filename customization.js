@@ -135,7 +135,11 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
                     marked.filter(row => !rendered.has(row)).forEach(draw);
                     const verdict = rendered.size > 10 ? 'reject' : 'pass';
                     wrapper.classList.add(`preview-${verdict}`);
-                    status.textContent = `Final verdict: ${verdict.toUpperCase()}`;
+                    status.textContent = '';
+                    const verdictBox = document.createElement('div');
+                    verdictBox.className = `ai-agent-verdict ai-verdict-${verdict}`;
+                    verdictBox.textContent = `Final verdict: ${verdict.toUpperCase()}`;
+                    status.appendChild(verdictBox);
                     setBusy(false);
                 }
             }, PREVIEW_SEARCH_STEP_MS);
