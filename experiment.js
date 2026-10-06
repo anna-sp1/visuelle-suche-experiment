@@ -441,7 +441,8 @@ timeline.push({
     ]
 });
 timeline.push(mainTaskTimeline);
-
+// Responsibility vignette: shown alone first, then repeated above the questions.
+const responsibility_vignette = '<p>Now, imagine that you have submitted your classifications to your company.<br>During routine quality assurance, a discrepancy was identified for one of the components you inspected: the recorded number of defects did not match the result of the follow-up examination.<br>An experienced engineer has raised concerns about the accuracy of the defect detection for this component and about how it was classified.<br>In short, they gave a negative evaluation of the classification for this component.</p>';
 // Post-task measures follow Main Trial 30 directly.
 timeline.push(
     { type: jsPsychHtmlButtonResponse,
@@ -454,12 +455,14 @@ timeline.push(
     ], 'post'),
     createPerceptionSurvey('trust', ['I trust the agent.', 'I can rely on the agent.'], 'post'),
     { type: jsPsychHtmlButtonResponse,
-      stimulus: '<p>Now, imagine that you have submitted your classifications to your company.<br>During routine quality assurance, a discrepancy was identified for one of the components you inspected: the recorded number of defects did not match the result of the follow-up examination.<br>An experienced engineer has raised concerns about the accuracy of the defect detection for this component and about how it was classified.<br>In short, they gave a negative evaluation of the classification for this component.</p>',
+      stimulus: responsibility_vignette,
       choices: ['Next'], data: { phase: 'responsibility_scenario' } },
-    createPerceptionSurvey('responsibility', [
-        'I am personally responsible for the misclassified component.',
-        'The AI agent is responsible for the misclassified component.'
-    ], 'post', ['responsibility_self', 'responsibility_agent'])
+        Object.assign(createPerceptionSurvey('responsibility', [
+            'I am personally responsible for the misclassified component.',
+            'The AI agent is responsible for the misclassified component.'
+        ], 'post', ['responsibility_self', 'responsibility_agent']), {
+            preamble: `<div style="max-width: 800px; margin: 0 auto 20px auto;">${responsibility_vignette}<p><strong>Please imagine yourself in this situation and indicate how much you agree with the following statements.</strong></p></div>`
+    })
 );
 // Final questionnaire: shared across all four conditions.
 function createPatternQuestions(prefix, prompt) {
