@@ -107,8 +107,8 @@ let intro_timeline = [
                  <p>Next, you will practice the task.</p>
                  <p>Use the buttons below to classify each component:</p>
                  <ul style="display: inline-block; text-align: left; margin: 10px auto;">
-                     <li><i style="color: #d9534f;">reject</i>: more than 10 defects</li>
-                     <li><i style="color: #5cb85c;">pass</i>: 10 or less defects</li>
+                     <li><strong><i style="color: #5cb85c;">pass</i></strong>: 10 or less defects</li>
+                     <li><strong><i style="color: #d9534f;">reject</i></strong>: more than 10 defects</li>
                  </ul>
                  <p>Defects are <strong>Ls</strong> and <strong>Os</strong>.</p>
              </div>`, 
