@@ -50,13 +50,12 @@ const main_menu = {
             <p>Version ${condition.version}; debug run (no upload).</p>
         </div>
     `,
-    choices: ['Continue with URL version', 'Eyetracker Kalibrierung'],
+    choices: ['Continue with URL version', 'Skip pass/reject trials', 'Eyetracker Kalibrierung'],
     on_finish: function(data) { 
-        if (data.response === 1) {
-            chose_calibration = true; // Startet die Schleife für Kalibrierung neu
-        } else {
-            chose_calibration = false;
-        }
+        chose_calibration = data.response === 2; // Startet die Schleife für Kalibrierung neu
+        // Debug only: skip training, AI practice and main task (all pass/reject trials).
+        if (data.response === 0) window.debugSkipTrials = false;
+        if (data.response === 1) window.debugSkipTrials = true;
     }
 };
 
@@ -374,8 +373,8 @@ timeline.push({
 
 
 // Both phases are populated from one validated, offline-generated condition plan.
-const aiPracticeTimeline = { timeline: [] };
-const mainTaskTimeline = { timeline: [] };
+const aiPracticeTimeline = { timeline: [], conditional_function: () => !window.debugSkipTrials };
+const mainTaskTimeline = { timeline: [], conditional_function: () => !window.debugSkipTrials };
 timeline.push(aiPracticeTimeline);
 
 // ==========================================
