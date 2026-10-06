@@ -114,18 +114,31 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                 assertAi(steps.length === 32, 'Invalid search order');
                 startTime = performance.now();
                 let index = 0;
+                // Rings appear step by step in the active search order (configured or standard).
+                // The marked set itself stays exactly as planned; only its reveal timing follows the search.
+                const byId = new Map(symbols.map(s => [s.symbol_id, s]));
+                const shown = new Set();
+                function draw(id) {
+                    const s = byId.get(id);
+                    renderRing('ai-image-wrapper', s.center_x, s.center_y, s.size === 'small' ? 'klein' : 'groß', image.naturalWidth, image);
+                    shown.add(id);
+                }
+                function matchesStep(s, step) {
+                    const direction = `${s.center_y <= image.naturalHeight / 2 ? 'top' : 'bottom'}_${s.center_x <= image.naturalWidth / 2 ? 'left' : 'right'}`;
+                    // False alarms: a T is mistaken while searching for L, a Q while searching for O.
+                    const type = s.shape === 'T' ? 'L' : s.shape === 'Q' ? 'O' : s.shape;
+                    return direction === step.direction && (s.bg_dark ? 'dark' : 'light') === step.background &&
+                        s.size === step.size && type === step.type;
+                }
                 interval = setInterval(() => {
                     if (!active) return;
                     const step = steps[index++];
                     document.getElementById('ai-search-step').textContent = `${step.direction.replaceAll('_', ' ')} → ${step.background} → ${step.size} → ${step.type}`;
+                    plan.ai_marked_symbol_ids.forEach(id => { if (!shown.has(id) && matchesStep(byId.get(id), step)) draw(id); });
                     if (index !== steps.length) return;
                     clearInterval(interval);
-                    const byId = new Map(symbols.map(s => [s.symbol_id, s]));
-                    // Reveal the exact planned set together; do not reorder the preprocessing error sequence.
-                    plan.ai_marked_symbol_ids.forEach(id => {
-                        const s = byId.get(id);
-                        renderRing('ai-image-wrapper', s.center_x, s.center_y, s.size === 'small' ? 'klein' : 'groß', image.naturalWidth, image);
-                    });
+                    // Safety net: any planned ring not matched by a step is shown at the end.
+                    plan.ai_marked_symbol_ids.forEach(id => { if (!shown.has(id)) draw(id); });
                     const recommendation = document.getElementById('ai-agent-verdict');
                     recommendation.textContent = `Final verdict: ${plan.agent_verdict.toUpperCase()}`;
                     recommendation.classList.add(plan.agent_verdict === 'Pass' ? 'ai-verdict-pass' : 'ai-verdict-reject');
@@ -191,7 +204,8 @@ async function loadAiResources(condition, { allowValidatedPartial = false } = {}
             const row = parsed.data[s.source_csv_row - 2];
             assertAi(row && row.shape === s.shape && (row.color_hex === '#FF8C00' ? 'orange' : row.color_hex === '#0064FF' ? 'blue' : null) === s.color &&
                 (row.is_small === true || row.is_small === 'True' || row.is_small === 'true' || row.is_small === 1 ? 'small' : 'large') === s.size, 'Plan/CSV symbol mismatch');
-            return { ...s, center_x: row.center_x, center_y: row.center_y };
+            return { ...s, center_x: row.center_x, center_y: row.center_y,
+                bg_dark: row.bg_dark === true || row.bg_dark === 'True' || row.bg_dark === 'true' || row.bg_dark === 1 };
         });
         assertAi(symbols.length === parsed.data.length, 'Incomplete symbol metadata');
         validateAiTrialInput(plan, symbols, condition);
