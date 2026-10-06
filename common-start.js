@@ -224,7 +224,8 @@ for (let t = 1; t <= ANZAHL_TRAINING_RUNDEN; t++) {
 }
 
 timeline.push({
-    timeline: training_timeline
+    timeline: training_timeline,
+    conditional_function: () => !window.debugSkipTrials
 });
 
 // ==========================================
