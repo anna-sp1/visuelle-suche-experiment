@@ -308,7 +308,26 @@ const customization_settings_trial = {
 // ==========================================
 // NEUE SCREENS NACH DER KONFIGURATION
 // ==========================================
-
+// Customization only: short "saving" feedback after Proceed (supports the cover story).
+const customization_saved_trial = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function() {
+        return `<div style="max-width: 600px; margin: 40px auto;">
+            <p id="save-status"><span class="ai-thinking">Saving settings for ${aiName}</span></p>
+            <button id="saved-next-btn" class="action-btn btn-start" style="padding: 12px 30px; visibility: hidden;">Next</button>
+        </div>`;
+    },
+    choices: [],
+    data: { phase: 'customization_saved' },
+    on_load: function() {
+        const timer = setTimeout(() => {
+            document.getElementById('save-status').innerHTML = `&#10003; The settings for <strong>${aiName}</strong> have been saved.`;
+            document.getElementById('saved-next-btn').style.visibility = 'visible';
+        }, 1500);
+        document.getElementById('saved-next-btn').addEventListener('click', () => { clearTimeout(timer); jsPsych.finishTrial(); });
+    }
+};
+    
 const ai_mistakes_trial = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function() {
@@ -367,7 +386,7 @@ standardBranch.timeline = [
 
 // Timeline Push mit den beiden neuen Screens anstelle des alten
 timeline.push({
-    timeline: [customization_intro_new_1, customization_intro_new_2, customization_name_trial, customization_settings_trial, ai_mistakes_trial, ai_practice_reminder_trial],
+    timeline: [customization_intro_new_1, customization_intro_new_2, customization_name_trial, customization_settings_trial, customization_saved_trial, ai_mistakes_trial, ai_practice_reminder_trial],
     conditional_function: function() { return condition.customizationEnabled; }
 });
 
