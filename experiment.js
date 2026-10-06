@@ -522,10 +522,11 @@ const attitude = createPerceptionSurvey('attitude', [
     'To what extent do you think artificial intelligence will make this world a better place?',
     'How much would you like to use technologies that rely on artificial intelligence?',
     'To what extent do you look forward to future developments in the field of artificial intelligence?',
+    'To what extent are you reading these questions carefully? Please select 2 to show that you are paying attention.',
     'To what extent do you believe that artificial intelligence offers solutions to global problems?',
     'Do you have mostly positive feelings when you think about artificial intelligence?',
     'To what extent would you rather choose a technology with artificial intelligence than one without it?'
-], 'ai');
+], 'ai', ['ai_attitude_1', 'ai_attitude_2', 'ai_attitude_3', 'attention_check_2', 'ai_attitude_4', 'ai_attitude_5', 'ai_attitude_6']);
 attitude.questions.forEach(question => { question.labels = ['1 - Not at all', '2', '3', '4', '5', '6', '7 - Definitely']; });
 timeline.push({ timeline: [
     { type: jsPsychHtmlButtonResponse,
