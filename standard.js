@@ -11,18 +11,52 @@ function createStandardPreparation(jsPsych, agentId) {
     ];
     const preview = {
         type: jsPsychHtmlButtonResponse,
-        stimulus: `<div class="experiment-container">
-            <div id="preview-image-wrapper" class="image-container">
-                <img id="preview-image" src="bilder/stimulus_001.jpg" style="width:100%;height:100%;object-fit:contain;" />
-            </div>
-            <div class="right-column">
-                <div class="ki-panel"><h3>${agentId}</h3>
-                    ${Object.entries(settings).map(([key, value]) => `<p>${key[0].toUpperCase() + key.slice(1)}: ${value.order.map(v => v.replaceAll('_', ' ')).join(' → ')}</p>`).join('')}
-                    <div id="status-text">Ready for configuration...</div>
+        stimulus: `
+        <style>
+            .preview-pass { border: 4px solid #5cb85c !important; box-shadow: 0 0 15px rgba(92, 184, 92, 0.5) !important; transition: all 0.3s; }
+            .preview-reject { border: 4px solid #d9534f !important; box-shadow: 0 0 15px rgba(217, 83, 79, 0.5) !important; transition: all 0.3s; }
+        </style>
+
+        <div style="display: flex; flex-direction: column; align-items: center; max-width: 1050px; margin: 20px auto; gap: 20px;">
+
+            <!-- OBEN: Bild links, Status rechts (identisch zur Customization-Seite) -->
+            <div style="display: flex; gap: 20px; width: 100%; justify-content: center; align-items: stretch;">
+
+                <div id="preview-image-wrapper" style="position:relative; width: 700px; flex-shrink: 0; aspect-ratio: 1920/1080; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                    <img id="preview-image" src="bilder/stimulus_001.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;" />
+                    <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">Preview Example</div>
                 </div>
-                <div class="button-container">
-                    <button id="preview-btn" class="action-btn btn-start">Preview</button>
-                    <button id="proceed-btn" class="action-btn btn-start">Proceed</button>
+
+                <div style="flex: 1; background: #d0d0d0; border: 2px solid #333; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif;">
+                    <div style="background: #999; border: 2px solid #333; padding: 5px 20px; font-size: 22px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 30px; margin-top: 10px;">
+                        ${agentId}
+                    </div>
+                    <div id="status-text" style="font-size: 18px; line-height: 1.6; text-align: left; width: 100%;">
+                        <span style="color:#888; font-style:italic;">Ready for preview...</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- UNTEN: Info-Panel mit fester Suchreihenfolge (ohne Dropdowns) -->
+            <div style="background:#0f172a; padding:30px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; width: 100%; box-sizing: border-box;">
+
+                <p id="instructions-text" style="text-align:center; font-size: 16px; line-height: 1.5; margin-top: 0; margin-bottom: 20px;">
+                    <strong>${agentId}</strong> has learned a specific search order based on defect-occurrence probabilities.<br><br>
+                    You can preview a demo by clicking <strong style="color: #32b5a1;">Preview</strong>, or click <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with the agent.
+                </p>
+
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                    ${Object.entries(settings).map(([key, value], index) => `
+                    <div id="row-s${index + 1}" style="display: flex; align-items: center; gap: 15px; padding: 10px 15px; border-radius: 8px; width: 100%; max-width: 500px; grid-template-columns: minmax(100px, 120px) minmax(0, 1fr);">
+                        <strong style="color:#32b5a1; font-size: 16px; width: 120px;">${key[0].toUpperCase() + key.slice(1)}:</strong>
+                        <output style="font-size:14px;">${value.order.map(v => v.replaceAll('_', ' ')).join(' → ')}</output>
+                    </div>`).join('')}
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+                    <button id="preview-btn" class="action-btn" style="background:#555; padding: 12px 30px; width: 150px;">Preview</button>
+                    <button id="proceed-btn" class="action-btn btn-start" style="padding: 12px 30px; width: 150px;">Proceed</button>
                 </div>
             </div>
         </div>`,
