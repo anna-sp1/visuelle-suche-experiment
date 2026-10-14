@@ -172,7 +172,7 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
                 if (!current()) return;
                 const step = steps[index++];
                 status.style.whiteSpace = 'pre-line';
-                status.innerHTML = `<span class="ai-thinking">Searching</span><br><span style="color:#64748b; font-size:15px;">${step.direction.replaceAll('_', ' ')} → ${step.background} → ${step.size} → ${step.type}</span>`;
+                status.innerHTML = `<span class="ai-thinking">Searching</span><br><span style="color:#64748b; font-size:15px;">Area ${settings.direction.order.indexOf(step.direction) + 1} of ${settings.direction.order.length}: ${step.direction.replaceAll('_', ' ')}</span>`;
                 marked.forEach(row => {
                     const left = row.center_x <= image.naturalWidth / 2;
                     const top = row.center_y <= image.naturalHeight / 2;
@@ -186,7 +186,7 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
                     marked.filter(row => !rendered.has(row)).forEach(draw);
                     const verdict = rendered.size > 10 ? 'reject' : 'pass';
                     wrapper.classList.add(`preview-${verdict}`);
-                    status.textContent = '';
+                    status.innerHTML = '<span style="color:#64748b; font-size:15px;">&#10003; Search complete</span>';
                     const verdictBox = document.createElement('div');
                     verdictBox.className = `ai-agent-verdict ai-verdict-${verdict}`;
                     verdictBox.textContent = `Final verdict: ${verdict.toUpperCase()}`;
