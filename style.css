@@ -556,3 +556,17 @@ body,
 @media (max-width: 900px) {
     #jspsych-content .preview-layout { grid-template-columns: 1fr !important; grid-template-areas: 'img' 'status' 'panel' !important; }
 }
+
+
+/* 9. Richtung frei festlegen: 2x2-Feld, Bereiche in Suchreihenfolge anklicken */
+#dir-grid { display: grid; grid-template-columns: 44px 44px; gap: 4px; justify-self: start; }
+.dir-cell {
+    width: 44px; height: 35px; box-sizing: border-box;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff; border: 1px solid #94a3b8; border-radius: 4px;
+    font-weight: 700; font-size: 16px; color: #176b55;
+    cursor: pointer; user-select: none;
+}
+.dir-cell:hover, .dir-cell:focus-visible { background: #e6f2ee; outline: 2px solid #256c59; outline-offset: 1px; }
+.dir-cell.dir-set { background: #d9f1ea; border-color: #256c59; }
+#dir-grid.dir-busy { pointer-events: none; opacity: .5; }
