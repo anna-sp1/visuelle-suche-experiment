@@ -487,7 +487,7 @@ timeline.push(
             'I am personally responsible for the misclassified component.',
             'The AI agent is responsible for the misclassified component.'
         ], 'post', ['responsibility_self', 'responsibility_agent']), {
-            preamble: `<div style="max-width: 800px; margin: 0 auto 20px auto;">${responsibility_vignette}<p><strong>Please imagine yourself in this situation and indicate how much you agree with the following statements.</strong></p></div>`
+                    preamble: `<div style="max-width: 800px; margin: 0 auto 20px auto;"><div class="scenario-recap"><p class="recap-label">The situation (same as on the previous page):</p>${responsibility_vignette}</div><p><strong>Please imagine yourself in this situation and indicate how much you agree with the following statements.</strong></p></div>`
     })
 );
 // Final questionnaire: shared across all four conditions.
