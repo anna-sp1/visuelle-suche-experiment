@@ -570,3 +570,7 @@ body,
 .dir-cell:hover, .dir-cell:focus-visible { background: #e6f2ee; outline: 2px solid #256c59; outline-offset: 1px; }
 .dir-cell.dir-set { background: #d9f1ea; border-color: #256c59; }
 #dir-grid.dir-busy { pointer-events: none; opacity: .5; }
+
+
+/* 10. Suchanzeige im KI-Panel: Bereich waehrend der Suche, Zusammenfassung danach */
+#ai-search-step { white-space: normal !important; line-height: 1.45; font-size: 13px; }
