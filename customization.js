@@ -172,7 +172,7 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
                 if (!current()) return;
                 const step = steps[index++];
                 status.style.whiteSpace = 'pre-line';
-                status.innerHTML = `<span class="ai-thinking">Searching</span><br><span style="color:#64748b; font-size:15px;">Area ${settings.direction.order.indexOf(step.direction) + 1} of ${settings.direction.order.length}: ${step.direction.replaceAll('_', ' ')}</span>`;
+                status.innerHTML = `<span class="ai-thinking">Searching</span><br><span style="color:#64748b; font-size:15px;">Area ${settings.direction.order.indexOf(step.direction) + 1} of ${settings.direction.order.length}: ${step.direction.replaceAll('_', ' ')}<br><span class="search-substep">${step.background} areas, ${step.size}, ${step.type}</span></span>`;
                 marked.forEach(row => {
                     const left = row.center_x <= image.naturalWidth / 2;
                     const top = row.center_y <= image.naturalHeight / 2;
