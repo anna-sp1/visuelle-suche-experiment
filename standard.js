@@ -18,15 +18,15 @@ function createStandardPreparation(jsPsych, agentId) {
         </style>
 
         <!-- Gleiches Layout wie die Customization-Seite, nur ohne Auswahlfelder -->
-        <div class="preview-layout" style="display: grid; grid-template-columns: minmax(0, 1fr) 460px; grid-template-rows: auto 1fr; grid-template-areas: 'img status' 'img panel'; gap: 16px; width: min(1180px, calc(100vw - 40px)); margin: 8px auto; align-items: start;">
+        <div class="preview-layout" style="display: grid; grid-template-columns: minmax(0, 1fr) 460px; grid-template-rows: auto 1fr; grid-template-areas: 'img status' 'img panel'; gap: 16px; width: min(1180px, calc(100vw - 40px)); margin: 4px auto; align-items: start;">
 
-                <div id="preview-image-wrapper" style="grid-area: img; position:relative; width: min(100%, calc((100vh - 60px) * 1.25)); justify-self: end; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                <div id="preview-image-wrapper" style="grid-area: img; position:relative; width: min(100%, calc((100vh - 110px) * 1.25)); justify-self: end; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
                     <img id="preview-image" src="bilder/preview_stimulus.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;" />
                     <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">Preview Example</div>
                 </div>
 
-                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 110px;">
-                    <div style="background: #999; border: 2px solid #333; padding: 4px 18px; font-size: 20px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 12px;">
+                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 10px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 92px;">
+                    <div style="background: #999; border: 2px solid #333; padding: 3px 16px; font-size: 18px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 8px;">
                         ${agentId}
                     </div>
                     <div id="status-text" style="font-size: 16px; line-height: 1.5; text-align: left; width: 100%;">
@@ -34,9 +34,9 @@ function createStandardPreparation(jsPsych, agentId) {
                     </div>
                 </div>
 
-                <div style="grid-area: panel; background:#0f172a; padding:18px 18px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; box-sizing: border-box;">
+                <div style="grid-area: panel; background:#0f172a; padding:10px 16px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; box-sizing: border-box;">
                     <div id="instructions-text" style="text-align:center; font-size: 14px; line-height: 1.4; margin-bottom: 10px;">
-                        <strong>${agentId}</strong> has learned a specific search order based on defect-occurrence probabilities.<br><br>
+                        <strong>${agentId}</strong> has learned a specific search order based on defect-occurrence probabilities.<span style="display:block; height:6px;"></span>
                         Click <strong style="color: #32b5a1;">Preview</strong> to run a demo (as often as you like), or <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with the agent.
                     </div>
 
