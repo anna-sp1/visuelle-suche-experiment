@@ -17,48 +17,49 @@ function createStandardPreparation(jsPsych, agentId) {
             .preview-reject { border: 4px solid #d9534f !important; box-shadow: 0 0 15px rgba(217, 83, 79, 0.5) !important; transition: all 0.3s; }
         </style>
 
-        <div style="display: flex; flex-direction: column; align-items: center; max-width: 1050px; margin: 20px auto; gap: 20px;">
+        <!-- Gleiches Layout wie die Customization-Seite, nur ohne Auswahlfelder -->
+        <div class="preview-layout" style="display: grid; grid-template-columns: minmax(0, 1fr) 460px; grid-template-rows: auto 1fr; grid-template-areas: 'img status' 'img panel'; gap: 16px; width: min(1180px, calc(100vw - 40px)); margin: 8px auto; align-items: start;">
 
-            <!-- OBEN: Bild links, Status rechts (identisch zur Customization-Seite) -->
-            <div style="display: flex; gap: 20px; width: 100%; justify-content: center; align-items: stretch;">
-
-                <div id="preview-image-wrapper" style="position:relative; width: 500px; flex-shrink: 0; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                <div id="preview-image-wrapper" style="grid-area: img; position:relative; width: min(100%, calc((100vh - 60px) * 1.25)); justify-self: end; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
                     <img id="preview-image" src="bilder/preview_stimulus.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;" />
                     <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">Preview Example</div>
                 </div>
 
-                <div style="flex: 1; background: #d0d0d0; border: 2px solid #333; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif;">
-                    <div style="background: #999; border: 2px solid #333; padding: 5px 20px; font-size: 22px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 30px; margin-top: 10px;">
+                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 130px;">
+                    <div style="background: #999; border: 2px solid #333; padding: 4px 18px; font-size: 20px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 12px;">
                         ${agentId}
                     </div>
-                    <div id="status-text" style="font-size: 18px; line-height: 1.6; text-align: left; width: 100%;">
+                    <div id="status-text" style="font-size: 16px; line-height: 1.5; text-align: left; width: 100%;">
                         <span style="color:#888; font-style:italic;">Ready for preview...</span>
                     </div>
                 </div>
 
-            </div>
+                <div style="grid-area: panel; background:#0f172a; padding:18px 18px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; box-sizing: border-box;">
+                    <div id="instructions-text" style="text-align:center; font-size: 14px; line-height: 1.4; margin-bottom: 10px;">
+                        <strong>${agentId}</strong> has learned a specific search order based on defect-occurrence probabilities.<br><br>
+                        Click <strong style="color: #32b5a1;">Preview</strong> to run a demo (as often as you like), or <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with the agent.
+                    </div>
 
-            <!-- UNTEN: Info-Panel mit fester Suchreihenfolge (ohne Dropdowns) -->
-            <div style="background:#0f172a; padding:30px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; width: 100%; box-sizing: border-box;">
+                    <div style="display: flex; flex-direction: column; align-items: stretch; gap: 6px;">
+                        ${Object.entries(settings).map(([key, value], index) => `
+                        <div id="row-s${index + 1}" style="display: flex; align-items: center; gap: 15px; padding: 4px 10px; border-radius: 8px; width: 100%; box-sizing: border-box; grid-template-columns: minmax(100px, 120px) minmax(0, 1fr);">
+                            <strong style="color:#32b5a1; font-size: 16px; width: 120px;">${key[0].toUpperCase() + key.slice(1)}:</strong>
+                            <output style="font-size:14px;">${value.order.map(v => v.replaceAll('_', ' ')).join(' → ')}</output>
+                        </div>`).join('')}
+                    </div>
 
-                <p id="instructions-text" style="text-align:center; font-size: 16px; line-height: 1.5; margin-top: 0; margin-bottom: 20px;">
-                    <strong>${agentId}</strong> has learned a specific search order based on defect-occurrence probabilities.<br><br>
-                    You can preview a demo by clicking <strong style="color: #32b5a1;">Preview</strong>, or click <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with the agent.
-                </p>
-
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-                    ${Object.entries(settings).map(([key, value], index) => `
-                    <div id="row-s${index + 1}" style="display: flex; align-items: center; gap: 15px; padding: 10px 15px; border-radius: 8px; width: 100%; max-width: 500px; grid-template-columns: minmax(100px, 120px) minmax(0, 1fr);">
-                        <strong style="color:#32b5a1; font-size: 16px; width: 120px;">${key[0].toUpperCase() + key.slice(1)}:</strong>
-                        <output style="font-size:14px;">${value.order.map(v => v.replaceAll('_', ' ')).join(' → ')}</output>
-                    </div>`).join('')}
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
+                        <div style="display:flex; align-items:center; gap:6px; font-size:13px; color:#526276;">Demo speed:
+                            <select id="preview-speed" style="padding: 4px 6px; font-size: 13px; border-radius: 4px;">
+                                <option value="320">slow</option>
+                                <option value="180" selected>normal</option>
+                                <option value="70">fast</option>
+                            </select>
+                        </div>
+                        <button id="preview-btn" class="action-btn" style="background:#555; padding: 9px 18px; width: 120px;">Preview</button>
+                        <button id="proceed-btn" class="action-btn btn-start" style="padding: 9px 18px; width: 120px;">Proceed</button>
+                    </div>
                 </div>
-
-                <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
-                    <button id="preview-btn" class="action-btn" style="background:#555; padding: 12px 30px; width: 150px;">Preview</button>
-                    <button id="proceed-btn" class="action-btn btn-start" style="padding: 12px 30px; width: 150px;">Proceed</button>
-                </div>
-            </div>
         </div>`,
         choices: [],
         on_load() {
