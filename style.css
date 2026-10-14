@@ -574,3 +574,5 @@ body,
 
 /* 10. Suchanzeige im KI-Panel: Bereich waehrend der Suche, Zusammenfassung danach */
 #ai-search-step { white-space: normal !important; line-height: 1.45; font-size: 13px; }
+
+.search-substep { font-size: 12px; color: #94a3b8; }
