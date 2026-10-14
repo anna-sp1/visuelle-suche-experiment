@@ -142,7 +142,7 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
                     status.appendChild(verdictBox);
                     setBusy(false);
                 }
-            }, PREVIEW_SEARCH_STEP_MS);
+            }, Number(document.getElementById('preview-speed')?.value) || PREVIEW_SEARCH_STEP_MS);
         }
         image.addEventListener('load', start, { once: true });
         image.addEventListener('error', fail, { once: true });
