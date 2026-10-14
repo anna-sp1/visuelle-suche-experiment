@@ -578,17 +578,21 @@ body,
 .search-substep { font-size: 12px; color: #94a3b8; }
 
 
-/* 11. Dezente Trennlinien zwischen den Items aller Frageboegen */
+/* 11. Dezente Trennlinien ueber, zwischen und unter den Items aller Frageboegen */
 #jspsych-content .jspsych-survey-likert-question,
-#jspsych-content .jspsych-survey-text-question {
+#jspsych-content .jspsych-survey-likert-question:last-of-type,
+#jspsych-content .jspsych-survey-text-question,
+#jspsych-content .jspsych-survey-text-question:last-of-type {
     border-bottom: 1px solid rgba(100, 116, 139, 0.22) !important;
     padding-bottom: 1.25rem;
 }
-#jspsych-content .jspsych-survey-likert-question:last-of-type,
-#jspsych-content .jspsych-survey-text-question:last-of-type {
-    border-bottom: 0 !important;
+/* erstes Item zusaetzlich mit Linie oben (Abgrenzung zur Instruktion) */
+#jspsych-content .jspsych-survey-likert-question:not(.jspsych-survey-likert-question + .jspsych-survey-likert-question),
+#jspsych-content .jspsych-survey-text-question:not(.jspsych-survey-text-question + .jspsych-survey-text-question) {
+    border-top: 1px solid rgba(100, 116, 139, 0.22) !important;
 }
-
+#jspsych-content #jspsych-survey-likert-form input[type="submit"],
+#jspsych-content #jspsych-survey-text-form input[type="submit"] { margin-top: 1.5rem; }
 
 /* 12. Wiederholte Vignette als Erinnerung kennzeichnen */
 #jspsych-content .scenario-recap {
@@ -608,3 +612,36 @@ body,
     font-style: italic;
     margin-bottom: 4px;
 }
+
+
+/* 13. Fortschrittsbalken: schlichter Rahmen mit Prozentangabe, mit Abstand zum Inhalt */
+#jspsych-progressbar-container {
+    background: transparent !important;
+    border-bottom: 0 !important;
+    padding: 12px 0 0 !important;
+    margin-bottom: 14px !important;
+    text-align: center;
+    line-height: 1;
+}
+#jspsych-progressbar-container > span:not(.progress-pct) { display: none; }
+#jspsych-progressbar-outer {
+    display: inline-block;
+    width: min(60vw, 520px) !important;
+    height: 10px !important;
+    background: #fff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 2px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+#jspsych-progressbar-inner { height: 100% !important; background: #256c59 !important; transition: width .4s; }
+.progress-pct { display: inline-block; margin-left: 10px; font-size: 12px; color: #64748b; vertical-align: middle; min-width: 3em; text-align: left; }
+/* Platz fuer den Balken: Trial-Layout etwas naeher an den oberen Rand */
+#jspsych-content .experiment-container { margin-top: 12px; }
+/* Preview-Seiten kompakter, damit alles (inkl. Fortschrittsbalken) ohne Scrollen passt */
+#jspsych-content .preview-layout #status-text { line-height: 1.35 !important; }
+#jspsych-content .preview-layout #status-text .ai-agent-verdict { font-size: 18px; margin-top: 8px; padding: 8px; }
+#jspsych-content .preview-layout #instructions-text { font-size: 13px !important; line-height: 1.38 !important; }
+#jspsych-content .preview-layout [id^="row-"] { padding-top: 3px !important; padding-bottom: 3px !important; }
+#jspsych-content .preview-layout #status-text .ai-agent-verdict { margin-top: 4px; }
+#jspsych-content .preview-layout #instructions-text { line-height: 1.32 !important; }
