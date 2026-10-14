@@ -178,7 +178,7 @@ const customization_intro_new_2 = {
     stimulus: `
     <div style="background:#0f172a; padding: 60px 40px; color:white; font-family:sans-serif; text-align:center; border-radius: 8px; max-width: 700px; margin: 40px auto;">
         <p style="font-size: 24px; line-height: 1.4; margin-bottom: 40px;">
-            Before working together with your AI agent, please take some time to customize it using the customization interface on the next page to suit your role as a defect inspector.
+            Please help to create the AI agent according to your style of performing the task. Before working together with the agent, please take some time to customize it using the customization interface on the next page to suit your role as a defect inspector.
         </p>
         <button id="next-btn-cust-2" class="action-btn btn-start" style="padding: 12px 30px;">Next</button>
     </div>
