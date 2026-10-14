@@ -105,6 +105,7 @@ let intro_timeline = [
             "Practice", 
             `<div style="text-align: center;">
                  <p>Next, you will practice the task.</p>
+                 <p>Later in the study, you will work with an AI agent that also follows a search strategy. While practicing, pay attention to how you search the images: where do you start, and what do you look for first?</p>
                  <p>Use the buttons below to classify each component:</p>
                  <ul style="display: inline-block; text-align: left; margin: 10px auto;">
                      <li><strong><i style="color: #5cb85c;">pass</i></strong>: 10 or less defects</li>
