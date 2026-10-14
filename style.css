@@ -588,3 +588,23 @@ body,
 #jspsych-content .jspsych-survey-text-question:last-of-type {
     border-bottom: 0 !important;
 }
+
+
+/* 12. Wiederholte Vignette als Erinnerung kennzeichnen */
+#jspsych-content .scenario-recap {
+    background: #f1f5f9;
+    border-left: 3px solid #94a3b8;
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin-bottom: 18px;
+}
+#jspsych-content .scenario-recap p {
+    font-size: 16px !important;
+    color: #475569;
+    margin-bottom: 0;
+}
+#jspsych-content .scenario-recap p.recap-label {
+    font-size: 14px !important;
+    font-style: italic;
+    margin-bottom: 4px;
+}
