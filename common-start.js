@@ -80,7 +80,7 @@ let intro_timeline = [
             "Context", 
             `<p>Imagine you work for a company that manufactures and maintains metal components.</p>
              <p>You will examine simplified radiographic images to identify material defects. If a component exceeds a specific threshold of defects, it is considered unsafe and must be rejected.</p>
-             <p>This task is safety-critical: missing a defect risks failure in service, while falsely rejecting a good part causes unnecessary cost and delay. Avoid both types of errors.</p>`
+             <p>This task is safety-critical: missing a defect means a faulty part may fail once it is in use, while falsely rejecting a good part causes unnecessary cost and delay. Avoid both types of errors.</p>`
         ),
         choices: [], 
         on_load: () => document.getElementById('custom-next-btn').addEventListener('click', () => jsPsych.finishTrial())
