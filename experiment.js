@@ -19,7 +19,57 @@ if (!condition) {
 let aiName = condition.agentNameMode === 'fixed' ? condition.fixedAgentName : "AI ASSISTANT";
 
 let submitted = false;
+// Progress bar: set at fixed milestones, weighted by the approximate time each phase takes
+// (not by number of screens), identical in all four versions. Values are proportions (0-1).
+let progressValue = 0;
+const progressCounts = {};
+function progressFor(data) {
+    // Count finished trials per phase (jsPsych's own trial_index is global, so it is not used here).
+    const i = progressCounts[data.phase] = (progressCounts[data.phase] || 0) + 1;
+    switch (data.phase) {
+        case 'manual_training': return 0.06 + 0.02 * i;          // 5 training trials -> 0.16
+        case 'customization_saved':
+        case 'standard_change_thanks': return 0.26;
+        case 'ai_practice': return 0.27 + 0.012 * i;            // 10 practice trials -> 0.39
+        case 'pre_perceptions': return 0.43;
+        case 'main_task_transition': return 0.45;
+        case 'main_task': return 0.45 + (0.41 / 30) * i;        // 30 main trials -> 0.86
+        case 'post_task_intro': return 0.87;
+        case 'post_perceptions': return 0.90;
+        case 'responsibility_scenario': return 0.90;
+        case 'final_questionnaire_intro': return 0.93;
+        case 'final_perceptions':
+        case 'final_patterns': return 0.95;
+        case 'ai_perceptions': return 0.98;
+        case 'submission': return 1;
+        default: return null;
+    }
+}
+function showProgressPercent() {
+    const outer = document.getElementById('jspsych-progressbar-container');
+    if (!outer) return;
+    let label = outer.querySelector('.progress-pct');
+    if (!label) {
+        label = document.createElement('span');
+        label.className = 'progress-pct';
+        outer.appendChild(label);
+    }
+    label.textContent = `${Math.round(progressValue * 100)}%`;
+}
+function updateProgress(data) {
+    const value = progressFor(data);
+    if (value === null || value <= progressValue) return;
+    progressValue = Math.min(1, value);
+    jsPsych.setProgressBar(progressValue);
+    showProgressPercent();
+}
+
 const jsPsych = initJsPsych({
+    show_progress_bar: true,
+    auto_update_progress_bar: false,
+    message_progress_bar: '',
+    on_trial_start: showProgressPercent,
+    on_trial_finish: updateProgress,
     on_finish: function() {
         if (submitted) showSubmission(jsPsych, debugEnabled);
     }
@@ -253,15 +303,15 @@ const customization_settings_trial = {
         </style>
 
         <!-- Alles auf einen Blick: Bild links, Status und Einstellungen rechts (kein Scrollen noetig) -->
-        <div class="preview-layout" style="display: grid; grid-template-columns: minmax(0, 1fr) 460px; grid-template-rows: auto 1fr; grid-template-areas: 'img status' 'img panel'; gap: 16px; width: min(1180px, calc(100vw - 40px)); margin: 8px auto; align-items: start;">
+        <div class="preview-layout" style="display: grid; grid-template-columns: minmax(0, 1fr) 460px; grid-template-rows: auto 1fr; grid-template-areas: 'img status' 'img panel'; gap: 16px; width: min(1180px, calc(100vw - 40px)); margin: 4px auto; align-items: start;">
 
-                <div id="preview-image-wrapper" style="grid-area: img; position:relative; width: min(100%, calc((100vh - 60px) * 1.25)); justify-self: end; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                <div id="preview-image-wrapper" style="grid-area: img; position:relative; width: min(100%, calc((100vh - 110px) * 1.25)); justify-self: end; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
                     <img id="preview-image" src="bilder/preview_stimulus.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;" />
                     <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">Preview Example</div>
                 </div>
 
-                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 110px;">
-                    <div style="background: #999; border: 2px solid #333; padding: 4px 18px; font-size: 20px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 12px;">
+                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 10px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 92px;">
+                    <div style="background: #999; border: 2px solid #333; padding: 3px 16px; font-size: 18px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 8px;">
                         ${aiName}
                     </div>
                     <div id="status-text" style="font-size: 16px; line-height: 1.5; text-align: left; width: 100%;">
@@ -269,9 +319,9 @@ const customization_settings_trial = {
                     </div>
                 </div>
 
-                <div style="grid-area: panel; background:#0f172a; padding:18px 18px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; box-sizing: border-box;">
+                <div style="grid-area: panel; background:#0f172a; padding:10px 16px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; box-sizing: border-box;">
                     <div id="instructions-text" style="text-align:center; font-size: 14px; line-height: 1.4; margin-bottom: 10px;">
-                        Think about how you searched the images during the training. <strong>${aiName}</strong> searches the categories in a fixed order (Direction → Background → Size → Type), but you can set its search to match your own approach: For <strong>Direction</strong>, click the four image areas in the order in which you search them. For the other categories, choose what <strong>${aiName}</strong> should search first.<br><br>
+                        Think about how you searched the images during the training. <strong>${aiName}</strong> searches the categories in a fixed order (Direction → Background → Size → Type), but you can set its search to match your own approach: For <strong>Direction</strong>, click the four image areas in the order in which you search them. For the other categories, choose what <strong>${aiName}</strong> should search first.<span style="display:block; height:6px;"></span>
                         Click <strong style="color: #32b5a1;">Apply</strong> to run a demo with your current settings (as often as you like), or <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with your agent.
                     </div>
 
