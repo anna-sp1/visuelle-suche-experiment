@@ -5,9 +5,16 @@ const CUSTOMIZATION_DIMENSIONS = Object.freeze({
     type: Object.freeze(['L', 'O'])
 });
 
-function buildCustomization(starts) {
+/** starts: first value per dimension (rotated order). orders: optional full order per dimension (free permutation). */
+function buildCustomization(starts, orders = {}) {
     const result = {};
     for (const [dimension, values] of Object.entries(CUSTOMIZATION_DIMENSIONS)) {
+        const custom = orders[dimension];
+        if (custom) {
+            if (custom.length !== values.length || !values.every(v => custom.includes(v))) throw new Error(`Invalid customization order: ${dimension}`);
+            result[dimension] = Object.freeze({ start: custom[0], order: Object.freeze([...custom]) });
+            continue;
+        }
         const index = values.indexOf(starts[dimension]);
         if (index < 0) throw new Error(`Invalid customization dimension: ${dimension}`);
         result[dimension] = Object.freeze({ start: starts[dimension],
@@ -47,8 +54,12 @@ function applyCustomization(settings) {
 
 /** Owns one preview screen; a generation token rejects stale load responses. */
 function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
-    const selectors = fixedSettings ? [] : ['direction', 'background', 'size', 'type'].map((key, index) =>
-        ({ key, input: document.getElementById(`val-${index + 1}`), order: document.getElementById(`order-${index + 1}`) }));
+    // Direction is set by clicking the four image areas in order (free order); the other categories use selects.
+    const selectors = fixedSettings ? [] : ['background', 'size', 'type'].map((key, index) =>
+        ({ key, input: document.getElementById(`val-${index + 2}`), order: document.getElementById(`order-${index + 2}`) }));
+    const dirGrid = fixedSettings ? null : document.getElementById('dir-grid');
+    const dirOutput = fixedSettings ? null : document.getElementById('order-1');
+    let dirOrder = dirGrid ? [...CUSTOMIZATION_DIMENSIONS.direction] : null;
     const apply = document.getElementById(fixedSettings ? 'preview-btn' : 'apply-btn');
     const proceed = document.getElementById('proceed-btn');
     const wrapper = document.getElementById('preview-image-wrapper');
@@ -56,27 +67,66 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
     const status = document.getElementById('status-text');
     let active = true, busy = false, generation = 0, interval;
 
+    function dirComplete() { return !dirGrid || dirOrder.length === CUSTOMIZATION_DIMENSIONS.direction.length; }
     function read() {
-        return fixedSettings || buildCustomization(Object.fromEntries(selectors.map(({ key, input }) => [key, input.value])));
+        if (fixedSettings) return fixedSettings;
+        if (!dirComplete()) return null;
+        const starts = Object.fromEntries(selectors.map(({ key, input }) => [key, input.value]));
+        return buildCustomization(starts, { direction: dirOrder });
+    }
+    function refreshButtons() {
+        const blocked = busy || !dirComplete();
+        apply.disabled = blocked;
+        proceed.disabled = blocked;
+    }
+    function renderDirection() {
+        if (!dirGrid) return;
+        dirGrid.querySelectorAll('[data-q]').forEach(cell => {
+            const position = dirOrder.indexOf(cell.dataset.q);
+            cell.textContent = position >= 0 ? String(position + 1) : '';
+            cell.classList.toggle('dir-set', position >= 0);
+        });
+        dirOutput.textContent = dirComplete()
+            ? dirOrder.map(v => v.replaceAll('_', ' ')).join(' → ')
+            : `${dirOrder.map(v => v.replaceAll('_', ' ')).join(' → ')}${dirOrder.length ? ' → ' : ''}… (click the next area)`;
     }
     function showOrders() {
+        renderDirection();
+        refreshButtons();
         const settings = read();
+        if (!settings) return null;
         selectors.forEach(({ key, order }) => { order.textContent = settings[key].order.map(v => v.replaceAll('_', ' ')).join(' → '); });
         return settings;
     }
     function setBusy(value) {
         busy = value;
-        apply.disabled = value;
-        proceed.disabled = value;
+        refreshButtons();
         selectors.forEach(({ input }) => { input.disabled = value; });
+        if (dirGrid) dirGrid.classList.toggle('dir-busy', value);
     }
     function dispose() { active = false; generation++; clearInterval(interval); }
     selectors.forEach(({ input }) => input.addEventListener('change', showOrders));
+    if (dirGrid) {
+        const remaining = () => CUSTOMIZATION_DIMENSIONS.direction.filter(v => !dirOrder.includes(v));
+        const pick = cell => {
+            if (!active || busy) return;
+            const q = cell.dataset.q;
+            if (dirComplete()) dirOrder = [q];              // a click on a complete order starts a new one
+            else if (!dirOrder.includes(q)) dirOrder.push(q);
+            if (dirOrder.length === CUSTOMIZATION_DIMENSIONS.direction.length - 1) dirOrder.push(...remaining()); // last area is implied
+            showOrders();
+        };
+        dirGrid.querySelectorAll('[data-q]').forEach(cell => {
+            cell.addEventListener('click', () => pick(cell));
+            cell.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); pick(cell); } });
+        });
+    }
     showOrders();
 
     proceed.addEventListener('click', () => {
         if (!active || busy) return;
         const settings = showOrders();
+        if (!settings) return;
         if (!fixedSettings) applyCustomization(settings);
         const data = fixedSettings ? { agent_id: agentId } : customizationData(agentId, settings);
         jsPsych.data.addProperties(data);
@@ -87,6 +137,7 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
     apply.addEventListener('click', () => {
         if (!active || busy) return;
         const settings = showOrders();
+        if (!settings) return;
         if (!fixedSettings) applyCustomization(settings);
         const token = ++generation;
         setBusy(true);
