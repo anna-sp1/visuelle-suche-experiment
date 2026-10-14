@@ -576,3 +576,15 @@ body,
 #ai-search-step { white-space: normal !important; line-height: 1.45; font-size: 13px; }
 
 .search-substep { font-size: 12px; color: #94a3b8; }
+
+
+/* 11. Dezente Trennlinien zwischen den Items aller Frageboegen */
+#jspsych-content .jspsych-survey-likert-question,
+#jspsych-content .jspsych-survey-text-question {
+    border-bottom: 1px solid rgba(100, 116, 139, 0.22) !important;
+    padding-bottom: 1.25rem;
+}
+#jspsych-content .jspsych-survey-likert-question:last-of-type,
+#jspsych-content .jspsych-survey-text-question:last-of-type {
+    border-bottom: 0 !important;
+}
