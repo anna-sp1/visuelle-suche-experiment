@@ -25,7 +25,7 @@ function createStandardPreparation(jsPsych, agentId) {
                     <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">Preview Example</div>
                 </div>
 
-                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 130px;">
+                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 110px;">
                     <div style="background: #999; border: 2px solid #333; padding: 4px 18px; font-size: 20px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 12px;">
                         ${agentId}
                     </div>
