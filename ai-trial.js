@@ -135,7 +135,8 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                     const step = steps[index++];
                     // Readable progress: only the current image area (changes every 8 steps).
                     const areas = searchOrder.direction.order;
-                    document.getElementById('ai-search-step').textContent = `Area ${areas.indexOf(step.direction) + 1} of ${areas.length}: ${step.direction.replaceAll('_', ' ')}`;
+                    // Area stays for 8 steps (readable); background, size and type change underneath.
+                    document.getElementById('ai-search-step').innerHTML = `Area ${areas.indexOf(step.direction) + 1} of ${areas.length}: ${step.direction.replaceAll('_', ' ')}<br><span class="search-substep">${step.background} areas, ${step.size}, ${step.type}</span>`;
                     plan.ai_marked_symbol_ids.forEach(id => { if (!shown.has(id) && matchesStep(byId.get(id), step)) draw(id); });
                     if (index !== steps.length) return;
                     clearInterval(interval);
