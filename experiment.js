@@ -19,56 +19,57 @@ if (!condition) {
 let aiName = condition.agentNameMode === 'fixed' ? condition.fixedAgentName : "AI ASSISTANT";
 
 let submitted = false;
-// Progress bar: set at fixed milestones, weighted by the approximate time each phase takes
-// (not by number of screens), identical in all four versions. Values are proportions (0-1).
-let progressValue = 0;
-const progressCounts = {};
-function progressFor(data) {
-    // Count finished trials per phase (jsPsych's own trial_index is global, so it is not used here).
-    const i = progressCounts[data.phase] = (progressCounts[data.phase] || 0) + 1;
-    switch (data.phase) {
-        case 'manual_training': return 0.06 + 0.02 * i;          // 5 training trials -> 0.16
-        case 'customization_saved':
-        case 'standard_change_thanks': return 0.26;
-        case 'ai_practice': return 0.27 + 0.012 * i;            // 10 practice trials -> 0.39
-        case 'pre_perceptions': return 0.43;
-        case 'main_task_transition': return 0.45;
-        case 'main_task': return 0.45 + (0.41 / 30) * i;        // 30 main trials -> 0.86
-        case 'post_task_intro': return 0.87;
-        case 'post_perceptions': return 0.90;
-        case 'responsibility_scenario': return 0.90;
-        case 'final_questionnaire_intro': return 0.93;
-        case 'final_perceptions':
-        case 'final_patterns': return 0.95;
-        case 'ai_perceptions': return 0.98;
-        case 'submission': return 1;
-        default: return null;
+// Progress bar: advances by one equal step after every screen ("Next").
+// The total is counted from the timeline right before the start (only the participant's own branch).
+// Optional pages (e.g. follow-up text boxes) are included in the total; if they are skipped,
+// their steps are added at that moment, so the bar never moves backwards.
+let progressDone = 0, progressTotal = 0;
+function countScreens(nodes) {
+    let n = 0;
+    for (const node of nodes) {
+        if (!node || node.progress_ignore) continue;
+        if (!Array.isArray(node.timeline)) { n += 1; continue; }
+        const active = node.progress_optional || !node.conditional_function || node.conditional_function();
+        if (!active) continue;
+        const size = countScreens(node.timeline);
+        n += size;
+        if (node.conditional_function) {
+            // If a counted block is skipped later on, count its screens as done.
+            const original = node.conditional_function;
+            node.conditional_function = function() {
+                const run = original.apply(this, arguments);
+                if (!run) { progressDone += size; showProgress(); }
+                return run;
+            };
+        }
     }
+    return n;
 }
-function showProgressPercent() {
-    const outer = document.getElementById('jspsych-progressbar-container');
-    if (!outer) return;
-    let label = outer.querySelector('.progress-pct');
+function showProgress() {
+    // The last screen shows 100 %.
+    const share = progressTotal > 1 ? Math.min(1, progressDone / (progressTotal - 1)) : 0;
+    jsPsych.setProgressBar(share);
+    const container = document.getElementById('jspsych-progressbar-container');
+    if (!container) return;
+    let label = container.querySelector('.progress-pct');
     if (!label) {
         label = document.createElement('span');
         label.className = 'progress-pct';
-        outer.appendChild(label);
+        container.appendChild(label);
     }
-    label.textContent = `${Math.round(progressValue * 100)}%`;
+    label.textContent = `${Math.round(share * 100)}%`;
 }
 function updateProgress(data) {
-    const value = progressFor(data);
-    if (value === null || value <= progressValue) return;
-    progressValue = Math.min(1, value);
-    jsPsych.setProgressBar(progressValue);
-    showProgressPercent();
+    if (data.progress_ignore) return;
+    progressDone += 1;
+    showProgress();
 }
 
 const jsPsych = initJsPsych({
     show_progress_bar: true,
     auto_update_progress_bar: false,
     message_progress_bar: '',
-    on_trial_start: showProgressPercent,
+    on_trial_start: showProgress,
     on_trial_finish: updateProgress,
     on_finish: function() {
         if (submitted) showSubmission(jsPsych, debugEnabled);
@@ -101,6 +102,7 @@ const main_menu = {
         </div>
     `,
     choices: ['Continue with URL version', 'Skip pass/reject trials', 'Eyetracker Kalibrierung'],
+    data: { progress_ignore: true },
     on_finish: function(data) { 
         chose_calibration = data.response === 2; // Startet die Schleife für Kalibrierung neu
         // Debug only: skip training, AI practice and main task (all pass/reject trials).
@@ -130,12 +132,14 @@ const calibration_screen = {
             <p style="position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%); width: 100%; color: white; text-align: center; font-family: sans-serif; font-size: 18px; margin: 0;">Eyetracker-Kalibrierung (9-Punkt). Bitte Punkte fixieren.</p>
         </div>
     `,
-    choices: ['Kalibrierung beendet (Zurück zum Menü)']
+    choices: ['Kalibrierung beendet (Zurück zum Menü)'],
+    data: { progress_ignore: true }
     // HIER wurde die conditional_function entfernt!
 };
 
 // Schleife, die so lange läuft, wie "Eyetracker" ausgewählt wird
 if (debugEnabled) timeline.push({
+    progress_ignore: true,
     timeline: [
         main_menu, 
         {
@@ -555,7 +559,7 @@ function createPatternQuestions(prefix, prompt) {
               data[textField] = null;
               delete data.response;
           } },
-        { conditional_function: () => noticed === YES_NO_CODES.yes,
+        { progress_optional: true, conditional_function: () => noticed === YES_NO_CODES.yes,
           timeline: [{ type: jsPsychSurveyText,
               questions: [{ prompt: 'Which pattern did you notice?', name: textField, required: true, rows: 4 }],
               button_label: 'Next', data: { phase: 'final_patterns' },
@@ -615,6 +619,7 @@ loadAiResources(condition, { allowValidatedPartial: debugEnabled }).then(resourc
                 ? participantCustomization : buildCustomization(STANDARD_SEARCH_STARTS) });
         (plan.phase === 'ai_practice' ? aiPracticeTimeline : mainTaskTimeline).timeline.push(trial);
     }
+    progressTotal = countScreens(timeline);
     jsPsych.run(timeline);
 }).catch(error => {
     document.body.innerHTML = `<main style="max-width:800px;margin:15vh auto;font-family:sans-serif;"><h1>Configuration error</h1><p>${escapeAiHtml(error.message)}</p></main>`;
