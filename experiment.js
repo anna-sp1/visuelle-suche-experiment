@@ -484,6 +484,7 @@ function createPerceptionSurvey(scale, prompts, prefix = 'pre', explicitNames = 
     const names = explicitNames || prompts.map((_, index) => `${prefix}_${scale}_${index + 1}`);
     return {
         type: jsPsychSurveyLikert,
+        preamble: short_preamble,
         data: { phase: `${prefix}_perceptions`, scale },
         questions: prompts.map((prompt, index) => ({ prompt, name: names[index], labels: likert_scale, required: true })),
         randomize_question_order: false,
@@ -590,6 +591,7 @@ const attitude = createPerceptionSurvey('attitude', [
     'To what extent would you rather choose a technology with artificial intelligence than one without it?'
 ], 'ai', ['ai_attitude_1', 'ai_attitude_2', 'ai_attitude_3', 'attention_check_2', 'ai_attitude_4', 'ai_attitude_5', 'ai_attitude_6']);
 attitude.questions.forEach(question => { question.labels = ['1 - Not at all', '2', '3', '4', '5', '6', '7 - Definitely']; });
+attitude.preamble = short_preamble.replace('Please indicate the degree to which you personally agree or disagree with the following statements.', 'Please answer the following questions.');
 timeline.push({ timeline: [
     { type: jsPsychHtmlButtonResponse,
       stimulus: '<p>Finally, please also answer the following questions and statements about the task and about your perceptions of AI.</p>',
