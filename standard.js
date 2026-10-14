@@ -122,6 +122,7 @@ function createStandardPreparation(jsPsych, agentId) {
                     jsPsych.data.addProperties({ [field]: text });
                 }
             }],
+            progress_optional: true,
             conditional_function() { return selected.includes(option.id); }
         };
     });
