@@ -363,7 +363,7 @@ const ai_practice_reminder_trial = {
                 Now you can practice the detection task with <strong>${aiName}</strong>.
             </p>
             <p style="font-size: 20px; line-height: 1.6; margin-bottom: 10px;">
-                To help you get started, the practice begins with simpler images.
+                To help you get started, the practice begins with images that contain fewer symbols.
             </p>
             <p style="font-size: 20px; line-height: 1.6; margin-bottom: 30px;">
                 Be aware that <strong>${aiName}</strong> can make mistakes.
