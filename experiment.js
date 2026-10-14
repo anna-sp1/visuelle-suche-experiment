@@ -325,7 +325,7 @@ const customization_settings_trial = {
 
                 <div style="grid-area: panel; background:#0f172a; padding:10px 16px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; box-sizing: border-box;">
                     <div id="instructions-text" style="text-align:center; font-size: 14px; line-height: 1.4; margin-bottom: 10px;">
-                        Think about how you searched the images during the training. <strong>${aiName}</strong> searches the categories in a fixed order (Direction → Background → Size → Type), but you can set its search to match your own approach: For <strong>Direction</strong>, click the four image areas in the order in which you search them. For the other categories, choose what <strong>${aiName}</strong> should search first.<span style="display:block; height:6px;"></span>
+                        Think about how you searched the images during the training. <strong>${aiName}</strong> searches the categories in a fixed order <span style="white-space:nowrap;">(Direction → Background → Size → Type)</span>, but you can set its search to match your own approach: For Direction, click the four image areas in the order in which you search them. For the other categories, choose what <strong>${aiName}</strong> should search first.<span style="display:block; height:6px;"></span>
                         Click <strong style="color: #32b5a1;">Apply</strong> to run a demo with your current settings (as often as you like), or <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with your agent.
                     </div>
 
