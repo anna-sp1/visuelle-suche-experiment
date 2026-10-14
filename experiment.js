@@ -235,7 +235,7 @@ const customization_settings_trial = {
         function makeRow(id, label, catValue, options) {
             let opts = options.map(o => `<option value="${o.v}">${o.t}</option>`).join('');
             return `
-            <div id="row-${id}" style="display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px; width: 100%; max-width: 500px; transition: background 0.3s;">
+            <div id="row-${id}" style="display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 8px; width: 100%; box-sizing: border-box; transition: background 0.3s;">
                 <strong style="color:#32b5a1; font-size: 16px; width: 120px;">${label}:</strong>
                 <input type="hidden" id="cat-${id}" value="${catValue}">
                 <input type="hidden" id="label-${id}" value="${label}">
@@ -252,49 +252,48 @@ const customization_settings_trial = {
             .preview-reject { border: 4px solid #d9534f !important; box-shadow: 0 0 15px rgba(217, 83, 79, 0.5) !important; transition: all 0.3s; }
         </style>
 
-        <div style="display: flex; flex-direction: column; align-items: center; max-width: 1050px; margin: 20px auto; gap: 20px;">
-            
-            <!-- TOP AREA: Bild links, Status rechts -->
-            <div style="display: flex; gap: 20px; width: 100%; justify-content: center; align-items: stretch;">
-                
-                <!-- VORSCHAU-BILD -->
-                <div id="preview-image-wrapper" style="position:relative; width: 500px; flex-shrink: 0; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+        <!-- Alles auf einen Blick: Bild links, Status und Einstellungen rechts (kein Scrollen noetig) -->
+        <div class="preview-layout" style="display: grid; grid-template-columns: minmax(0, 1fr) 460px; grid-template-rows: auto 1fr; grid-template-areas: 'img status' 'img panel'; gap: 16px; width: min(1180px, calc(100vw - 40px)); margin: 8px auto; align-items: start;">
+
+                <div id="preview-image-wrapper" style="grid-area: img; position:relative; width: min(100%, calc((100vh - 60px) * 1.25)); justify-self: end; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
                     <img id="preview-image" src="bilder/preview_stimulus.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;" />
                     <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">Preview Example</div>
                 </div>
 
-                <!-- KI-STATUS-FENSTER -->
-                <div style="flex: 1; background: #d0d0d0; border: 2px solid #333; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif;">
-                    <div style="background: #999; border: 2px solid #333; padding: 5px 20px; font-size: 22px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 30px; margin-top: 10px;">
+                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 130px;">
+                    <div style="background: #999; border: 2px solid #333; padding: 4px 18px; font-size: 20px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 12px;">
                         ${aiName}
                     </div>
-                    <div id="status-text" style="font-size: 18px; line-height: 1.6; text-align: left; width: 100%;">
+                    <div id="status-text" style="font-size: 16px; line-height: 1.5; text-align: left; width: 100%;">
                         <span style="color:#888; font-style:italic;">Ready for configuration...</span>
                     </div>
                 </div>
 
-            </div>
+                <div style="grid-area: panel; background:#0f172a; padding:18px 18px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; box-sizing: border-box;">
+                    <div id="instructions-text" style="text-align:center; font-size: 14px; line-height: 1.4; margin-bottom: 10px;">
+                        Think about how you searched the images during the training. <strong>${aiName}</strong> searches the categories in a fixed order (Direction → Background → Size → Type), but you can choose where it starts within each category. Click on the settings below to align <strong>${aiName}</strong>'s search with your own approach.<br><br>
+                        Click <strong style="color: #32b5a1;">Apply</strong> to run a demo with your current settings (as often as you like), or <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with your agent.
+                    </div>
 
-            <!-- KONFIGURATIONS-PANEL -->
-            <div style="background:#0f172a; padding:30px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; width: 100%; box-sizing: border-box;">
-                
-                <p id="instructions-text" style="text-align:center; font-size: 16px; line-height: 1.5; margin-top: 0; margin-bottom: 20px;">
-                    Think about how you searched the images during the training. <strong>${aiName}</strong> searches the categories in a fixed order (Direction → Background → Size → Type), but you can choose where it starts within each category. Use the dropdown menus to align <strong>${aiName}</strong>'s search with your own approach.<br><br>
-                    Feel free to adjust these settings as often as you like. Click <strong style="color: #32b5a1;">Apply</strong> to run a demo with your current settings, or click <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with your agent.
-                </p>
-                
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-                    ${makeRow(1, 'Direction', 'direction', [{v:'top_left', t:'top left'}, {v:'top_right', t:'top right'}, {v:'bottom_right', t:'bottom right'}, {v:'bottom_left', t:'bottom left'}])}
-                    ${makeRow(2, 'Background', 'bg', [{v:'dark', t:'dark'}, {v:'light', t:'light'}])}
-                    ${makeRow(3, 'Size', 'size', [{v:'large', t:'large'}, {v:'small', t:'small'}])}
-                    ${makeRow(4, 'Type', 'type', [{v:'L', t:'L'}, {v:'O', t:'O'}])}
+                    <div style="display: flex; flex-direction: column; align-items: stretch; gap: 6px;">
+                        ${makeRow(1, 'Direction', 'direction', [{v:'top_left', t:'top left'}, {v:'top_right', t:'top right'}, {v:'bottom_right', t:'bottom right'}, {v:'bottom_left', t:'bottom left'}])}
+                        ${makeRow(2, 'Background', 'bg', [{v:'dark', t:'dark'}, {v:'light', t:'light'}])}
+                        ${makeRow(3, 'Size', 'size', [{v:'large', t:'large'}, {v:'small', t:'small'}])}
+                        ${makeRow(4, 'Type', 'type', [{v:'L', t:'L'}, {v:'O', t:'O'}])}
+                    </div>
+
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
+                        <div style="display:flex; align-items:center; gap:6px; font-size:13px; color:#526276;">Demo speed:
+                            <select id="preview-speed" style="padding: 4px 6px; font-size: 13px; border-radius: 4px;">
+                                <option value="320">slow</option>
+                                <option value="180" selected>normal</option>
+                                <option value="70">fast</option>
+                            </select>
+                        </div>
+                        <button id="apply-btn" class="action-btn" style="background:#555; padding: 9px 18px; width: 120px;">Apply</button>
+                        <button id="proceed-btn" class="action-btn btn-start" style="padding: 9px 18px; width: 120px;">Proceed</button>
+                    </div>
                 </div>
-                
-                <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
-                    <button id="apply-btn" class="action-btn" style="background:#555; padding: 12px 30px; width: 150px;">Apply</button>
-                    <button id="proceed-btn" class="action-btn btn-start" style="padding: 12px 30px; width: 150px;">Proceed</button>
-                </div>
-            </div>
         </div>
         `;
     },
