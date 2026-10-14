@@ -133,12 +133,16 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                 interval = setInterval(() => {
                     if (!active) return;
                     const step = steps[index++];
-                    document.getElementById('ai-search-step').textContent = `${step.direction.replaceAll('_', ' ')} → ${step.background} → ${step.size} → ${step.type}`;
+                    // Readable progress: only the current image area (changes every 8 steps).
+                    const areas = searchOrder.direction.order;
+                    document.getElementById('ai-search-step').textContent = `Area ${areas.indexOf(step.direction) + 1} of ${areas.length}: ${step.direction.replaceAll('_', ' ')}`;
                     plan.ai_marked_symbol_ids.forEach(id => { if (!shown.has(id) && matchesStep(byId.get(id), step)) draw(id); });
                     if (index !== steps.length) return;
                     clearInterval(interval);
                     // Safety net: any planned ring not matched by a step is shown at the end.
                     plan.ai_marked_symbol_ids.forEach(id => { if (!shown.has(id)) draw(id); });
+                    // After the search: short completion note instead of the last search step.
+                    document.getElementById('ai-search-step').innerHTML = '&#10003; Search complete';
                     const recommendation = document.getElementById('ai-agent-verdict');
                     recommendation.textContent = `Final verdict: ${plan.agent_verdict.toUpperCase()}`;
                     recommendation.classList.add(plan.agent_verdict === 'Pass' ? 'ai-verdict-pass' : 'ai-verdict-reject');
