@@ -260,7 +260,7 @@ const customization_settings_trial = {
                     <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">Preview Example</div>
                 </div>
 
-                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 130px;">
+                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 14px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 110px;">
                     <div style="background: #999; border: 2px solid #333; padding: 4px 18px; font-size: 20px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 12px;">
                         ${aiName}
                     </div>
@@ -271,12 +271,21 @@ const customization_settings_trial = {
 
                 <div style="grid-area: panel; background:#0f172a; padding:18px 18px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; box-sizing: border-box;">
                     <div id="instructions-text" style="text-align:center; font-size: 14px; line-height: 1.4; margin-bottom: 10px;">
-                        Think about how you searched the images during the training. <strong>${aiName}</strong> searches the categories in a fixed order (Direction → Background → Size → Type), but you can choose where it starts within each category. Click on the settings below to align <strong>${aiName}</strong>'s search with your own approach.<br><br>
+                        Think about how you searched the images during the training. <strong>${aiName}</strong> searches the categories in a fixed order (Direction → Background → Size → Type), but you can set its search to match your own approach: For <strong>Direction</strong>, click the four image areas in the order in which you search them. For the other categories, choose what <strong>${aiName}</strong> should search first.<br><br>
                         Click <strong style="color: #32b5a1;">Apply</strong> to run a demo with your current settings (as often as you like), or <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with your agent.
                     </div>
 
                     <div style="display: flex; flex-direction: column; align-items: stretch; gap: 6px;">
-                        ${makeRow(1, 'Direction', 'direction', [{v:'top_left', t:'top left'}, {v:'top_right', t:'top right'}, {v:'bottom_right', t:'bottom right'}, {v:'bottom_left', t:'bottom left'}])}
+                        <div id="row-1" style="display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 8px; width: 100%; box-sizing: border-box; transition: background 0.3s;">
+                            <strong style="color:#32b5a1; font-size: 16px; width: 120px;">Direction:</strong>
+                            <div id="dir-grid" aria-label="Click the four image areas in the order you search them">
+                                <div class="dir-cell" data-q="top_left" role="button" tabindex="0" title="top left"></div>
+                                <div class="dir-cell" data-q="top_right" role="button" tabindex="0" title="top right"></div>
+                                <div class="dir-cell" data-q="bottom_left" role="button" tabindex="0" title="bottom left"></div>
+                                <div class="dir-cell" data-q="bottom_right" role="button" tabindex="0" title="bottom right"></div>
+                            </div>
+                            <output id="order-1" style="font-size:14px;"></output>
+                        </div>
                         ${makeRow(2, 'Background', 'bg', [{v:'dark', t:'dark'}, {v:'light', t:'light'}])}
                         ${makeRow(3, 'Size', 'size', [{v:'large', t:'large'}, {v:'small', t:'small'}])}
                         ${makeRow(4, 'Type', 'type', [{v:'L', t:'L'}, {v:'O', t:'O'}])}
