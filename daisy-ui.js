@@ -6,7 +6,7 @@
             if (element.matches('button, input[type="button"], input[type="submit"]')) {
                 element.classList.add('btn');
                 if (element.matches('.btn-reset, #ai-reject, #btn-reject')) element.classList.add('btn-error');
-                else if (element.matches('#apply-btn')) element.classList.add('btn-outline');
+                else if (element.matches('#apply-btn, #preview-btn')) element.classList.add('btn-outline');
                 else element.classList.add('btn-primary');
             }
             if (element.matches('input[type="text"]')) element.classList.add('input');
