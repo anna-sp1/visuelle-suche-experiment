@@ -250,7 +250,7 @@ for (const decision of ['Pass', 'Reject']) {
 
 test('context information waits for its Next button', () => {
     const s = setup();
-    s.timeline[0].timeline[1].on_load();
+    s.timeline[0].timeline[2].on_load(); // [0] consent, [1] glasses, [2] context
     s.tick(1000);
     assert.equal(s.finished.length, 0);
     s.document.body.click();
@@ -321,18 +321,19 @@ for (const version of [1, 2, 3, 4]) {
 test('identical beginning in every version, exact supplied task wording and button transition', () => {
     const baseline = setup(1);
     const html = baseline.timeline.slice(0, 3).flatMap(node => node.timeline.map(trial => trial.stimulus));
-    assert.equal(html.length, 10);
+    assert.equal(html.length, 11); // consent screen added first
     for (const version of [2, 3, 4]) {
         assert.equal(JSON.stringify(setup(version).timeline.slice(0, 3).flatMap(node => node.timeline.map(trial => trial.stimulus))), JSON.stringify(html));
     }
-    assert.match(html[0], /glasses or contacts/);
-    assert.match(html[1], /Context/);
-    const task = html[2].replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
+    assert.match(html[0], /Declaration of consent/);
+    assert.match(html[1], /glasses or contacts/);
+    assert.match(html[2], /Context/);
+    const task = html[3].replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
     assert.ok(task.includes('An L or an O is a defect. Ignore all other letters.'));
     assert.ok(task.includes('Orange and blue letters as well as large and small ones are equally important.'));
     assert.ok(task.includes('Flag a component as reject if it contains more than 10 defects. Otherwise, flag it as pass.'));
-    assert.match(html[3], /Next, you will practice the task/);
-    assert.match(html[9], /You have finished the practice\./);
+    assert.match(html[4], /Next, you will practice the task/);
+    assert.match(html[10], /You have finished the practice\./);
     baseline.timeline[2].timeline[0].on_load();
     assert.equal(baseline.finished.length, 0);
     baseline.document.getElementById('next-btn-practice-done').click();

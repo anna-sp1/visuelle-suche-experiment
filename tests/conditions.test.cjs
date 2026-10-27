@@ -104,7 +104,8 @@ for (const [version, customization, predictability] of [
         assert.ok(Object.isFrozen(definition));
         // No development loop/menu or admin configuration in normal runs.
         assert.ok(calls.timeline.every(node => !node.loop_function));
-        assert.ok(calls.timeline[0].timeline[0].stimulus.includes('glasses'));
+        assert.ok(calls.timeline[0].timeline[0].stimulus.includes('Declaration of consent')); // consent first
+        assert.ok(calls.timeline[0].timeline[1].stimulus.includes('glasses'));
         assert.equal(calls.timeline[1].timeline.length, 5); // training retained
         assert.equal(calls.timeline[3].conditional_function(), !customization);
         assert.equal(calls.timeline[4].conditional_function(), customization);
@@ -136,7 +137,8 @@ test('explicit debug tools retain URL condition during calibration without skipp
     assert.equal(tools.timeline[1].conditional_function(), true);
     menu.on_finish({ response: 0 });
     assert.equal(tools.loop_function(), false);
-    assert.ok(calls.timeline[1].timeline[0].stimulus.includes('glasses'));
+    assert.ok(calls.timeline[1].timeline[0].stimulus.includes('Declaration of consent'));
+    assert.ok(calls.timeline[1].timeline[1].stimulus.includes('glasses'));
     assert.equal(calls.timeline[2].timeline.length, 5);
     assert.ok(calls.timeline[6].timeline[0].stimulus().includes('stimulus_001.jpg'));
     assert.equal(calls.properties.experiment_version, 3);
