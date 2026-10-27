@@ -51,7 +51,8 @@ Alle folgenden Likert-Felder sind ganzzahlig 1-7. Pluginindices 0-6 werden einma
 - consent_given: true auf der Einwilligungszeile (erster Bildschirm, phase consent).
 - age: ganze Zahl 18-99; gender: woman / man / non_binary / other / prefer_not_to_say (phase final_demographics).
 - data_use_consent: Zustimmung nach dem Debriefing, YES_NO_CODES yes=1/no=2 (phase submission). Bei 2 wird nichts hochgeladen und kein CSV-Download angeboten; die Prolific-Weiterleitung bleibt.
-- Kontaktangaben fuer Einwilligung und Debriefing stehen zentral in config.js (STUDY_INSTITUTE, CONTACT_EMAIL, DPO_CONTACT) und muessen vor der Liveschaltung ersetzt werden.
+- Angaben fuer Einwilligung und Debriefing stehen zentral in config.js (STUDY_INSTITUTE, CONTACT_EMAIL, DPO_CONTACT, PAYMENT_AMOUNT). Platzhalter in [ ] muessen vor der Liveschaltung ersetzt werden.
+- Abschlussseite (storage.js): 'Thank you for taking part!' mit Statuszeile; Retry/Download CSV erscheinen nur bei Uebertragungsfehler, Debug-Lauf oder Validierungsfehler.
 
 Anker (alle Stufen verbalisiert): 1=Strongly disagree, 2=Disagree, 3=Somewhat disagree, 4=Neither agree nor disagree, 5=Somewhat agree, 6=Agree, 7=Strongly agree; nur AI attitude: 1=Not at all, 7=Definitely.
 
