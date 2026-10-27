@@ -6,7 +6,7 @@ function prepareExportRows(rows) {
             if (/^(pre_ownership_\d|(?:pre|post)_satisfaction_\d|(?:pre|post)_trust_\d|manip_.+|ai_attitude_\d|responsibility_(self|agent))$/.test(key) && value != null) {
                 if (!Number.isInteger(value) || value < 1 || value > 7) throw new Error(`Invalid Likert: ${key}`);
             }
-            if (['defect_pattern_noticed', 'ai_error_pattern_noticed'].includes(key) && value != null && ![YES_NO_CODES.yes, YES_NO_CODES.no].includes(value)) throw new Error(`Invalid Yes/No: ${key}`);
+            if (['defect_pattern_noticed', 'ai_error_pattern_noticed', 'data_use_consent'].includes(key) && value != null && ![YES_NO_CODES.yes, YES_NO_CODES.no].includes(value)) throw new Error(`Invalid Yes/No: ${key}`);
         }
         if (row.participant_verdict != null && row.participant_verdict_code !== VERDICT_CODES[row.participant_verdict]) throw new Error('Invalid verdict code');
         if (row.standard_change_options) {
@@ -28,10 +28,10 @@ function analysisCsv(rows) {
 }
 
 // Prolific: redirect only after a confirmed upload, and only for links coming from Prolific.
-function redirectToProlific(status) {
+function redirectToProlific(status, message = 'Data saved. You will now be redirected to Prolific.') {
     const params = new URLSearchParams(window.location.search);
     if (!PROLIFIC_COMPLETION_URL || !params.has('PROLIFIC_PID') || !params.has('SESSION_ID')) return;
-    status.textContent = 'Data saved. You will now be redirected to Prolific.';
+    status.textContent = message;
     setTimeout(() => { window.location.href = PROLIFIC_COMPLETION_URL; }, 2000);
 }
 
@@ -43,6 +43,14 @@ function showSubmission(jsPsych, debug) {
     const csv = analysisCsv(rows); // Keep one immutable snapshot for every retry/download.
     document.body.innerHTML = '<main style="max-width:700px;margin:15vh auto"><p id="save-status"></p><button id="save-retry">Retry</button><button id="save-download">Download CSV</button></main>';
     const status = document.getElementById('save-status'), retry = document.getElementById('save-retry');
+    // Consent withdrawn after the debriefing: nothing is uploaded, payment is unaffected.
+    if (originals.some(row => row.data_use_consent === YES_NO_CODES.no)) {
+        retry.hidden = true;
+        document.getElementById('save-download').hidden = true;
+        status.textContent = 'Your data have not been saved and will not be used. Thank you for taking part. You may close this window now.';
+        try { redirectToProlific(status, 'Your data have not been saved. You will now be redirected to Prolific.'); } catch (_) {}
+        return;
+    }
     document.getElementById('save-download').onclick = () => {
         const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
         const link = document.createElement('a'); link.href = url; link.download = dateiName;

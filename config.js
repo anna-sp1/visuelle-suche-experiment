@@ -11,6 +11,11 @@ const OSF_EXPERIMENT_ID = "cCjHlcNaaWJr";
 // von Prolific kommt (PROLIFIC_PID und SESSION_ID in der URL) und der Upload bestätigt ist.
 const PROLIFIC_COMPLETION_URL = "";
 
+// Kontaktangaben für Einwilligung und Debriefing. VOR DER LIVESCHALTUNG ERSETZEN!
+const STUDY_INSTITUTE = "[INSTITUTE]";
+const CONTACT_EMAIL = "[CONTACT E-MAIL]";
+const DPO_CONTACT = "[DPO CONTACT]";
+
 // Experiment-Parameter
 const ANZAHL_TRAINING_RUNDEN = 5; 
 // Shared verdict coding; see docs/DATA_SCHEMA.md. Independent of Yes/No coding.

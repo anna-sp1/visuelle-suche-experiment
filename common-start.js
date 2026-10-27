@@ -22,6 +22,56 @@ function createInfoScreen(title, contentHtml, btnText = "Next") {
 // 2. STORY INTRO (VOR DEM TRAINING)
 // ==========================================
 
+// Participant information and consent: first screen of the study.
+const consent_trial = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: `
+    <div class="consent-screen" style="position: fixed; inset: 0; overflow-y: auto; background: white; color: #111; font-family: sans-serif; z-index: 9999;">
+        <div style="max-width: 780px; margin: 0 auto; padding: 32px 24px 48px 24px; text-align: left; font-size: 15px; line-height: 1.55;">
+            <h2 style="margin-top: 0;">Welcome, and thank you for your interest in this study!</h2>
+            <p>Please read the following information carefully before deciding whether to take part.</p>
+            <h3>About the study</h3>
+            <p>This study is conducted by the German Aerospace Center (DLR), ${STUDY_INSTITUTE}. We investigate how people work together with an AI-based assistance system in a simulated visual inspection task. Some aspects of the study can only be explained in full at the end. You will receive a complete explanation after you have finished.</p>
+            <h3>Procedure</h3>
+            <p>You will practise the inspection task, get to know an AI assistant, and then classify a series of images with its support. Afterwards, you will answer questions about your experience, including questions on hypothetical work scenarios, your attitudes towards technology and AI, and your age and gender. The study takes about 30–35 minutes. There is no time pressure, and you can take short breaks between task blocks. There are no known risks beyond those of regular computer use. The visual task may be tiring.</p>
+            <h3>Requirements</h3>
+            <p>You must be at least 18 years old, have normal or corrected-to-normal vision, have no known colour vision deficiency, and use a desktop or laptop computer.</p>
+            <h3>Payment</h3>
+            <p>Payment is made via Prolific according to Prolific's standards and does not depend on your performance. If you stop early, you can request partial payment for the time spent via a Prolific message.</p>
+            <h3>Data processing</h3>
+            <p>Your decisions, response times and questionnaire answers are recorded. Your name and contact details are not collected. The only identifier is your Prolific ID. It is used for payment, to prevent repeated participation and to handle withdrawal requests. Data are transmitted encrypted via the service DataPipe and stored in a restricted-access project on the Open Science Framework (OSF) in Germany (Frankfurt). Only the research team has access. The study website is hosted on GitHub Pages. GitHub logs IP addresses for security purposes. These are not accessible to the research team and are not linked to your study data. If you stop before the end, none of your data will be saved. The legal basis for processing is your consent (Art. 6(1)(a) GDPR).</p>
+            <h3>Declaration of consent</h3>
+            <ul>
+                <li>I have read the information about the study and its procedure. I know that I can contact the research team with any questions (see contact details below).</li>
+                <li>I agree to take part in this study, which takes about 30–35 minutes.</li>
+                <li>I agree to the collection and processing of my data as described above. My data are recorded and analysed pseudonymously by the German Aerospace Center (DLR), using my Prolific ID and without my name. Only the research team can link my data to my Prolific ID.</li>
+                <li>Two weeks after the end of data collection, all Prolific IDs will be deleted. My data are then anonymous, and no one can link them to me any longer.</li>
+                <li>I know that I can withdraw my consent at any time without any disadvantages and request the deletion of all my data, by sending a message via Prolific. Once the Prolific IDs have been deleted, my data can no longer be identified and therefore can no longer be deleted.</li>
+                <li>I agree that my anonymised data may be used for further research purposes, may be published in an open science repository, and will be stored for at least 10 years.</li>
+                <li>I have had enough time to make my decision. I know that participation is voluntary and that I can stop at any time without giving reasons, simply by closing the browser window.</li>
+            </ul>
+            <p>I also have the right to access, rectify and restrict the processing of my data, and to lodge a complaint with a data protection supervisory authority.</p>
+            <p><strong>Contact:</strong> Anna Spier, ${CONTACT_EMAIL} · Data protection officer: ${DPO_CONTACT}</p>
+            <p style="margin-top: 24px;"><label style="cursor: pointer;"><input type="checkbox" id="consent-agree" style="width: 18px; height: 18px; vertical-align: middle;"> I have read the declaration of consent above and agree to take part.</label></p>
+            <p><label style="cursor: pointer;"><input type="checkbox" id="consent-age" style="width: 18px; height: 18px; vertical-align: middle;"> I confirm that I am at least 18 years old.</label></p>
+            <p style="text-align: center; margin-top: 24px;"><button id="consent-btn" class="action-btn btn-start" style="padding: 12px 30px;" disabled>Start the study</button></p>
+        </div>
+    </div>`,
+    choices: [],
+    data: { phase: 'consent' },
+    on_load: function() {
+        const agree = document.getElementById('consent-agree'), age = document.getElementById('consent-age');
+        const button = document.getElementById('consent-btn');
+        const update = () => { button.disabled = !(agree.checked && age.checked); };
+        agree.addEventListener('change', update);
+        age.addEventListener('change', update);
+        button.addEventListener('click', () => {
+            if (!(agree.checked && age.checked)) return;
+            jsPsych.finishTrial({ phase: 'consent', consent_given: true });
+        });
+    }
+};
+
 const glasses_check_trial = {
     type: jsPsychHtmlButtonResponse,
     stimulus: `
@@ -72,6 +122,7 @@ const glasses_check_trial = {
 };
 
 let intro_timeline = [
+    consent_trial, // Einwilligung zuerst
     glasses_check_trial, // <--- Startbildschirm mit Brillen-Abfrage
     {
         // Text 1

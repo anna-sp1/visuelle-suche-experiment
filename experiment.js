@@ -655,13 +655,33 @@ timeline.push({ timeline: [
 ] });
 
 // 6.5 Outro
+// Debriefing: full explanation, then the decision whether the data may be used.
 const outro_trial = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: '<p>Thank you very much for taking part in this study.<br>Your responses have been recorded, please click Submit to finish.</p>',
-    choices: ['Submit'],
+    stimulus: `<div style="max-width: 780px; margin: 0 auto; text-align: left; font-size: 16px; line-height: 1.55;">
+        <h2>Thank you for taking part! Please read the following information carefully.</h2>
+        <p><strong>What was this study about?</strong> We investigate whether configuring an AI assistant yourself makes people feel that it is "theirs" (psychological ownership), and whether this feeling changes how carefully they check the assistant's recommendations, how satisfied they are with it, and how much responsibility they take for errors.</p>
+        <p>To study this under controlled conditions, some information was simplified or withheld at the beginning:</p>
+        <ol>
+            <li>The task was not a real inspection of industrial components. The images were abstract, computer-generated patterns, and your decisions had no consequences outside this study.</li>
+            <li>The "AI agent" was not a real AI system. Its markings and recommendations, including its errors, were fixed in advance and were identical for all participants in the same study version.</li>
+            <li>The settings that some participants could choose (name and search order) only changed how the agent's search was displayed, not how accurate it was. Other participants could not change any settings. Both versions were intended.</li>
+            <li>The quality-assurance scenario at the end was the same for everyone. It was not related to your actual performance and was not an evaluation of your work. Your results do not allow any conclusions about your perception, concentration or judgement.</li>
+        </ol>
+        <p><strong>Why was this necessary?</strong> Knowing these details in advance would have influenced how people work with the agent and how they evaluate it. Our research question could then not have been answered.</p>
+        <p><strong>Your data and your rights.</strong> Now that you know the full purpose of the study, you can decide below whether your data may be used. This has no effect on your payment. You can also withdraw later by sending us a message via Prolific until two weeks after your participation.</p>
+        <p>Please do not share details of this study with others who might take part.</p>
+        <p><strong>Questions?</strong> Anna Spier, ${CONTACT_EMAIL}</p>
+        <p style="text-align: center; margin-top: 28px;"><strong>Do you agree that your data may be used for this research?</strong></p>
+    </div>`,
+    choices: ['Yes, my data may be used', 'No, please do not use my data'],
     data: { phase: 'submission' },
-    on_finish: data => { submitted = true; data.submitted = true; }
-
+    on_finish: data => {
+        submitted = true;
+        data.submitted = true;
+        // 1 = yes (data may be used), 2 = no (nothing is uploaded, see storage.js).
+        data.data_use_consent = data.response === 1 ? YES_NO_CODES.no : YES_NO_CODES.yes;
+    }
 };
 timeline.push(outro_trial);
 
