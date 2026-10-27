@@ -27,6 +27,14 @@ function analysisCsv(rows) {
     return [fields.map(cell).join(','), ...rows.map(row => fields.map(field => cell(row[field])).join(','))].join('\r\n');
 }
 
+// Prolific: redirect only after a confirmed upload, and only for links coming from Prolific.
+function redirectToProlific(status) {
+    const params = new URLSearchParams(window.location.search);
+    if (!PROLIFIC_COMPLETION_URL || !params.has('PROLIFIC_PID') || !params.has('SESSION_ID')) return;
+    status.textContent = 'Data saved. You will now be redirected to Prolific.';
+    setTimeout(() => { window.location.href = PROLIFIC_COMPLETION_URL; }, 2000);
+}
+
 function showSubmission(jsPsych, debug) {
     const originals = jsPsych.data.get().values();
     let rows, validationError = null;
@@ -52,6 +60,8 @@ function showSubmission(jsPsych, debug) {
             const receipt = await result.json();
             if (!receipt || receipt.error || receipt.message !== 'Success') throw new Error('Upload not confirmed');
             status.textContent = 'Data saved. You may close this window now.';
+            // Isolated so that a redirect problem can never turn a confirmed upload into an error message.
+            try { redirectToProlific(status); } catch (_) {}
         } catch (_) {
             status.textContent = 'Upload could not be confirmed. Keep this page open and retry, or download your responses as CSV.';
             retry.disabled = false;

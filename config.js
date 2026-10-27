@@ -5,6 +5,12 @@
 // OSF DataPipe ID für den Daten-Upload
 const OSF_EXPERIMENT_ID = "cCjHlcNaaWJr";
 
+// Prolific: Completion-URL aus den Prolific-Studieneinstellungen hier einfügen,
+// z. B. "https://app.prolific.com/submissions/complete?cc=ABC123".
+// Leer lassen ("") = keine Weiterleitung. Weitergeleitet wird nur, wenn der Link
+// von Prolific kommt (PROLIFIC_PID und SESSION_ID in der URL) und der Upload bestätigt ist.
+const PROLIFIC_COMPLETION_URL = "";
+
 // Experiment-Parameter
 const ANZAHL_TRAINING_RUNDEN = 5; 
 // Shared verdict coding; see docs/DATA_SCHEMA.md. Independent of Yes/No coding.

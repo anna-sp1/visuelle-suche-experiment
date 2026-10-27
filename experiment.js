@@ -2,10 +2,18 @@
  * HAUPTABLAUF DES EXPERIMENTS
  */
 
-(() => {
-const condition = resolveExperimentCondition(window.location.search);
+// The condition comes from ?version= or, for Prolific links without it, from DataPipe.
+const startExperiment = (condition, conditionSource) => {
 const debugEnabled = isExperimentDebugEnabled(window.location.search);
 
+if (!condition && conditionSource === 'datapipe_failed') {
+    document.body.innerHTML = `
+        <main style="max-width: 650px; margin: 15vh auto; padding: 24px; font-family: sans-serif;">
+            <h1>The study could not be started</h1>
+            <p>The study could not be prepared due to a connection problem. Please reload this page. If the problem persists, please return the study on Prolific and contact the study team.</p>
+        </main>`;
+    return;
+}
 if (!condition) {
     document.body.innerHTML = `
         <main style="max-width: 650px; margin: 15vh auto; padding: 24px; font-family: sans-serif;">
@@ -82,6 +90,7 @@ jsPsych.data.addProperties({
     agent_id: condition.agentNameMode === 'fixed' ? condition.fixedAgentName : null,
     ...Object.fromEntries(['PROLIFIC_PID', 'STUDY_ID', 'SESSION_ID'].filter(key => new URLSearchParams(window.location.search).has(key)).map(key => [key, new URLSearchParams(window.location.search).get(key)])),
     experiment_version: condition.version,
+    condition_assignment: conditionSource,
     customization_condition: condition.customizationCondition,
     predictability_condition: condition.predictabilityCondition
 });
@@ -626,4 +635,5 @@ loadAiResources(condition, { allowValidatedPartial: debugEnabled }).then(resourc
 }).catch(error => {
     document.body.innerHTML = `<main style="max-width:800px;margin:15vh auto;font-family:sans-serif;"><h1>Configuration error</h1><p>${escapeAiHtml(error.message)}</p></main>`;
 });
-})();
+};
+startWithCondition(startExperiment);
