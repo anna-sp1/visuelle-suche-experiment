@@ -609,6 +609,38 @@ const ati = createPerceptionSurvey('ati', [
     'It is enough for me to know the basic functions of a technical system.'
 ], 'final', ['ati_1', 'ati_2', 'ati_3', 'ati_4']);
 ati.questions.forEach(question => { question.labels = ['1<br>Completely disagree', '2<br>Largely disagree', '3<br>Slightly disagree', '4<br>Slightly agree', '5<br>Largely agree', '6<br>Completely agree']; });
+    // Suspicion check: 1 item, used for a sensitivity analysis only.
+const suspicion = createPerceptionSurvey('suspicion', [
+    'While working on the task, I believed that the AI agent was actually analyzing the images.'
+], 'final', ['suspicion_ai_real']);
+// Demographics: age and gender.
+const demographics = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: `<div style="max-width: 600px; margin: 0 auto; text-align: left; line-height: 1.8;">
+        <p>Please tell us a little about yourself.</p>
+        <p>How old are you? (in years)<br><input type="number" id="demo-age" min="18" max="99" style="width: 100px; padding: 6px; font-size: 16px;"></p>
+        <p style="margin-bottom: 4px;">What is your gender?</p>
+        <label><input type="radio" name="demo-gender" value="woman"> Woman</label><br>
+        <label><input type="radio" name="demo-gender" value="man"> Man</label><br>
+        <label><input type="radio" name="demo-gender" value="non_binary"> Non-binary</label><br>
+        <label><input type="radio" name="demo-gender" value="other"> Other</label><br>
+        <label><input type="radio" name="demo-gender" value="prefer_not_to_say"> Prefer not to say</label>
+        <p id="demo-error" style="color: #d9534f; display: none;">Please enter your age (18-99) and select one option for gender.</p>
+        <p style="text-align: center;"><button id="demo-next" class="action-btn btn-start" style="padding: 12px 30px;">Next</button></p>
+    </div>`,
+    choices: [],
+    data: { phase: 'final_demographics' },
+    on_load: function() {
+        document.getElementById('demo-next').addEventListener('click', () => {
+            const ageText = document.getElementById('demo-age').value.trim();
+            const age = Number(ageText);
+            const checked = document.querySelector('input[name="demo-gender"]:checked');
+            const valid = ageText !== '' && Number.isInteger(age) && age >= 18 && age <= 99 && checked;
+            if (!valid) { document.getElementById('demo-error').style.display = 'block'; return; }
+            jsPsych.finishTrial({ phase: 'final_demographics', age: age, gender: checked.value });
+        });
+    }
+};
 timeline.push({ timeline: [
     { type: jsPsychHtmlButtonResponse,
       stimulus: '<p>Finally, please also answer the following questions and statements about the task and about your perceptions of AI.</p>',
@@ -617,7 +649,9 @@ timeline.push({ timeline: [
     ...createPatternQuestions('defect_pattern', 'Did you notice any pattern in where the defects tended to appear on the components?'),
     ...createPatternQuestions('ai_error_pattern', 'Did you notice any pattern in what kind of findings the agent tended to get wrong?'),
     attitude,
-    ati
+    suspicion,
+    ati,
+    demographics
 ] });
 
 // 6.5 Outro
