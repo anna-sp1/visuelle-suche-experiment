@@ -11,10 +11,11 @@ const OSF_EXPERIMENT_ID = "cCjHlcNaaWJr";
 // von Prolific kommt (PROLIFIC_PID und SESSION_ID in der URL) und der Upload bestätigt ist.
 const PROLIFIC_COMPLETION_URL = "";
 
-// Kontaktangaben für Einwilligung und Debriefing. VOR DER LIVESCHALTUNG ERSETZEN!
-const STUDY_INSTITUTE = "[INSTITUTE]";
-const CONTACT_EMAIL = "[CONTACT E-MAIL]";
+// Angaben für Einwilligung und Debriefing. Platzhalter in [ ] VOR DER LIVESCHALTUNG ERSETZEN!
+const STUDY_INSTITUTE = "Institute of System Architectures in Aeronautics";
+const CONTACT_EMAIL = "anna.spier@dlr.de";
 const DPO_CONTACT = "[DPO CONTACT]";
+const PAYMENT_AMOUNT = "[AMOUNT]";
 
 // Experiment-Parameter
 const ANZAHL_TRAINING_RUNDEN = 5; 

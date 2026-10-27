@@ -23,38 +23,54 @@ function createInfoScreen(title, contentHtml, btnText = "Next") {
 // ==========================================
 
 // Participant information and consent: first screen of the study.
+const consentH2 = 'font-size: 17px; margin: 22px 0 6px 0;';
 const consent_trial = {
     type: jsPsychHtmlButtonResponse,
     stimulus: `
-    <div class="consent-screen" style="position: fixed; inset: 0; overflow-y: auto; background: white; color: #111; font-family: sans-serif; z-index: 9999;">
-        <div style="max-width: 780px; margin: 0 auto; padding: 32px 24px 48px 24px; text-align: left; font-size: 15px; line-height: 1.55;">
-            <h2 style="margin-top: 0;">Welcome, and thank you for your interest in this study!</h2>
-            <p>Please read the following information carefully before deciding whether to take part.</p>
-            <h3>About the study</h3>
-            <p>This study is conducted by the German Aerospace Center (DLR), ${STUDY_INSTITUTE}. We investigate how people work together with an AI-based assistance system in a simulated visual inspection task. Some aspects of the study can only be explained in full at the end. You will receive a complete explanation after you have finished.</p>
-            <h3>Procedure</h3>
-            <p>You will practise the inspection task, get to know an AI assistant, and then classify a series of images with its support. Afterwards, you will answer questions about your experience, including questions on hypothetical work scenarios, your attitudes towards technology and AI, and your age and gender. The study takes about 30–35 minutes. There is no time pressure, and you can take short breaks between task blocks. There are no known risks beyond those of regular computer use. The visual task may be tiring.</p>
-            <h3>Requirements</h3>
-            <p>You must be at least 18 years old, have normal or corrected-to-normal vision, have no known colour vision deficiency, and use a desktop or laptop computer.</p>
-            <h3>Payment</h3>
-            <p>Payment is made via Prolific according to Prolific's standards and does not depend on your performance. If you stop early, you can request partial payment for the time spent via a Prolific message.</p>
-            <h3>Data processing</h3>
-            <p>Your decisions, response times and questionnaire answers are recorded. Your name and contact details are not collected. The only identifier is your Prolific ID. It is used for payment, to prevent repeated participation and to handle withdrawal requests. Data are transmitted encrypted via the service DataPipe and stored in a restricted-access project on the Open Science Framework (OSF) in Germany (Frankfurt). Only the research team has access. The study website is hosted on GitHub Pages. GitHub logs IP addresses for security purposes. These are not accessible to the research team and are not linked to your study data. If you stop before the end, none of your data will be saved. The legal basis for processing is your consent (Art. 6(1)(a) GDPR).</p>
-            <h3>Declaration of consent</h3>
-            <ul>
-                <li>I have read the information about the study and its procedure. I know that I can contact the research team with any questions (see contact details below).</li>
+    <div class="consent-screen" style="position: fixed; inset: 0; overflow-y: auto; background: #ffffff; color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 15.5px; line-height: 1.6; text-align: left; z-index: 9999;">
+        <div style="max-width: 1120px; margin: 0 auto; padding: 40px 56px 56px 56px;">
+            <div style="font-size: 13px; color: #555555;">German Aerospace Center (DLR)<br>${STUDY_INSTITUTE}</div>
+            <h1 style="font-size: 26px; font-weight: bold; margin: 18px 0 6px 0;">Participant information and consent</h1>
+            <p style="margin: 0 0 22px 0;">Welcome, and thank you for your interest in this study! Please read the following information carefully before deciding whether to take part.</p>
+            <div style="border-top: 1px solid #c8c8c8;"></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px;">
+                <div>
+                    <h2 style="${consentH2}">About the study</h2>
+                    <p style="margin: 0;">This study is conducted by the German Aerospace Center (DLR), ${STUDY_INSTITUTE}. We investigate how people work together with an AI-based assistance system in a simulated visual inspection task. Some aspects of the study can only be explained in full at the end. You will receive a complete explanation after you have finished.</p>
+                    <h2 style="${consentH2}">Procedure</h2>
+                    <p style="margin: 0 0 10px 0;">You will practise the inspection task, get to know an assistant, and then classify a series of images with its support. Afterwards, you will answer questions about your experience, including questions on hypothetical work scenarios, your attitudes towards technology and AI, and your age and gender.</p>
+                    <p style="margin: 0;">The study takes about 30–35 minutes. The visual task may be tiring but there is no time pressure, and you can take short breaks between task blocks. There are no known risks beyond those of regular computer use.</p>
+                    <h2 style="${consentH2}">Requirements and payment</h2>
+                    <p style="margin: 0;">You must be at least 18 years old, have normal or corrected-to-normal vision, have no known colour vision deficiency, and use a desktop or laptop computer. You will receive ${PAYMENT_AMOUNT} via Prolific. Payment does not depend on your performance. If you end the study early, you can request partial payment via a Prolific message.</p>
+                </div>
+                <div>
+                    <h2 style="${consentH2}">Data processing and voluntariness</h2>
+                    <p style="margin: 0 0 10px 0;">Your decisions, response times and questionnaire answers are recorded. These data are collected to better understand how the assistance is perceived and used by different people. They do not allow any conclusions to be drawn about your identity. The only identifier is your Prolific ID. It is used for payment, to prevent repeated participation and to handle withdrawal requests, and it will be removed from the data set two weeks after data collection has ended. It will not be possible to link your data to your name.</p>
+                    <p style="margin: 0 0 10px 0;">The study results will be published in anonymised form, that means your data cannot be linked to your ID or identity. The anonymised data will be stored for at least 10 years. In the spirit of Open Science, the collected data may be made available in an open data repository. The purpose, nature, and extent of any potential reuse cannot be determined at this time.</p>
+                    <p style="margin: 0;">Participation in this study is voluntary. You can withdraw from the study at any time and without providing any reason. If you end the study early, none of your data will be saved.</p>
+                    <h2 style="${consentH2}">Questions and withdrawal</h2>
+                    <p style="margin: 0;">You can request the deletion of your data within two weeks after your participation. To do so, you just need to provide your Prolific ID. For any questions, or to withdraw your consent and request the deletion of your data, please write a message via the Prolific portal or an e-mail to ${CONTACT_EMAIL}.</p>
+                </div>
+            </div>
+            <h2 style="font-size: 17px; margin: 26px 0 6px 0;">Data protection</h2>
+            <p style="margin: 0 0 10px 0;">Data are transmitted encrypted via the service DataPipe and stored in a restricted-access project on the Open Science Framework (OSF) in Germany (Frankfurt). Only the research team has access. The study website is hosted on GitHub Pages. GitHub logs IP addresses for security purposes. These are not accessible to the research team and are not linked to your study data. The legal basis for processing is your consent (Art. 6(1)(a) GDPR). You have the right to access, rectification, erasure and restriction of processing of your data, and to lodge a complaint with a data protection supervisory authority.</p>
+            <p style="margin: 0;">Data protection officer: ${DPO_CONTACT}</p>
+            <div style="border-top: 1px solid #c8c8c8; margin-top: 26px;"></div>
+            <h2 style="${consentH2}">Declaration of consent</h2>
+            <ul style="margin: 0; padding-left: 22px;">
+                <li>I have read the information about the study and its procedure. I know that I can contact the research team with any questions.</li>
                 <li>I agree to take part in this study, which takes about 30–35 minutes.</li>
                 <li>I agree to the collection and processing of my data as described above. My data are recorded and analysed pseudonymously by the German Aerospace Center (DLR), using my Prolific ID and without my name. Only the research team can link my data to my Prolific ID.</li>
-                <li>Two weeks after the end of data collection, all Prolific IDs will be deleted. My data are then anonymous, and no one can link them to me any longer.</li>
-                <li>I know that I can withdraw my consent at any time without any disadvantages and request the deletion of all my data, by sending a message via Prolific. Once the Prolific IDs have been deleted, my data can no longer be identified and therefore can no longer be deleted.</li>
+                <li>Two weeks after data collection has ended, the Prolific IDs will be deleted from the data set. My data are then anonymous, and no one will be able to link them to me.</li>
+                <li>I can withdraw my consent at any time without any disadvantages and request the deletion of all my data, by sending a message via Prolific or an e-mail. Once the Prolific IDs have been deleted, my data can no longer be identified and therefore can no longer be deleted.</li>
                 <li>I agree that my anonymised data may be used for further research purposes, may be published in an open science repository, and will be stored for at least 10 years.</li>
-                <li>I have had enough time to make my decision. I know that participation is voluntary and that I can stop at any time without giving reasons, simply by closing the browser window.</li>
+                <li>I have had enough time to make my decision. I know that participation is voluntary and that I can stop at any time without giving reasons.</li>
             </ul>
-            <p>I also have the right to access, rectify and restrict the processing of my data, and to lodge a complaint with a data protection supervisory authority.</p>
-            <p><strong>Contact:</strong> Anna Spier, ${CONTACT_EMAIL} · Data protection officer: ${DPO_CONTACT}</p>
-            <p style="margin-top: 24px;"><label style="cursor: pointer;"><input type="checkbox" id="consent-agree" style="width: 18px; height: 18px; vertical-align: middle;"> I have read the declaration of consent above and agree to take part.</label></p>
-            <p><label style="cursor: pointer;"><input type="checkbox" id="consent-age" style="width: 18px; height: 18px; vertical-align: middle;"> I confirm that I am at least 18 years old.</label></p>
-            <p style="text-align: center; margin-top: 24px;"><button id="consent-btn" class="action-btn btn-start" style="padding: 12px 30px;" disabled>Start the study</button></p>
+            <div style="margin-top: 22px;">
+                <label style="display: block; margin-bottom: 8px; cursor: pointer;"><input type="checkbox" id="consent-agree" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 10px;">I have read the declaration of consent above and agree to take part.</label>
+                <label style="display: block; cursor: pointer;"><input type="checkbox" id="consent-age" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 10px;">I confirm that I am at least 18 years old.</label>
+                <button id="consent-btn" style="margin-top: 20px; padding: 10px 26px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #9aa3ad; color: #ffffff; border: none; border-radius: 3px; cursor: not-allowed;" disabled>Start the study</button>
+            </div>
         </div>
     </div>`,
     choices: [],
@@ -62,7 +78,11 @@ const consent_trial = {
     on_load: function() {
         const agree = document.getElementById('consent-agree'), age = document.getElementById('consent-age');
         const button = document.getElementById('consent-btn');
-        const update = () => { button.disabled = !(agree.checked && age.checked); };
+        const update = () => {
+            button.disabled = !(agree.checked && age.checked);
+            button.style.background = button.disabled ? '#9aa3ad' : '#2b3a4a';
+            button.style.cursor = button.disabled ? 'not-allowed' : 'pointer';
+        };
         agree.addEventListener('change', update);
         age.addEventListener('change', update);
         button.addEventListener('click', () => {

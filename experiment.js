@@ -617,7 +617,7 @@ const suspicion = createPerceptionSurvey('suspicion', [
 const demographics = {
     type: jsPsychHtmlButtonResponse,
     stimulus: `<div style="max-width: 600px; margin: 0 auto; text-align: left; line-height: 1.8;">
-        <p>Please tell us a little about yourself.</p>
+        <p>Please answer the following questions.</p>
         <p>How old are you? (in years)<br><input type="number" id="demo-age" min="18" max="99" style="width: 100px; padding: 6px; font-size: 16px;"></p>
         <p style="margin-bottom: 4px;">What is your gender?</p>
         <label><input type="radio" name="demo-gender" value="woman"> Woman</label><br>
@@ -626,7 +626,7 @@ const demographics = {
         <label><input type="radio" name="demo-gender" value="other"> Other</label><br>
         <label><input type="radio" name="demo-gender" value="prefer_not_to_say"> Prefer not to say</label>
         <p id="demo-error" style="color: #d9534f; display: none;">Please enter your age (18-99) and select one option for gender.</p>
-        <p style="text-align: center;"><button id="demo-next" class="action-btn btn-start" style="padding: 12px 30px;">Next</button></p>
+        <p><button id="demo-next" style="margin-top: 8px; padding: 10px 26px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #2b3a4a; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">Next</button></p>
     </div>`,
     choices: [],
     data: { phase: 'final_demographics' },
@@ -658,7 +658,7 @@ timeline.push({ timeline: [
 // Debriefing: full explanation, then the decision whether the data may be used.
 const outro_trial = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: `<div style="max-width: 780px; margin: 0 auto; text-align: left; font-size: 16px; line-height: 1.55;">
+    stimulus: `<div style="max-width: 1000px; margin: 0 auto; text-align: left; font-size: 16px; line-height: 1.55;">
         <h2>Thank you for taking part! Please read the following information carefully.</h2>
         <p><strong>What was this study about?</strong> We investigate whether configuring an AI assistant yourself makes people feel that it is "theirs" (psychological ownership), and whether this feeling changes how carefully they check the assistant's recommendations, how satisfied they are with it, and how much responsibility they take for errors.</p>
         <p>To study this under controlled conditions, some information was simplified or withheld at the beginning:</p>
@@ -669,13 +669,21 @@ const outro_trial = {
             <li>The quality-assurance scenario at the end was the same for everyone. It was not related to your actual performance and was not an evaluation of your work. Your results do not allow any conclusions about your perception, concentration or judgement.</li>
         </ol>
         <p><strong>Why was this necessary?</strong> Knowing these details in advance would have influenced how people work with the agent and how they evaluate it. Our research question could then not have been answered.</p>
-        <p><strong>Your data and your rights.</strong> Now that you know the full purpose of the study, you can decide below whether your data may be used. This has no effect on your payment. You can also withdraw later by sending us a message via Prolific until two weeks after your participation.</p>
+        <p><strong>Your data and your rights.</strong> Now that you know the full purpose of the study, you can decide below whether your data may be used. This has no effect on your payment. You can also withdraw later by sending us a message via Prolific or an e-mail to ${CONTACT_EMAIL} until two weeks after your participation.</p>
         <p>Please do not share details of this study with others who might take part.</p>
-        <p><strong>Questions?</strong> Anna Spier, ${CONTACT_EMAIL}</p>
-        <p style="text-align: center; margin-top: 28px;"><strong>Do you agree that your data may be used for this research?</strong></p>
+        <p style="margin-top: 28px;"><strong>Do you agree that your data may be used for this research?</strong></p>
+        <p>
+            <button id="debrief-yes" style="padding: 10px 22px; margin-right: 12px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #2b3a4a; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">Yes, my data may be used</button>
+            <button id="debrief-no" style="padding: 10px 22px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #2b3a4a; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">No, please do not use my data</button>
+        </p>
     </div>`,
-    choices: ['Yes, my data may be used', 'No, please do not use my data'],
+    // Both options are shown identically (same size, colour and position logic), so neither is nudged.
+    choices: [],
     data: { phase: 'submission' },
+    on_load: () => {
+        document.getElementById('debrief-yes').addEventListener('click', () => jsPsych.finishTrial({ response: 0 }));
+        document.getElementById('debrief-no').addEventListener('click', () => jsPsych.finishTrial({ response: 1 }));
+    },
     on_finish: data => {
         submitted = true;
         data.submitted = true;
