@@ -92,6 +92,7 @@ for (const [version, customization, predictability] of [
             subject_id: calls.properties.subject_id,
             agent_id: customization ? null : 'DA02',
             experiment_version: version,
+            condition_assignment: 'url',
             customization_condition: customization ? 'customization' : 'standard',
             predictability_condition: predictability
         });
