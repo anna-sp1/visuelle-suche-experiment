@@ -43,6 +43,15 @@ Alle folgenden Likert-Felder sind ganzzahlig 1-7. Pluginindices 0-6 werden einma
 - responsibility_self, responsibility_agent
 - manip_customized, manip_instructions, manip_search_strategy, manip_search_order, manip_predictable
 - ai_attitude_1, ai_attitude_2, ai_attitude_3, ai_attitude_4, ai_attitude_5, ai_attitude_6
+- suspicion_ai_real: 1 Item (1-7) nach GAAIS; nur fuer Sensitivitaetsanalyse.
+- ati_1, ati_2, ati_3, ati_4: ATI-S, ganzzahlig 1-6 (6-stufig, Original-Format). Items 3 und 4 werden NICHT im Experiment umgepolt (Auswertung: 7 - Wert).
+
+## Einwilligung, Demografie und Widerspruch
+
+- consent_given: true auf der Einwilligungszeile (erster Bildschirm, phase consent).
+- age: ganze Zahl 18-99; gender: woman / man / non_binary / other / prefer_not_to_say (phase final_demographics).
+- data_use_consent: Zustimmung nach dem Debriefing, YES_NO_CODES yes=1/no=2 (phase submission). Bei 2 wird nichts hochgeladen und kein CSV-Download angeboten; die Prolific-Weiterleitung bleibt.
+- Kontaktangaben fuer Einwilligung und Debriefing stehen zentral in config.js (STUDY_INSTITUTE, CONTACT_EMAIL, DPO_CONTACT) und muessen vor der Liveschaltung ersetzt werden.
 
 Anker (alle Stufen verbalisiert): 1=Strongly disagree, 2=Disagree, 3=Somewhat disagree, 4=Neither agree nor disagree, 5=Somewhat agree, 6=Agree, 7=Strongly agree; nur AI attitude: 1=Not at all, 7=Definitely.
 
