@@ -601,6 +601,14 @@ const attitude = createPerceptionSurvey('attitude', [
 ], 'ai', ['ai_attitude_1', 'ai_attitude_2', 'ai_attitude_3', 'attention_check_2', 'ai_attitude_4', 'ai_attitude_5', 'ai_attitude_6']);
 attitude.questions.forEach(question => { question.labels = ['1 - Not at all', '2', '3', '4', '5', '6', '7 - Definitely']; });
 attitude.preamble = short_preamble.replace('Please indicate the degree to which you personally agree or disagree with the following statements.', 'Please answer the following questions.');
+    // ATI-S (Wessel, Attig & Franke, 2019), original 6-point format. Items 3 and 4 are reverse-coded in the analysis, not here.
+const ati = createPerceptionSurvey('ati', [
+    'I like to occupy myself in greater detail with technical systems.',
+    'I like testing the functions of new technical systems.',
+    "It is enough for me that a technical system works; I don't care how or why.",
+    'It is enough for me to know the basic functions of a technical system.'
+], 'final', ['ati_1', 'ati_2', 'ati_3', 'ati_4']);
+ati.questions.forEach(question => { question.labels = ['1<br>Completely disagree', '2<br>Largely disagree', '3<br>Slightly disagree', '4<br>Slightly agree', '5<br>Largely agree', '6<br>Completely agree']; });
 timeline.push({ timeline: [
     { type: jsPsychHtmlButtonResponse,
       stimulus: '<p>Finally, please also answer the following questions and statements about the task and about your perceptions of AI.</p>',
@@ -608,7 +616,8 @@ timeline.push({ timeline: [
     manipulation,
     ...createPatternQuestions('defect_pattern', 'Did you notice any pattern in where the defects tended to appear on the components?'),
     ...createPatternQuestions('ai_error_pattern', 'Did you notice any pattern in what kind of findings the agent tended to get wrong?'),
-    attitude
+    attitude,
+    ati
 ] });
 
 // 6.5 Outro
