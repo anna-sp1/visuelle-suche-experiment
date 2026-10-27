@@ -9,6 +9,7 @@ Eine Zeile je abgeschlossenem jsPsych-Trial, UTF-8, CSV mit doppelten Anfuehrung
 | subject_id | Kryptografische UUID v4 pro Seitenstart, crypto.randomUUID; bleibt fuer Retry und Download gleich. Neuladen beginnt eine neue Sitzung. |
 | PROLIFIC_PID, STUDY_ID, SESSION_ID | Optionale URL-Strings, nur vorhanden falls uebergeben; keine Voraussetzung. |
 | experiment_version | 1/2/3/4 |
+| condition_assignment | url = Version aus ?version= im Link; datapipe = balancierte Zuweisung durch DataPipe (Prolific-Link ohne version, mit SESSION_ID); datapipe_reload = Seite neu geladen, gespeicherte Version wiederverwendet. |
 | customization_condition, predictability_condition | customization/standard und low/high |
 | agent_id | DA02 bei Standard; uppercase Teilnehmer-Agent-ID bei Customization, zuvor null. jsPsych addProperties ergaenzt auch vorhandene Zeilen. |
 | wearing_glasses | 1=benoetigt und traegt Sehhilfe; 0=benoetigt keine. Kein Yes/No-Surveyitem. |
@@ -54,6 +55,8 @@ custom_direction_start: top_left/top_right/bottom_right/bottom_left; custom_back
 standard_change_options und standard_change_option_labels: JSON-Listen stabiler IDs bzw. sichtbarer Texte. Zusaetzlich flache Boolean-Spalten standard_change_name_selected, standard_change_search_strategy_selected, standard_change_other_selected, standard_change_none_selected. Original-Freitexte: standard_change_name_text, standard_change_search_strategy_text, standard_change_other_text; nicht gestellte Fragen null. Ausgewaehlte Freitexte stehen auch als globale Eigenschaften zur Verfuegung.
 
 ## Submit, Fehler und Wiederholung
+
+Prolific: Nach bestaetigtem Upload Weiterleitung auf PROLIFIC_COMPLETION_URL (config.js), nur wenn gesetzt und PROLIFIC_PID sowie SESSION_ID in der URL stehen. Fehlschlaege der Weiterleitung aendern die Erfolgsmeldung nicht.
 
 Erst Submit beendet die Timeline und startet den vorhandenen DataPipe-POST an https://pipe.jspsych.org/api/data/ mit experimentID, filename=proband_<subject_id>.csv und data=Analyse-CSV. Erfolg wird erst nach HTTP-Erfolg und message="Success" bestaetigt. Bei Fehlern bleiben CSV und jsPsych-Daten im Tab; Retry sendet denselben Dateinamen und unveraenderten CSV-Inhalt. Download CSV ist jederzeit auf dem Speicherbildschirm moeglich. Debug sendet nichts und bietet nur lokalen Download. Bei ungueltigen Analysewerten kein Upload; Download der Rohdaten ausschliesslich zur Fehlerrettung (nicht als validierter Analysedatensatz). Schliessen/Neuladen des Tabs vor Download oder erfolgreichem Upload verliert den nicht persistenten Speicher. Keine weiteren Dienste, keine automatische lokale Ablage.
 
