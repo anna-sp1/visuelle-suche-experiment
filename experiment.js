@@ -555,32 +555,30 @@ timeline.push(
     })
 );
 // Final questionnaire: shared across all four conditions.
-function createPatternQuestions(prefix, prompt) {
-    let noticed = null;
-    const noticedField = `${prefix}_noticed`, textField = `${prefix}_text`;
+// Pattern awareness: forced-choice probe (best guess) plus confidence in that answer.
+// The two pattern options appear in random order per participant; "No difference" stays last.
+const confidence_labels = ["1<br>Not at all confident", "2", "3", "4", "5", "6", "7<br>Very confident"];
+function createPatternProbe(prefix, question, options) {
+    const pair = Math.random() < 0.5 ? options : [options[1], options[0]];
+    const shown = [...pair, { value: 'no_difference', label: 'No difference' }];
     return [
-        { type: jsPsychHtmlButtonResponse, stimulus: `<p>${prompt}</p>`, choices: ['Yes', 'No'],
-          data: { phase: 'final_patterns' },
-          on_start: () => { noticed = null; },
+        { type: jsPsychHtmlButtonResponse,
+          stimulus: `<p>Even if you are not sure, please give your best guess:</p><p style="margin-bottom: 32px;"><b>${question}</b></p>`,
+          choices: shown.map(option => option.label),
+          data: { phase: 'final_pattern_probe' },
           on_finish: data => {
-              if (data.response !== 0 && data.response !== 1) throw new Error('Missing Yes/No response');
-              noticed = data.response === 0 ? YES_NO_CODES.yes : YES_NO_CODES.no;
-              data[noticedField] = noticed;
-              data[textField] = null;
+              const option = shown[data.response];
+              if (!option) throw new Error('Missing probe response');
+              data[`${prefix}_choice`] = option.value;
+              data[`${prefix}_choice_order`] = shown.map(o => o.value).join('|');
               delete data.response;
           } },
-        { progress_optional: true, conditional_function: () => noticed === YES_NO_CODES.yes,
-          timeline: [{ type: jsPsychSurveyText,
-              questions: [{ prompt: 'Which pattern did you notice?', name: textField, required: true, rows: 4 }],
-              button_label: 'Next', data: { phase: 'final_patterns' },
-              on_finish: data => {
-                  const response = typeof data.response === 'string' ? JSON.parse(data.response) : data.response;
-                  if (typeof response?.[textField] !== 'string' || !response[textField].length) throw new Error('Missing pattern text');
-                  data[noticedField] = noticed;
-                  data[textField] = response[textField];
-                  delete data.response;
-              }
-          }] }
+        { type: jsPsychSurveyLikert,
+          data: { phase: 'final_pattern_probe' },
+          questions: [{ prompt: 'How confident are you in your answer to the previous question?',
+                        name: `${prefix}_confidence`, labels: confidence_labels, required: true }],
+          button_label: 'Next',
+          on_finish: data => flattenLikertResponses(data, [`${prefix}_confidence`]) }
     ];
 }
 const manipulation = createPerceptionSurvey('manipulation', [
@@ -613,20 +611,30 @@ ati.questions.forEach(question => { question.labels = ['1<br>Completely disagree
 const suspicion = createPerceptionSurvey('suspicion', [
     'While working on the task, I believed that the AI agent was actually analyzing the images.'
 ], 'final', ['suspicion_ai_real']);
-// Demographics: age and gender.
+// Demographics: age, gender and highest level of education.
 const demographics = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: `<div class="doc-page" style="max-width: 1120px; margin: 0 auto; padding: 40px 56px 56px 56px; box-sizing: content-box; color: #222222; font-size: 16px; line-height: 1.8;">
+    stimulus: `<div class="form-left">
         <p>Please answer the following questions.</p>
-        <p>How old are you? (in years)<br><input type="number" id="demo-age" min="18" max="99" style="width: 100px; padding: 6px; font-size: 16px;"></p>
-        <p style="margin-bottom: 4px;">What is your gender?</p>
-        <label><input type="radio" name="demo-gender" value="woman"> Woman</label><br>
-        <label><input type="radio" name="demo-gender" value="man"> Man</label><br>
-        <label><input type="radio" name="demo-gender" value="non_binary"> Non-binary</label><br>
-        <label><input type="radio" name="demo-gender" value="other"> Other</label><br>
+        <p class="form-question">How old are you? (in years)</p>
+        <input type="number" id="demo-age" min="18" max="99">
+        <p class="form-question">What is your gender?</p>
+        <label><input type="radio" name="demo-gender" value="woman"> Woman</label>
+        <label><input type="radio" name="demo-gender" value="man"> Man</label>
+        <label><input type="radio" name="demo-gender" value="non_binary"> Non-binary</label>
+        <label><input type="radio" name="demo-gender" value="other"> Other</label>
         <label><input type="radio" name="demo-gender" value="prefer_not_to_say"> Prefer not to say</label>
-        <p id="demo-error" style="color: #d9534f; display: none;">Please enter your age (18-99) and select one option for gender.</p>
-        <p><button id="demo-next" style="margin-top: 8px; padding: 10px 26px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #2b3a4a; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">Next</button></p>
+        <p class="form-question">What is the highest level of education you have completed?</p>
+        <label><input type="radio" name="demo-education" value="none_or_primary"> No formal qualification or primary school only</label>
+        <label><input type="radio" name="demo-education" value="lower_secondary"> Lower secondary school (e.g., GCSEs, middle school)</label>
+        <label><input type="radio" name="demo-education" value="upper_secondary"> Upper secondary school (e.g., high school diploma, A-levels)</label>
+        <label><input type="radio" name="demo-education" value="vocational"> Vocational qualification or apprenticeship</label>
+        <label><input type="radio" name="demo-education" value="bachelor"> Bachelor's degree or equivalent</label>
+        <label><input type="radio" name="demo-education" value="master"> Master's degree or equivalent</label>
+        <label><input type="radio" name="demo-education" value="doctorate"> Doctorate (PhD or equivalent)</label>
+        <label><input type="radio" name="demo-education" value="prefer_not_to_say"> Prefer not to say</label>
+        <p id="demo-error" style="color: #d9534f; display: none;">Please enter your age (18-99) and select one option each for gender and education.</p>
+        <button id="demo-next" class="jspsych-btn">Next</button>
     </div>`,
     choices: [],
     data: { phase: 'final_demographics' },
@@ -635,9 +643,10 @@ const demographics = {
             const ageText = document.getElementById('demo-age').value.trim();
             const age = Number(ageText);
             const checked = document.querySelector('input[name="demo-gender"]:checked');
-            const valid = ageText !== '' && Number.isInteger(age) && age >= 18 && age <= 99 && checked;
+            const education = document.querySelector('input[name="demo-education"]:checked');
+            const valid = ageText !== '' && Number.isInteger(age) && age >= 18 && age <= 99 && checked && education;
             if (!valid) { document.getElementById('demo-error').style.display = 'block'; return; }
-            jsPsych.finishTrial({ phase: 'final_demographics', age: age, gender: checked.value });
+            jsPsych.finishTrial({ phase: 'final_demographics', age: age, gender: checked.value, education: education.value });
         });
     }
 };
@@ -646,8 +655,10 @@ timeline.push({ timeline: [
       stimulus: '<p>Finally, please also answer the following questions and statements about the task and about your perceptions of AI.</p>',
       choices: ['Next'], data: { phase: 'final_questionnaire_intro' } },
     manipulation,
-    ...createPatternQuestions('defect_pattern', 'Did you notice any pattern in where the defects tended to appear on the components?'),
-    ...createPatternQuestions('ai_error_pattern', 'Did you notice any pattern in what kind of findings the agent tended to get wrong?'),
+    ...createPatternProbe('defect_pattern', 'Where on the components did the defects appear more often?',
+        [{ value: 'dark', label: 'On dark areas' }, { value: 'light', label: 'On light areas' }]),
+    ...createPatternProbe('ai_error_pattern', 'Which findings did the agent get wrong more often?',
+        [{ value: 'orange', label: 'Orange findings' }, { value: 'blue', label: 'Blue findings' }]),
     attitude,
     suspicion,
     ati,

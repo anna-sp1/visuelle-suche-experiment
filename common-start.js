@@ -29,10 +29,10 @@ const consent_trial = {
     stimulus: `
     <div class="consent-screen doc-page" style="position: fixed; inset: 0; overflow-y: auto; background: #ffffff; color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 15.5px; line-height: 1.6; text-align: left; z-index: 9999;">
         <div style="max-width: 1120px; margin: 0 auto; padding: 40px 56px 56px 56px;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;">
-            <div style="font-size: 13px; color: #555555;">German Aerospace Center (DLR)<br>${STUDY_INSTITUTE}</div>
-            <div style="font-size: 13px; color: #555555; text-align: right !important;">Study contact<br>${CONTACT_EMAIL}</div>
-        </div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;">
+                <div style="font-size: 13px; color: #555555;">German Aerospace Center (DLR)<br>${STUDY_INSTITUTE}</div>
+                <div style="font-size: 13px; color: #555555; text-align: right !important;">Study contact<br>${CONTACT_EMAIL}</div>
+            </div>
             <h1 style="font-size: 26px; font-weight: bold; margin: 18px 0 6px 0;">Participant information and consent</h1>
             <p style="margin: 0 0 22px 0;">Welcome, and thank you for your interest in this study! Please read the following information carefully before deciding whether to take part.</p>
             <div style="border-top: 1px solid #c8c8c8;"></div>
@@ -41,7 +41,7 @@ const consent_trial = {
                     <h2 style="${consentH2}">About the study</h2>
                     <p style="margin: 0;">This study is conducted by the German Aerospace Center (DLR), ${STUDY_INSTITUTE}. We investigate how people work together with an AI-based assistance system in a simulated visual inspection task. Some aspects of the study can only be explained in full at the end. You will receive a complete explanation after you have finished.</p>
                     <h2 style="${consentH2}">Procedure</h2>
-                    <p style="margin: 0 0 10px 0;">You will practise the inspection task, get to know an assistant, and then classify a series of images with its support. Afterwards, you will answer questions about your experience, including questions on hypothetical work scenarios, your attitudes towards technology and AI, and your age and gender.</p>
+                    <p style="margin: 0 0 10px 0;">You will practise the inspection task, get to know an assistant, and then classify a series of images with its support. Afterwards, you will answer questions about your experience, including questions on hypothetical work scenarios, your attitudes towards technology and AI, and your age, gender and highest level of education.</p>
                     <p style="margin: 0;">The study takes about 30–35 minutes. The visual task may be tiring but there is no time pressure, and you can take short breaks between task blocks. There are no known risks beyond those of regular computer use.</p>
                     <h2 style="${consentH2}">Requirements and payment</h2>
                     <p style="margin: 0;">You must be at least 18 years old, have normal or corrected-to-normal vision, have no known colour vision deficiency, and use a desktop or laptop computer. You will receive ${PAYMENT_AMOUNT} via Prolific. Payment does not depend on your performance. If you end the study early, you can request partial payment via a Prolific message.</p>

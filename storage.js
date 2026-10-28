@@ -3,10 +3,11 @@ function prepareExportRows(rows) {
     return rows.map((original, index) => {
         const row = { ...original, record_index: index + 1 };
         for (const [key, value] of Object.entries(row)) {
-            if (/^(pre_ownership_\d|(?:pre|post)_satisfaction_\d|(?:pre|post)_trust_\d|manip_.+|ai_attitude_\d|responsibility_(self|agent))$/.test(key) && value != null) {
+            if (/^(pre_ownership_\d|(?:pre|post)_satisfaction_\d|(?:pre|post)_trust_\d|manip_.+|ai_attitude_\d|responsibility_(self|agent)|(?:defect|ai_error)_pattern_confidence)$/.test(key) && value != null) {
                 if (!Number.isInteger(value) || value < 1 || value > 7) throw new Error(`Invalid Likert: ${key}`);
             }
-            if (['defect_pattern_noticed', 'ai_error_pattern_noticed', 'data_use_consent'].includes(key) && value != null && ![YES_NO_CODES.yes, YES_NO_CODES.no].includes(value)) throw new Error(`Invalid Yes/No: ${key}`);
+            if (/_pattern_choice$/.test(key) && value != null && !['dark', 'light', 'orange', 'blue', 'no_difference'].includes(value)) throw new Error(`Invalid choice: ${key}`);
+            if (['data_use_consent'].includes(key) && value != null && ![YES_NO_CODES.yes, YES_NO_CODES.no].includes(value)) throw new Error(`Invalid Yes/No: ${key}`);
         }
         if (row.participant_verdict != null && row.participant_verdict_code !== VERDICT_CODES[row.participant_verdict]) throw new Error('Invalid verdict code');
         if (row.standard_change_options) {

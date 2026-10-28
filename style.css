@@ -706,3 +706,15 @@ body:has(.doc-page),
 #jspsych-content .doc-page ol { list-style: decimal outside !important; padding-left: 26px; }
 #jspsych-content .doc-page button { display: inline-block; line-height: 1.4; }
 #jspsych-content .doc-page input[type="number"] { border: 1px solid #b0b0b0; border-radius: 3px; }
+
+/* 16. Formularseiten in der Karte (Demografie): Karte wie bei den Skalen, Inhalt linksbündig. */
+#jspsych-content .form-left,
+#jspsych-content .form-left * { text-align: left !important; }
+#jspsych-content .form-left { min-width: min(520px, calc(100vw - 4rem)); }
+#jspsych-content .form-left .form-question { margin: 22px 0 8px 0; font-weight: 600; }
+#jspsych-content .form-left label { display: flex; align-items: center; gap: 10px; margin: 6px 0; cursor: pointer; }
+#jspsych-content .form-left input[type="number"] {
+    width: 110px; padding: 6px 10px; font-size: 18px;
+    border: 1px solid #b8c4d0; border-radius: .5rem; background: #fff;
+}
+#jspsych-content .form-left #demo-next { margin-top: 24px; }
