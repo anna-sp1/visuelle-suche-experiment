@@ -25,19 +25,22 @@ function isExperimentDebugEnabled(search) {
 }
 
 /**
- * Balanced condition assignment for Prolific links without ?version=.
+ * Balanced condition assignment for links without ?version=.
  * DataPipe hands out conditions 0,1,2,3,0,... (enable "condition assignment" with
- * 4 conditions in the DataPipe dashboard). The assigned version is remembered in
- * this browser per Prolific ID, so a reload keeps the same condition.
- * Links with ?version= (internal pilot, debug) never ask DataPipe.
+ * 4 conditions in the DataPipe dashboard). Used for Prolific links (SESSION_ID) and
+ * for the internal pilot (?STUDY_ID=pilot_intern, no Prolific parameters).
+ * With a Prolific ID, the assigned version is remembered in this browser, so a reload
+ * keeps the same condition. Without one (internal pilot, possibly several people on
+ * one computer), every new start gets the next condition.
+ * Links with ?version= (debugging, explicit tests) never ask DataPipe.
  */
 function startWithCondition(start) {
     const params = new URLSearchParams(window.location.search);
     const fromUrl = resolveExperimentCondition(window.location.search);
-    if (fromUrl || params.has('version') || !params.has('SESSION_ID')) return start(fromUrl, 'url');
-    const key = 'assigned_version_' + params.get('PROLIFIC_PID');
+    if (fromUrl || params.has('version') || !(params.has('SESSION_ID') || params.has('STUDY_ID'))) return start(fromUrl, 'url');
+    const key = params.get('PROLIFIC_PID') ? 'assigned_version_' + params.get('PROLIFIC_PID') : null;
     let stored = null;
-    try { stored = window.localStorage.getItem(key); } catch (_) {}
+    try { if (key) stored = window.localStorage.getItem(key); } catch (_) {}
     if (/^[1-4]$/.test(stored || '')) return start(EXPERIMENT_CONDITIONS[stored], 'datapipe_reload');
     fetch('https://pipe.jspsych.org/api/condition/', {
         method: 'POST', headers: { 'Content-Type': 'application/json', Accept: '*/*' },
@@ -45,7 +48,7 @@ function startWithCondition(start) {
     }).then(response => response.json()).then(result => {
         const index = result && result.condition;
         if (!Number.isInteger(index) || index < 0 || index > 3) throw new Error('No condition');
-        try { window.localStorage.setItem(key, String(index + 1)); } catch (_) {}
+        try { if (key) window.localStorage.setItem(key, String(index + 1)); } catch (_) {}
         start(EXPERIMENT_CONDITIONS[index + 1], 'datapipe');
     }).catch(() => start(null, 'datapipe_failed'));
 }
