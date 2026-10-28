@@ -14,7 +14,7 @@ Eine Zeile je abgeschlossenem jsPsych-Trial, UTF-8, CSV mit doppelten Anfuehrung
 | agent_id | DA02 bei Standard; uppercase Teilnehmer-Agent-ID bei Customization, zuvor null. jsPsych addProperties ergaenzt auch vorhandene Zeilen. |
 | wearing_glasses | 1=benoetigt und traegt Sehhilfe; 0=benoetigt keine. Kein Yes/No-Surveyitem. |
 | record_index | 1-basierter Exportzeilenindex |
-| phase | manual_training, ai_practice, main_task; pre_perceptions, post_perceptions, final_perceptions, ai_perceptions, final_patterns; pre_perceptions_intro, main_task_transition, post_task_intro, responsibility_scenario, final_questionnaire_intro, submission. Aeltere Einfuehrungsseiten haben ggf. keine phase. |
+| phase | manual_training, ai_practice, main_task; pre_perceptions, post_perceptions, final_perceptions, ai_perceptions, final_pattern_probe; pre_perceptions_intro, main_task_transition, post_task_intro, responsibility_scenario, final_questionnaire_intro, submission. Aeltere Einfuehrungsseiten haben ggf. keine phase. |
 | scale | ownership, satisfaction, trust, responsibility, manipulation, attitude bei Skalen |
 | trial_index | Training 1-5, AI Practice 1-10, Main 1-30; sonst jsPsych-Index |
 | trial_type, internal_node_id, time_elapsed | jsPsych Pluginname, Timeline-Knoten-ID und kumulative Millisekunden (soweit vom Plugin geliefert) |
@@ -49,14 +49,14 @@ Alle folgenden Likert-Felder sind ganzzahlig 1-7. Pluginindices 0-6 werden einma
 ## Einwilligung, Demografie und Widerspruch
 
 - consent_given: true auf der Einwilligungszeile (erster Bildschirm, phase consent).
-- age: ganze Zahl 18-99; gender: woman / man / non_binary / other / prefer_not_to_say (phase final_demographics).
+- age: ganze Zahl 18-99; gender: woman / man / non_binary / other / prefer_not_to_say (phase final_demographics); education (höchster Abschluss, vereinfacht nach ISCED 2011): none_or_primary / lower_secondary / upper_secondary / vocational / bachelor / master / doctorate / prefer_not_to_say. Für den Bericht z. B. zusammenfassen: kein Hochschulabschluss (none_or_primary, lower_secondary, upper_secondary), berufliche Qualifikation (vocational), Hochschulabschluss (bachelor, master, doctorate).
 - data_use_consent: Zustimmung nach dem Debriefing, YES_NO_CODES yes=1/no=2 (phase submission). Bei 2 wird nichts hochgeladen und kein CSV-Download angeboten; die Prolific-Weiterleitung bleibt.
 - Angaben fuer Einwilligung und Debriefing stehen zentral in config.js (STUDY_INSTITUTE, CONTACT_EMAIL, DPO_CONTACT, PAYMENT_AMOUNT). Platzhalter in [ ] muessen vor der Liveschaltung ersetzt werden.
 - Abschlussseite (storage.js): 'Thank you for taking part!' mit Statuszeile; Retry/Download CSV erscheinen nur bei Uebertragungsfehler, Debug-Lauf oder Validierungsfehler.
 
 Anker (alle Stufen verbalisiert): 1=Strongly disagree, 2=Disagree, 3=Somewhat disagree, 4=Neither agree nor disagree, 5=Somewhat agree, 6=Agree, 7=Strongly agree; nur AI attitude: 1=Not at all, 7=Definitely.
 
-Pattern-Spalten: defect_pattern_noticed und ai_error_pattern_noticed: YES_NO_CODES yes=1/no=2 in config.js. defect_pattern_text und ai_error_pattern_text bleiben als Originaltext erhalten. Entscheidungszeile: Code und Text=null. Nur Yes erzeugt anschliessend eine Freitextzeile mit demselben Code und Pflichttext. Bei No keine Freitextzeile. Fuer Analysen den vorhandenen nicht-null Text je Teilnehmer nutzen.
+Pattern-Spalten (Erkennen der Muster, alle Bedingungen): defect_pattern_choice = dark/light/no_difference (richtig: dark, Defekte liegen überwiegend auf dunklem Hintergrund); ai_error_pattern_choice = orange/blue/no_difference (richtig: orange in High, no_difference in Low, dort sind die KI-Fehler exakt 50/50 verteilt). *_choice_order = gezeigte Reihenfolge der Optionen (die ersten beiden pro Person zufällig, no_difference immer zuletzt). *_confidence = Sicherheit in die vorherige Antwort, 1 (not at all confident) bis 7 (very confident). Die Fragen stehen als Bestwette ("Even if you are not sure, please give your best guess") nach den Manipulationsitems; es gibt keine Ja/Nein- oder Freitextfrage mehr.
 
 ## Customization und Standard
 
