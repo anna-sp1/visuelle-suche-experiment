@@ -9,7 +9,7 @@ Eine Zeile je abgeschlossenem jsPsych-Trial, UTF-8, CSV mit doppelten Anfuehrung
 | subject_id | Kryptografische UUID v4 pro Seitenstart, crypto.randomUUID; bleibt fuer Retry und Download gleich. Neuladen beginnt eine neue Sitzung. |
 | PROLIFIC_PID, STUDY_ID, SESSION_ID | Optionale URL-Strings, nur vorhanden falls uebergeben; keine Voraussetzung. |
 | experiment_version | 1/2/3/4 |
-| condition_assignment | url = Version aus ?version= im Link; datapipe = balancierte Zuweisung durch DataPipe (Prolific-Link ohne version, mit SESSION_ID); datapipe_reload = Seite neu geladen, gespeicherte Version wiederverwendet. |
+| condition_assignment | url = Version aus ?version= im Link; datapipe = balancierte Zuweisung durch DataPipe (Link ohne version, mit SESSION_ID von Prolific oder mit STUDY_ID, z. B. interner Pilot ?STUDY_ID=pilot_intern); datapipe_reload = Seite mit derselben Prolific-ID neu geladen, gespeicherte Version wiederverwendet (nur mit PROLIFIC_PID). |
 | customization_condition, predictability_condition | customization/standard und low/high |
 | agent_id | DA02 bei Standard; uppercase Teilnehmer-Agent-ID bei Customization, zuvor null. jsPsych addProperties ergaenzt auch vorhandene Zeilen. |
 | wearing_glasses | 1=benoetigt und traegt Sehhilfe; 0=benoetigt keine. Kein Yes/No-Surveyitem. |
