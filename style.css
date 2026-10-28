@@ -671,3 +671,38 @@ body,
 #jspsych-content:has(#jspsych-survey-text-form) { margin: .75rem auto !important; padding: 1.25rem 2rem !important; }
 #jspsych-content #jspsych-survey-likert-form input[type="submit"] { margin-top: 1rem; }
 #jspsych-content .preview-layout .card { margin: 0 !important; padding: 10px 16px !important; }
+
+/* 15. Dokumentseiten (Einwilligung, Demografie, Debriefing): linksbündig, schlichte Schrift.
+   Hebt die globale Zentrierung und die großen Schriftgrößen oben nur für .doc-page auf. */
+body:has(.doc-page),
+.jspsych-display-element:has(.doc-page) { background: #ffffff !important; }
+/* Keine Karte, volle Breite, oben beginnend: gleiche linke Kante wie die Einwilligungsseite. */
+.jspsych-content-wrapper:has(.doc-page) { align-items: flex-start; }
+#jspsych-content:has(.doc-page) {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    align-self: flex-start !important;
+}
+#jspsych-content .doc-page,
+#jspsych-content .doc-page * {
+    text-align: left !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+#jspsych-content .doc-page p,
+#jspsych-content .doc-page li,
+#jspsych-content .doc-page label {
+    font-size: inherit !important;
+}
+#jspsych-content .doc-page h1 { font-size: 26px !important; font-weight: bold; color: #222222; }
+#jspsych-content .doc-page h2,
+#jspsych-content .doc-page h3 { font-size: 17px !important; font-weight: bold; color: #222222; }
+#jspsych-content .doc-page ul { list-style: disc outside !important; }
+#jspsych-content .doc-page ol { list-style: decimal outside !important; padding-left: 26px; }
+#jspsych-content .doc-page button { display: inline-block; line-height: 1.4; }
+#jspsych-content .doc-page input[type="number"] { border: 1px solid #b0b0b0; border-radius: 3px; }

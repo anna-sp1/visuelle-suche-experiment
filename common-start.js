@@ -27,7 +27,7 @@ const consentH2 = 'font-size: 17px; margin: 22px 0 6px 0;';
 const consent_trial = {
     type: jsPsychHtmlButtonResponse,
     stimulus: `
-    <div class="consent-screen" style="position: fixed; inset: 0; overflow-y: auto; background: #ffffff; color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 15.5px; line-height: 1.6; text-align: left; z-index: 9999;">
+    <div class="consent-screen doc-page" style="position: fixed; inset: 0; overflow-y: auto; background: #ffffff; color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 15.5px; line-height: 1.6; text-align: left; z-index: 9999;">
         <div style="max-width: 1120px; margin: 0 auto; padding: 40px 56px 56px 56px;">
             <div style="font-size: 13px; color: #555555;">German Aerospace Center (DLR)<br>${STUDY_INSTITUTE}</div>
             <h1 style="font-size: 26px; font-weight: bold; margin: 18px 0 6px 0;">Participant information and consent</h1>

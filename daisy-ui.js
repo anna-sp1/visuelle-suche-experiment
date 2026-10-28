@@ -3,6 +3,8 @@
     function decorate(root) {
         if (root.nodeType !== Node.ELEMENT_NODE) return;
         for (const element of [root, ...root.querySelectorAll('*')]) {
+            // Consent, demographics and debriefing keep their own sober styling.
+            if (element.closest && element.closest('.doc-page')) continue;
             if (element.matches('button, input[type="button"], input[type="submit"]')) {
                 element.classList.add('btn');
                 if (element.matches('.btn-reset, #ai-reject, #btn-reject')) element.classList.add('btn-error');

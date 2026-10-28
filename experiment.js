@@ -616,7 +616,7 @@ const suspicion = createPerceptionSurvey('suspicion', [
 // Demographics: age and gender.
 const demographics = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: `<div style="max-width: 600px; margin: 0 auto; text-align: left; line-height: 1.8;">
+    stimulus: `<div class="doc-page" style="max-width: 1120px; margin: 0 auto; padding: 40px 56px 56px 56px; box-sizing: content-box; color: #222222; font-size: 16px; line-height: 1.8;">
         <p>Please answer the following questions.</p>
         <p>How old are you? (in years)<br><input type="number" id="demo-age" min="18" max="99" style="width: 100px; padding: 6px; font-size: 16px;"></p>
         <p style="margin-bottom: 4px;">What is your gender?</p>
@@ -658,8 +658,8 @@ timeline.push({ timeline: [
 // Debriefing: full explanation, then the decision whether the data may be used.
 const outro_trial = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: `<div style="max-width: 1000px; margin: 0 auto; text-align: left; font-size: 16px; line-height: 1.55;">
-        <h2>Thank you for taking part! Please read the following information carefully.</h2>
+    stimulus: `<div class="doc-page" style="max-width: 1120px; margin: 0 auto; padding: 40px 56px 56px 56px; box-sizing: content-box; color: #222222; font-size: 16px; line-height: 1.6;">
+        <h1 style="margin: 0 0 18px 0;">Thank you for taking part! Please read the following information carefully.</h1>
         <p><strong>What was this study about?</strong> We investigate whether configuring an AI assistant yourself makes people feel that it is "theirs" (psychological ownership), and whether this feeling changes how carefully they check the assistant's recommendations, how satisfied they are with it, and how much responsibility they take for errors.</p>
         <p>To study this under controlled conditions, some information was simplified or withheld at the beginning:</p>
         <ol>

@@ -43,7 +43,7 @@ function showSubmission(jsPsych, debug) {
     const csv = analysisCsv(rows); // Keep one immutable snapshot for every retry/download.
     // Final page. Retry/Download only appear if the upload fails (or in debug/validation-error cases).
     const finalButton = 'margin: 16px 12px 0 0; padding: 10px 22px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #2b3a4a; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;';
-    document.body.innerHTML = `<main style="max-width: 1120px; margin: 0 auto; padding: 120px 56px; text-align: left; color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.6;">
+    document.body.innerHTML = `<main class="doc-page" style="max-width: 1120px; margin: 0 auto; padding: 120px 56px; text-align: left; color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.6;">
         <h1 style="font-size: 26px; margin: 0 0 12px 0;">Thank you for taking part!</h1>
         <p id="save-status" style="margin: 0;"></p>
         <button id="save-retry" style="${finalButton}" hidden>Retry</button><button id="save-download" style="${finalButton}" hidden>Download CSV</button>
@@ -73,7 +73,12 @@ function showSubmission(jsPsych, debug) {
             });
             if (!result.ok) throw new Error('Upload failed');
             const receipt = await result.json();
-            if (!receipt || receipt.error || receipt.message !== 'Success') throw new Error('Upload not confirmed');
+            // DataPipe answers 200 "Success", or 202 with error: null when the storage provider is
+            // briefly unavailable: DataPipe then keeps the data and retries the upload itself.
+            // Both mean the data are safe. Any error code means they are not.
+            const saved = receipt && !receipt.error && receipt.message === 'Success';
+            const queued = receipt && result.status === 202 && receipt.error === null && typeof receipt.message === 'string';
+            if (!saved && !queued) throw new Error('Upload not confirmed');
             status.textContent = 'Data saved. You may close this window now.';
             // Isolated so that a redirect problem can never turn a confirmed upload into an error message.
             try { redirectToProlific(status); } catch (_) {}
