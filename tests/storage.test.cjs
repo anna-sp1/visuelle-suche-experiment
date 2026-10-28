@@ -11,13 +11,14 @@ function setup() {
 test('export validates every scale boundary and Yes/No; text and named selections survive CSV',()=>{
  const {context:c}=setup();
  for(let value=1;value<=7;value++) {
-  const rows=c.prepareExportRows([{pre_ownership_1:value,ai_attitude_6:value,defect_pattern_noticed:1,ai_error_pattern_noticed:2,defect_pattern_text:'a,"b"\nline',standard_change_options:'["name"]',response:0}]);
+  const rows=c.prepareExportRows([{pre_ownership_1:value,ai_attitude_6:value,defect_pattern_confidence:value,data_use_consent:1,ai_error_pattern_choice:'orange',defect_pattern_text:'a,"b"\nline',standard_change_options:'["name"]',response:0}]);
   assert.equal(rows[0].pre_ownership_1,value); assert.equal(rows[0].standard_change_name_selected,true);
   assert.equal(rows[0].response,undefined);
   assert.match(c.analysisCsv(rows), /a,""b""\nline/);
  }
  for(const value of [0,8,-1,'1']) assert.throws(()=>c.prepareExportRows([{post_trust_1:value}]), /Invalid Likert/);
- for(const value of [0,3,'1']) assert.throws(()=>c.prepareExportRows([{defect_pattern_noticed:value}]), /Invalid Yes/);
+ for(const value of [0,3,'1']) assert.throws(()=>c.prepareExportRows([{data_use_consent:value}]), /Invalid Yes/);
+ for(const value of ['green','',1]) assert.throws(()=>c.prepareExportRows([{ai_error_pattern_choice:value}]), /Invalid choice/);
 });
 test('failed upload retains identical CSV for retry; success only after confirmation',async()=>{
  const s=setup(); const psych={data:{get:()=>({values:()=>[{post_trust_1:7}]})}};
