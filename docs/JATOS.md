@@ -42,4 +42,4 @@ Ohne `jatos.js` (Datei lokal geöffnet, lokaler Testserver, GitHub Pages) starte
 
 ## Noch nicht geprüft
 
-Getestet sind die Abläufe gegen eine nachgebildete `jatos.js` in den Node-Tests (`tests/conditions.test.cjs`, `tests/storage.test.cjs`); die verwendeten Funktionen wurden mit `jatos.js` 3.11.3 abgeglichen. Ein Durchlauf auf einem echten JATOS-Server steht aus, ebenso der Text zur Datenverarbeitung in der Einwilligung (siehe [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md)).
+Getestet sind die Abläufe gegen eine nachgebildete `jatos.js` in den Node-Tests (`tests/conditions.test.cjs`, `tests/storage.test.cjs`); die verwendeten Funktionen wurden mit `jatos.js` 3.11.3 abgeglichen. Ein Durchlauf auf einem echten JATOS-Server steht aus, ebenso die Bestaetigung der Angaben zur Datenverarbeitung in der Einwilligung (JATOS-Server in Hamburg, siehe [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md)).

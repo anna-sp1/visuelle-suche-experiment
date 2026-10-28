@@ -56,7 +56,7 @@ const consent_trial = {
                 </div>
             </div>
             <h2 style="font-size: 17px; margin: 26px 0 6px 0;">Data protection</h2>
-            <p style="margin: 0 0 10px 0;">Data are transmitted encrypted via the service DataPipe and stored in a restricted-access project on the Open Science Framework (OSF) in Germany (Frankfurt). Only the research team has access. The study website is hosted on GitHub Pages. GitHub logs IP addresses for security purposes. These are not accessible to the research team and are not linked to your study data. The legal basis for processing is your consent (Art. 6(1)(a) GDPR). You have the right to access, rectification, erasure and restriction of processing of your data, and to lodge a complaint with a data protection supervisory authority.</p>
+            <p style="margin: 0 0 10px 0;">Data are transmitted encrypted to a restricted-access JATOS server in Germany (Hamburg) and stored there. Only the research team has access. The study website is hosted on the same server. The legal basis for processing is your consent (Art. 6(1)(a) GDPR). You have the right to access, rectification, erasure and restriction of processing of your data, and to lodge a complaint with a data protection supervisory authority.</p>
             <p style="margin: 0;">Data protection officer: ${DPO_CONTACT}</p>
             <div style="border-top: 1px solid #c8c8c8; margin-top: 26px;"></div>
             <h2 style="${consentH2}">Declaration of consent</h2>
