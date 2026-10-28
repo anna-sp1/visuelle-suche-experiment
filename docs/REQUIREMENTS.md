@@ -38,7 +38,7 @@ Auf Nutzerwunsch laeuft die gemeinsame Customization-/Standard-Preview sichtbar 
 
 ## Datenspeicherung (aktueller Stand)
 
-UUID pro Sitzung, optionale Prolific-URL-Felder, globale Condition-/Agent-Metadaten. Upload ausschliesslich nach Submit ueber bestehenden DataPipe-Endpunkt. Analyseexport mit flachen Surveywerten, Bereichspruefung 1-7/Yes-No 1-2, Originaltexten und flachen Standard-Auswahlspalten. Retry und lokaler CSV-Download bei Uploadfehlern; Debug ohne Upload. Vollstaendiges aktuelles Variablenverzeichnis: DATA_SCHEMA.md. Der validierte Condition-Status erlaubt nun alle vier Versionen.
+UUID pro Sitzung, optionale Prolific-URL-Felder, globale Condition-/Agent-Metadaten. Upload ausschliesslich nach Submit an JATOS (`jatos.submitResultData`, docs/JATOS.md); DataPipe/OSF ersetzt. Analyseexport mit flachen Surveywerten, Bereichspruefung 1-7/Yes-No 1-2, Originaltexten und flachen Standard-Auswahlspalten. Retry und lokaler CSV-Download bei Uploadfehlern; Debug ohne Upload. Vollstaendiges aktuelles Variablenverzeichnis: DATA_SCHEMA.md. Der validierte Condition-Status erlaubt nun alle vier Versionen.
 
 
 ## Finaler Fragebogen (aktueller Stand)
@@ -204,7 +204,7 @@ Items, Bildzuordnungen, konkrete Darstellungen und genaue Texte dürfen nicht au
 
 - Likert-Antworten als Zahlen 1–7 speichern; sichtbare Skalenlabels allein erfüllen diese Vorgabe nicht.
 - Yes/No zentral und leicht änderbar codieren: `1 = Yes`, `2 = No`.
-- Bestehenden OSF/DataPipe-Datenexport grundsätzlich erhalten.
+- JATOS-Datenexport grundsätzlich erhalten (docs/JATOS.md); er ersetzt auf Nutzerauftrag den früheren OSF/DataPipe-Export.
 
 ## 8. Codebefunde der ersten Bestandsaufnahme (historisch, nicht Soll)
 

@@ -21,6 +21,9 @@ Die Versionsnummer wird **über den Link** gewählt. In der WebApp gibt es dafü
 
 ## WebApp öffnen
 
+Für die Datenerhebung wird die WebApp über einen JATOS-Studienlink geöffnet; ohne `version` im Link vergibt JATOS die Version balanciert. Einrichtung und Links: [JATOS.md](JATOS.md). Die folgenden Links ohne JATOS eignen sich nur zum Ansehen und Testen; sie speichern nichts.
+
+
 Am Ende muss genau einmal `version=1`, `version=2`, `version=3` oder `version=4` stehen.
 
 ```text
@@ -71,7 +74,7 @@ Zu Beginn erscheint dann „Development Tools“ mit zwei Möglichkeiten:
 - **Continue with URL version:** mit der Version aus dem Link zum normalen Ablauf weitergehen.
 - **Eyetracker Kalibrierung:** einen Bildschirm mit neun roten Punkten ansehen und per Button zum Menü zurückkehren. Das ist ein Entwicklungstool, keine zusätzliche Experimentalversion.
 
-Im Debug-Modus wird am Ende **nichts an DataPipe/OSF hochgeladen**. Auf dem Speicherbildschirm kann man stattdessen die Antworten als CSV-Datei herunterladen. Der Debug-Modus überspringt keine regulären Fragen oder Trials und ändert die Versionsnummer nicht.
+Im Debug-Modus wird am Ende **nichts an JATOS gesendet**. Auf dem Speicherbildschirm kann man stattdessen die Antworten als CSV-Datei herunterladen. Der Debug-Modus überspringt keine regulären Fragen oder Trials und ändert die Versionsnummer nicht.
 
 ## Ablauf eines Durchlaufs
 
@@ -88,7 +91,7 @@ Informationsseiten werden über ihren angezeigten Button verlassen, häufig **Ne
 
 ## Was passiert beim Speichern?
 
-Im regulären Durchlauf versucht die WebApp **erst nach Submit**, die Antworten über DataPipe an das bestehende OSF-Projekt zu senden. Die Anzeige **„Data saved. You may close this window now.“** bedeutet, dass die WebApp eine erfolgreiche Antwort erhalten hat. Auf dem Speicherbildschirm gibt es außerdem **Download CSV** für eine lokale Kopie.
+Im regulären Durchlauf versucht die WebApp **erst nach Submit**, die Antworten an die JATOS-Studie zu senden, von der sie geöffnet wurde ([JATOS.md](JATOS.md)). Die Anzeige **„Data saved. You may close this window now.“** bedeutet, dass JATOS den Empfang bestätigt hat. Wurde die WebApp nicht über JATOS geöffnet (z. B. lokal), wird nichts gesendet und nur **Download CSV** angeboten. Auf dem Speicherbildschirm gibt es außerdem **Download CSV** für eine lokale Kopie.
 
 Wenn **„Upload could not be confirmed“** erscheint, den Tab offen lassen und **Retry** verwenden oder mit **Download CSV** eine Sicherung herunterladen. Eine fehlende Bestätigung bedeutet nicht sicher, dass auf dem Server nichts angekommen ist. Bei **„Data validation failed“** wird nichts hochgeladen; die angebotene Roh-CSV dient nur zur Fehlerrettung und sollte an die Studienleitung weitergegeben werden. Im Debug-Modus erscheint eine Meldung, dass kein Upload gesendet wurde; dort die CSV bei Bedarf herunterladen.
 
@@ -106,6 +109,6 @@ Die Daten werden während des Durchlaufs im geöffneten Tab gehalten. **Vor eine
 
 ## Hinweis für die Studienleitung
 
-Die aktuellen Pläne für **alle vier Versionen** sind rechnerisch validiert und der technische Start ist freigeschaltet. Ein vollständiger Test im echten Browser, ein echter DataPipe-/OSF-Uploadtest und der Abgleich einiger Einführungs- und Layouttexte mit der fehlenden Original-PowerPoint/PDF stehen weiterhin aus. Diese Punkte sind in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md) und im aktuellen Abschnitt von [FINAL_QA_REPORT.md](FINAL_QA_REPORT.md) beschrieben. Die CSV-Spalten sind bei Bedarf in [DATA_SCHEMA.md](DATA_SCHEMA.md) erklärt.
+Die aktuellen Pläne für **alle vier Versionen** sind rechnerisch validiert und der technische Start ist freigeschaltet. Ein vollständiger Test im echten Browser, ein echter Durchlauf auf dem JATOS-Server und der Abgleich einiger Einführungs- und Layouttexte mit der fehlenden Original-PowerPoint/PDF stehen weiterhin aus. Diese Punkte sind in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md) und im aktuellen Abschnitt von [FINAL_QA_REPORT.md](FINAL_QA_REPORT.md) beschrieben. Die CSV-Spalten sind bei Bedarf in [DATA_SCHEMA.md](DATA_SCHEMA.md) erklärt.
 
 Die Bildquellen liegen in `Training_Images`, `PrePO_Images` und `Post_PO_Images`. Die WebApp lädt die daraus vorbereiteten Bilder und Symboldaten aus `data/generated/assets`. Diese vorbereiteten Dateien gehören zum Programm und sollten nicht einzeln umbenannt oder gelöscht werden.

@@ -7,9 +7,9 @@ Eine Zeile je abgeschlossenem jsPsych-Trial, UTF-8, CSV mit doppelten Anfuehrung
 | Variablen | Typ / Codierung |
 | --- | --- |
 | subject_id | Kryptografische UUID v4 pro Seitenstart, crypto.randomUUID; bleibt fuer Retry und Download gleich. Neuladen beginnt eine neue Sitzung. |
-| PROLIFIC_PID, STUDY_ID, SESSION_ID | Optionale URL-Strings, nur vorhanden falls uebergeben; keine Voraussetzung. |
+| PROLIFIC_PID, STUDY_ID, SESSION_ID | Optionale Strings aus dem Studienlink (in JATOS aus jatos.urlQueryParameters), nur vorhanden falls uebergeben; keine Voraussetzung. |
 | experiment_version | 1/2/3/4 |
-| condition_assignment | url = Version aus ?version= im Link; datapipe = balancierte Zuweisung durch DataPipe (Link ohne version, mit SESSION_ID von Prolific oder mit STUDY_ID, z. B. interner Pilot ?STUDY_ID=pilot_intern); datapipe_reload = Seite mit derselben Prolific-ID neu geladen, gespeicherte Version wiederverwendet (nur mit PROLIFIC_PID). random_local = interner Link (STUDY_ID ohne SESSION_ID), DataPipe konnte keine Bedingung vergeben; Version im Browser zufällig gezogen (einfache Randomisierung, nicht balanciert). |
+| condition_assignment | url = Version aus ?version= im Studienlink; jatos = balancierte Zuweisung durch die JATOS-Batch-Session (Link ohne version); jatos_reload = Seite in JATOS neu geladen, Version aus der Study Session wiederverwendet. random_local = Link ohne PROLIFIC_PID und SESSION_ID (z. B. interner Pilot), JATOS konnte keine Version vergeben; Version im Browser zufällig gezogen (einfache Randomisierung, nicht balanciert). Ältere Daten: datapipe, datapipe_reload (DataPipe). Siehe JATOS.md. |
 | customization_condition, predictability_condition | customization/standard und low/high |
 | agent_id | DA02 bei Standard; uppercase Teilnehmer-Agent-ID bei Customization, zuvor null. jsPsych addProperties ergaenzt auch vorhandene Zeilen. |
 | wearing_glasses | 1=benoetigt und traegt Sehhilfe; 0=benoetigt keine. Kein Yes/No-Surveyitem. |
@@ -50,7 +50,7 @@ Alle folgenden Likert-Felder sind ganzzahlig 1-7. Pluginindices 0-6 werden einma
 
 - consent_given: true auf der Einwilligungszeile (erster Bildschirm, phase consent).
 - age: ganze Zahl 18-99; gender: woman / man / non_binary / other / prefer_not_to_say (phase final_demographics); education (höchster Abschluss, vereinfacht nach ISCED 2011): none_or_primary / lower_secondary / upper_secondary / vocational / bachelor / master / doctorate / prefer_not_to_say. Für den Bericht z. B. zusammenfassen: kein Hochschulabschluss (none_or_primary, lower_secondary, upper_secondary), berufliche Qualifikation (vocational), Hochschulabschluss (bachelor, master, doctorate).
-- data_use_consent: Zustimmung nach dem Debriefing, YES_NO_CODES yes=1/no=2 (phase submission). Bei 2 wird nichts hochgeladen und kein CSV-Download angeboten; die Prolific-Weiterleitung bleibt.
+- data_use_consent: Zustimmung nach dem Debriefing, YES_NO_CODES yes=1/no=2 (phase submission). Bei 2 wird nichts hochgeladen und kein CSV-Download angeboten; der JATOS-Durchlauf wird abgebrochen (ABORTED, ohne Ergebnisdaten); die Prolific-Weiterleitung bleibt.
 - Angaben fuer Einwilligung und Debriefing stehen zentral in config.js (STUDY_INSTITUTE, CONTACT_EMAIL, DPO_CONTACT, PAYMENT_AMOUNT). Platzhalter in [ ] muessen vor der Liveschaltung ersetzt werden.
 - Abschlussseite (storage.js): 'Thank you for taking part!' mit Statuszeile; Retry/Download CSV erscheinen nur bei Uebertragungsfehler, Debug-Lauf oder Validierungsfehler.
 
@@ -66,9 +66,9 @@ standard_change_options und standard_change_option_labels: JSON-Listen stabiler 
 
 ## Submit, Fehler und Wiederholung
 
-Prolific: Nach bestaetigtem Upload Weiterleitung auf PROLIFIC_COMPLETION_URL (config.js), nur wenn gesetzt und PROLIFIC_PID sowie SESSION_ID in der URL stehen. Fehlschlaege der Weiterleitung aendern die Erfolgsmeldung nicht.
+Prolific: Nach bestaetigtem Upload und Beenden des JATOS-Durchlaufs Weiterleitung auf PROLIFIC_COMPLETION_URL (config.js), nur wenn gesetzt und PROLIFIC_PID sowie SESSION_ID im Studienlink stehen. Fehlschlaege der Weiterleitung aendern die Erfolgsmeldung nicht.
 
-Erst Submit beendet die Timeline und startet den vorhandenen DataPipe-POST an https://pipe.jspsych.org/api/data/ mit experimentID, filename=proband_<subject_id>.csv und data=Analyse-CSV. Erfolg wird erst nach HTTP-Erfolg und message="Success" bestaetigt. Bei Fehlern bleiben CSV und jsPsych-Daten im Tab; Retry sendet denselben Dateinamen und unveraenderten CSV-Inhalt. Download CSV ist jederzeit auf dem Speicherbildschirm moeglich. Debug sendet nichts und bietet nur lokalen Download. Bei ungueltigen Analysewerten kein Upload; Download der Rohdaten ausschliesslich zur Fehlerrettung (nicht als validierter Analysedatensatz). Schliessen/Neuladen des Tabs vor Download oder erfolgreichem Upload verliert den nicht persistenten Speicher. Keine weiteren Dienste, keine automatische lokale Ablage.
+Erst Submit beendet die Timeline und sendet die Analyse-CSV mit jatos.submitResultData als Ergebnisdaten des JATOS-Durchlaufs (JATOS.md). Erfolg wird erst bestaetigt, wenn JATOS die Uebertragung bestaetigt; danach wird der Durchlauf beendet (FINISHED). Bei Fehlern bleiben CSV und jsPsych-Daten im Tab; Retry sendet den unveraenderten CSV-Inhalt und ersetzt die vorherigen Ergebnisdaten. Der lokale Download heisst proband_<subject_id>.csv. Ausserhalb von JATOS (ohne jatos.js) wird nichts gesendet, nur Download CSV angeboten. Download CSV ist jederzeit auf dem Speicherbildschirm moeglich. Debug sendet nichts und bietet nur lokalen Download. Bei ungueltigen Analysewerten kein Upload; Download der Rohdaten ausschliesslich zur Fehlerrettung (nicht als validierter Analysedatensatz). Schliessen/Neuladen des Tabs vor Download oder erfolgreichem Upload verliert den nicht persistenten Speicher. Keine weiteren Dienste, keine automatische lokale Ablage.
 
 ## Plan-Dateien (keine Teilnehmer-Antwortspalten)
 

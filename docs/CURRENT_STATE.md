@@ -9,7 +9,7 @@ Aktueller Build: 107 JavaScript- und 18 Python-Tests bestanden. Main-Trial 28 wu
 
 ## Datenspeicherung (aktueller Stand)
 
-UUID pro Sitzung, optionale Prolific-URL-Felder, globale Condition-/Agent-Metadaten. Upload ausschliesslich nach Submit ueber bestehenden DataPipe-Endpunkt. Analyseexport mit flachen Surveywerten, Bereichspruefung 1-7/Yes-No 1-2, Originaltexten und flachen Standard-Auswahlspalten. Retry und lokaler CSV-Download bei Uploadfehlern; Debug ohne Upload. Vollstaendiges aktuelles Variablenverzeichnis: DATA_SCHEMA.md. Validierungsstatus erlaubt nun alle vier Versionen.
+UUID pro Sitzung, optionale Prolific-URL-Felder, globale Condition-/Agent-Metadaten. Upload ausschliesslich nach Submit an JATOS (`jatos.submitResultData`, docs/JATOS.md); DataPipe/OSF ersetzt. Analyseexport mit flachen Surveywerten, Bereichspruefung 1-7/Yes-No 1-2, Originaltexten und flachen Standard-Auswahlspalten. Retry und lokaler CSV-Download bei Uploadfehlern; Debug ohne Upload. Vollstaendiges aktuelles Variablenverzeichnis: DATA_SCHEMA.md. Validierungsstatus erlaubt nun alle vier Versionen.
 
 
 ## Finaler Fragebogen (aktueller Stand)
@@ -176,7 +176,7 @@ Keine README, Paketmanifest-/Lockdatei, Buildkonfiguration, automatisierte Tests
 - KI-Einführung und getrennte Standard-/Customization-Instruktionen existieren. Customization enthält Namensvalidierung, vier Präferenz-Dropdowns und wiederholbare Demo mit Apply/Proceed.
 - CSV-Download und Normalisierung von Boolean-Werten sowie skalierte Ringpositionen können als technische Grundlage dienen; ihre fachliche Logik muss angepasst werden.
 - Vorhandene Survey-Bausteine: drei Customization-Items, zwei Trust-Items und Responsibility-Szenario mit zwei Items. Referenztreue derzeit nicht überprüfbar.
-- CSV-Erzeugung und bestehender DataPipe-POST sind vorhanden und grundsätzlich zu erhalten.
+- CSV-Erzeugung und bestehender DataPipe-POST sind vorhanden und grundsätzlich zu erhalten. (Inzwischen auf Nutzerauftrag durch JATOS ersetzt, docs/JATOS.md.)
 
 ## 4. Tatsächlicher Ablauf des Prototyps
 

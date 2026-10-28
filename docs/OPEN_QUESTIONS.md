@@ -31,3 +31,11 @@ Stimuli_log.xlsx mit Training, PrePO, PostPO, Generator Settings, Times sowie Pr
 ## Preview-Tempo: aktueller Nutzerauftrag
 
 Die Preview soll sichtbar nacheinander durchlaufen. Dafuer ist PREVIEW_SEARCH_STEP_MS nun 180 ms (5,76 Sekunden fuer 32 Kombinationen), als UI-Umsetzung dieses Auftrags, nicht als aus Times abgeleiteter Wert. Die fruehere Anweisung, die Preview nicht zu verlangsamen, ist damit abgeloest. SEARCH_STEP_MS fuer AI Practice/Main bleibt 15 ms; der Referenzwiderspruch und die offene Verschachtelungsfrage sind dadurch nicht referenzseitig geklaert.
+
+## JATOS statt DataPipe/OSF: offen
+
+Auf Nutzerauftrag speichert die WebApp nun ueber JATOS ([JATOS.md](JATOS.md)); DataPipe und OSF werden nicht mehr verwendet. Offen:
+
+- **Einwilligungstext (Blocker vor der Datenerhebung).** Der Abschnitt „Data protection“ in `common-start.js` nennt weiterhin DataPipe, das OSF-Projekt in Frankfurt und GitHub Pages als Hosting. Das trifft mit JATOS nicht mehr zu. Teilnehmertexte werden nicht eigenmaechtig umformuliert; die Studienleitung muss den neuen Wortlaut liefern (welcher JATOS-Server, wo betrieben, wer Zugriff hat, welche Verbindungsdaten der Server protokolliert).
+- **JATOS-Server.** Server, Studien-Code und Batch sind nicht festgelegt; die Links in [BEDIENUNGSANLEITUNG.md](BEDIENUNGSANLEITUNG.md) zeigen weiter auf GitHub Pages und speichern dort nichts.
+- **Echter Durchlauf.** Getestet ist nur gegen eine nachgebildete `jatos.js` (Node-Tests). Ein Durchlauf auf dem Server mit Speicherung, Abbruch nach zurueckgezogener Einwilligung, Prolific-Weiterleitung und balancierter Vergabe bei gleichzeitigen Starts steht aus.

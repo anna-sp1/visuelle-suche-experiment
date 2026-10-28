@@ -2,13 +2,13 @@
  * GLOBALE EINSTELLUNGEN (Configuration)
  */
 
-// OSF DataPipe ID für den Daten-Upload
-const OSF_EXPERIMENT_ID = "cCjHlcNaaWJr";
+// Datenspeicherung: JATOS (jatos.js, siehe docs/JATOS.md). Keine ID nötig; die Daten
+// gehen an die Studie auf dem JATOS-Server, von dem die Seite geladen wurde.
 
 // Prolific: Completion-URL aus den Prolific-Studieneinstellungen hier einfügen,
 // z. B. "https://app.prolific.com/submissions/complete?cc=ABC123".
 // Leer lassen ("") = keine Weiterleitung. Weitergeleitet wird nur, wenn der Link
-// von Prolific kommt (PROLIFIC_PID und SESSION_ID in der URL) und der Upload bestätigt ist.
+// von Prolific kommt (PROLIFIC_PID und SESSION_ID in der URL) und JATOS die Daten bestätigt hat.
 const PROLIFIC_COMPLETION_URL = "";
 
 // Angaben für Einwilligung und Debriefing. Platzhalter in [ ] VOR DER LIVESCHALTUNG ERSETZEN!

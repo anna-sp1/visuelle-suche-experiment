@@ -1,13 +1,25 @@
 ﻿const test = require('node:test'), assert = require('node:assert/strict'), vm = require('node:vm'), fs = require('node:fs');
-function setup() {
- const nodes = {}, requests = [];
- const context = vm.createContext({ YES_NO_CODES:{yes:1,no:2}, VERDICT_CODES:{pass:1,reject:2}, dateiName:'unique.csv', OSF_EXPERIMENT_ID:'existing',
+// jatos: a stub of jatos.js whose submitResultData answers with `submit`; false = page outside JATOS.
+function setup({ jatos = true, search = '', submit = async () => {} } = {}) {
+ const nodes = {}, requests = [], ended = [];
+ const stub = jatos && {
+  urlQueryParameters: {},
+  submitResultData: async data => { requests.push(data); return stub.submit(data); },
+  endStudyWithoutRedirect: async () => { ended.push('end'); },
+  abortStudyWithoutRedirect: async message => { ended.push('abort:' + message); },
+  submit
+ };
+ const context = vm.createContext({ YES_NO_CODES:{yes:1,no:2}, VERDICT_CODES:{pass:1,reject:2}, dateiName:'unique.csv', PROLIFIC_COMPLETION_URL:'',
+ URLSearchParams, setTimeout, window:{location:{search}},
  document:{body:{innerHTML:''}, getElementById:id => nodes[id] ||= {}},
- fetch:async (url, options) => { requests.push({url,options}); return {ok:false}; }
+ fetch:async () => { throw new Error('No other service may be contacted'); }
  });
+ if (stub) context.jatos = stub;
+ vm.runInContext(fs.readFileSync('conditions.js','utf8'),context);
  vm.runInContext(fs.readFileSync('storage.js','utf8'),context);
- return {context,nodes,requests};
+ return {context,nodes,requests,ended,stub};
 }
+const settle = () => new Promise(resolve=>setImmediate(resolve));
 test('export validates every scale boundary and Yes/No; text and named selections survive CSV',()=>{
  const {context:c}=setup();
  for(let value=1;value<=7;value++) {
@@ -20,34 +32,53 @@ test('export validates every scale boundary and Yes/No; text and named selection
  for(const value of [0,3,'1']) assert.throws(()=>c.prepareExportRows([{data_use_consent:value}]), /Invalid Yes/);
  for(const value of ['green','',1]) assert.throws(()=>c.prepareExportRows([{ai_error_pattern_choice:value}]), /Invalid choice/);
 });
-test('failed upload retains identical CSV for retry; success only after confirmation',async()=>{
- const s=setup(); const psych={data:{get:()=>({values:()=>[{post_trust_1:7}]})}};
- s.context.showSubmission(psych,false); await new Promise(resolve=>setImmediate(resolve));
+test('failed JATOS upload retains identical CSV for retry; success only after confirmation, then the study ends',async()=>{
+ const s=setup({submit:async()=>{throw new Error('offline');}}); const psych={data:{get:()=>({values:()=>[{post_trust_1:7}]})}};
+ s.context.showSubmission(psych,false); await settle();
  assert.equal(s.requests.length,1); assert.equal(s.nodes['save-retry'].disabled,false);
  assert.match(s.nodes['save-status'].textContent,/could not be confirmed/);
- s.context.fetch=async(url,options)=>{s.requests.push({url,options}); return {ok:true,json:async()=>({message:'Success'})};};
- await s.nodes['save-retry'].onclick();
- assert.equal(s.requests[0].options.body,s.requests[1].options.body);
+ assert.deepEqual(s.ended,[]); // a failed upload never ends the study result
+ s.stub.submit=async()=>{};
+ await s.nodes['save-retry'].onclick(); await settle();
+ assert.equal(s.requests[0],s.requests[1]);
+ assert.match(s.requests[0],/"post_trust_1"/);
  assert.match(s.nodes['save-status'].textContent,/Data saved/);
+ assert.deepEqual(s.ended,['end']);
  assert.equal(typeof s.nodes['save-download'].onclick,'function');
 });
-test('debug and invalid coding never upload and retain download',()=>{
- for(const [debug,row] of [[true,{pre_trust_1:1}],[false,{pre_trust_1:0}]]) {
-  const s=setup(); s.context.showSubmission({data:{get:()=>({values:()=>[row]})}},debug);
-  assert.equal(s.requests.length,0); assert.equal(s.nodes['save-retry'].hidden,true);
+test('debug, invalid coding and pages outside JATOS never upload and retain download',async()=>{
+ for(const [debug,row,jatos] of [[true,{pre_trust_1:1},true],[false,{pre_trust_1:0},true],[false,{pre_trust_1:1},false]]) {
+  const s=setup({jatos}); s.context.showSubmission({data:{get:()=>({values:()=>[row]})}},debug);
+  await settle();
+  assert.equal(s.requests.length,0); assert.deepEqual(s.ended,[]); assert.equal(s.nodes['save-retry'].hidden,true);
+  assert.equal(s.nodes['save-download'].hidden,false);
   assert.equal(typeof s.nodes['save-download'].onclick,'function');
  }
 });
-
-test('HTTP success with an error or malformed receipt never claims saved', async()=>{
- for (const receipt of [{error:'failure',message:'Success'}, {success:true}, {}, null]) {
-  const s=setup();
-  s.context.fetch=async()=>({ok:true,json:async()=>receipt});
-  s.context.showSubmission({data:{get:()=>({values:()=>[{pre_trust_1:1}]})}},false);
-  await new Promise(resolve=>setImmediate(resolve));
-  assert.match(s.nodes['save-status'].textContent,/could not be confirmed/);
-  assert.equal(s.nodes['save-retry'].disabled,false);
- }
+test('withdrawn consent uploads nothing and aborts the JATOS study result', async()=>{
+ const s=setup(); s.context.showSubmission({data:{get:()=>({values:()=>[{pre_trust_1:1},{data_use_consent:2}]})}},false);
+ await settle();
+ assert.equal(s.requests.length,0); assert.deepEqual(s.ended,['abort:data_use_consent: no']);
+ assert.match(s.nodes['save-status'].textContent,/have not been saved/);
+ assert.equal(s.nodes['save-download'].hidden,true);
+});
+test('a failure while ending the study never takes back a confirmed upload', async()=>{
+ const s=setup(); s.stub.endStudyWithoutRedirect=()=>{throw new Error('gone');};
+ s.context.showSubmission({data:{get:()=>({values:()=>[{pre_trust_1:1}]})}},false);
+ await settle();
+ assert.match(s.nodes['save-status'].textContent,/Data saved/);
+ assert.notEqual(s.nodes['save-retry'].hidden,false);
+});
+test('Prolific redirect follows the study link parameters JATOS keeps, only after the study ended', async()=>{
+ const s=setup(); s.context.PROLIFIC_COMPLETION_URL='https://app.prolific.com/submissions/complete?cc=X';
+ s.stub.urlQueryParameters={PROLIFIC_PID:'p',STUDY_ID:'s',SESSION_ID:'x'};
+ const order=[]; s.stub.endStudyWithoutRedirect=async()=>{order.push('end');};
+ s.context.setTimeout=(fn)=>{order.push('redirect'); fn();};
+ s.context.showSubmission({data:{get:()=>({values:()=>[{pre_trust_1:1}]})}},false);
+ await settle(); await settle();
+ assert.deepEqual(order,['end','redirect']);
+ assert.equal(s.context.window.location.href,'https://app.prolific.com/submissions/complete?cc=X');
+ assert.match(s.nodes['save-status'].textContent,/redirected to Prolific/);
 });
 
 test('local download preserves CSV contents, filename and text without a network request', async()=>{
@@ -63,4 +94,11 @@ test('local download preserves CSV contents, filename and text without a network
  const csv=await blob.text();
  assert.match(csv,/"7","2","1","quote "" and\nnewline"/);
  assert.ok(!csv.includes('"0"'));
+});
+
+test('older JATOS without the *WithoutRedirect names still ends the study', async()=>{
+ const s=setup(); delete s.stub.endStudyWithoutRedirect; s.stub.endStudyAjax=async()=>{s.ended.push('ajax');};
+ s.context.showSubmission({data:{get:()=>({values:()=>[{pre_trust_1:1}]})}},false);
+ await settle();
+ assert.deepEqual(s.ended,['ajax']);
 });

@@ -2,11 +2,12 @@
  * HAUPTABLAUF DES EXPERIMENTS
  */
 
-// The condition comes from ?version= or, for Prolific links without it, from DataPipe.
+// The condition comes from ?version= or, for links without it, from the JATOS batch session.
 const startExperiment = (condition, conditionSource) => {
-const debugEnabled = isExperimentDebugEnabled(window.location.search);
+const search = studySearch(); // the study link's parameters, also inside JATOS
+const debugEnabled = isExperimentDebugEnabled(search);
 
-if (!condition && conditionSource === 'datapipe_failed') {
+if (!condition && conditionSource === 'jatos_failed') {
     document.body.innerHTML = `
         <main style="max-width: 650px; margin: 15vh auto; padding: 24px; font-family: sans-serif;">
             <h1>The study could not be started</h1>
@@ -88,7 +89,7 @@ const jsPsych = initJsPsych({
 jsPsych.data.addProperties({
     subject_id,
     agent_id: condition.agentNameMode === 'fixed' ? condition.fixedAgentName : null,
-    ...Object.fromEntries(['PROLIFIC_PID', 'STUDY_ID', 'SESSION_ID'].filter(key => new URLSearchParams(window.location.search).has(key)).map(key => [key, new URLSearchParams(window.location.search).get(key)])),
+    ...Object.fromEntries(['PROLIFIC_PID', 'STUDY_ID', 'SESSION_ID'].filter(key => new URLSearchParams(search).has(key)).map(key => [key, new URLSearchParams(search).get(key)])),
     experiment_version: condition.version,
     condition_assignment: conditionSource,
     customization_condition: condition.customizationCondition,

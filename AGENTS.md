@@ -6,5 +6,5 @@
 - Eine einzige Codebasis für alle vier Conditions verwenden; keine kopierten Einzelprojekte.
 - Keine Timeouts für Teilnehmerantworten. Kein Trial darf durch ein Zeitlimit automatisch beendet werden. Informationsseiten ausschließlich durch ihren vorgesehenen Button beenden; ohne speziellen Referenztext `Next` verwenden.
 - Teilnehmende dürfen in KI-Trials keine Ringe setzen, entfernen oder verändern. Ihre Aufgabe dort ist ausschließlich Pass/Reject. Im Training ohne KI dürfen eigene Zählkreise gesetzt und entfernt werden.
-- Bestehende Stimuli und Referenzdateien nicht löschen. Den OSF/DataPipe-Export grundsätzlich erhalten.
+- Bestehende Stimuli und Referenzdateien nicht löschen. Den JATOS-Export ([docs/JATOS.md](docs/JATOS.md)) grundsätzlich erhalten; er ersetzt den früheren OSF/DataPipe-Export.
 - Nach jedem Schritt relevante Checks ausführen und Ergebnisse sowie Grenzen nachvollziehbar festhalten. Änderungen auf den autorisierten Umfang begrenzen; Dokumentation bei neuen Befunden aktualisieren.

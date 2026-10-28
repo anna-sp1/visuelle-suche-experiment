@@ -5,10 +5,10 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const root = path.join(__dirname, '..');
-function boot(search) {
+function boot(search, jatos) {
     const calls = { initialized: 0, properties: {}, timeline: null, events: [] };
     const context = vm.createContext({ crypto: require('node:crypto').webcrypto,
-        URLSearchParams,
+        URLSearchParams, setTimeout: fn => setImmediate(fn), ...(jatos ? { jatos } : {}),
         window: { location: { search } },
         document: { body: { innerHTML: '' } },
         jsPsychHtmlButtonResponse: 'button',
@@ -157,4 +157,91 @@ for (const flag of ['debug=0', 'debug=true', 'debug=01', 'debug=1&debug=0']) {
 test('HTML loads condition definitions before the experiment', () => {
     const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
     assert.ok(html.indexOf('src="conditions.js"') < html.indexOf('src="experiment.js"'));
+});
+
+// A stub of jatos.js: one batch session shared by every start, with JATOS's versioning
+// (`conflicts` sets are refused, as a concurrent change by another participant would be).
+function jatosServer({ conflicts = 0, failing = false } = {}) {
+    const batch = {};
+    return {
+        batch,
+        participant(urlQueryParameters = {}, studySessionData = {}) {
+            const stub = {
+                urlQueryParameters, studySessionData, saved: null,
+                onLoad: fn => fn(),
+                submitResultData: async () => {},
+                setStudySessionData: async data => { stub.saved = data; stub.studySessionData = data; },
+                batchSession: {
+                    get: key => batch[key],
+                    set: async (key, value) => {
+                        if (failing) throw new Error('batch channel closed');
+                        if (conflicts > 0) { conflicts--; batch[key] = (batch[key] || 0) + 1; throw new Error('conflict'); }
+                        batch[key] = value;
+                    }
+                }
+            };
+            return stub;
+        }
+    };
+}
+const settled = async () => { for (let i = 0; i < 40; i++) await new Promise(resolve => setImmediate(resolve)); };
+
+test('JATOS: starts without ?version= get balanced versions from the batch session', async () => {
+    const server = jatosServer();
+    const versions = [];
+    for (let i = 0; i < 9; i++) {
+        const participant = server.participant();
+        const { calls } = boot('', participant);
+        await settled();
+        versions.push(calls.properties.experiment_version);
+        assert.equal(calls.properties.condition_assignment, 'jatos');
+        assert.equal(participant.saved.assigned_version, calls.properties.experiment_version);
+    }
+    assert.deepEqual(versions, [1, 2, 3, 4, 1, 2, 3, 4, 1]);
+    assert.deepEqual(server.batch, { assigned_1: 3, assigned_2: 2, assigned_3: 2, assigned_4: 2 });
+});
+
+test('JATOS: a refused batch session change chooses again from the updated counts', async () => {
+    const server = jatosServer({ conflicts: 1 });
+    const { calls } = boot('', server.participant());
+    await settled();
+    // The refused change was another start taking version 1, so this one gets version 2.
+    assert.equal(calls.properties.experiment_version, 2);
+    assert.deepEqual(server.batch, { assigned_1: 1, assigned_2: 1 });
+});
+
+test('JATOS: study link parameters, reloads and failures', async () => {
+    const server = jatosServer();
+    let s = boot('', server.participant({ version: '3', PROLIFIC_PID: 'p', SESSION_ID: 'x', debug: '0' }));
+    assert.equal(s.calls.properties.experiment_version, 3);
+    assert.equal(s.calls.properties.condition_assignment, 'url');
+    assert.equal(s.calls.properties.PROLIFIC_PID, 'p');
+    assert.deepEqual(server.batch, {}); // ?version= never counts in the batch session
+    s = boot('', server.participant({ version: '7' }));
+    assert.match(s.context.document.body.innerHTML, /Configuration error/);
+    s = boot('', server.participant({}, { assigned_version: 4 }));
+    assert.equal(s.calls.properties.experiment_version, 4);
+    assert.equal(s.calls.properties.condition_assignment, 'jatos_reload');
+    assert.deepEqual(server.batch, {});
+
+    const broken = jatosServer({ failing: true });
+    s = boot('', broken.participant({ STUDY_ID: 'pilot_intern' }));
+    await settled();
+    assert.equal(s.calls.properties.condition_assignment, 'random_local');
+    assert.match(String(s.calls.properties.experiment_version), /^[1-4]$/);
+    for (const prolific of [{ PROLIFIC_PID: 'p' }, { SESSION_ID: 'x' }]) {
+        s = boot('', broken.participant(prolific));
+        await settled();
+        assert.equal(s.calls.initialized, 0);
+        assert.match(s.context.document.body.innerHTML, /could not be started/);
+    }
+});
+
+test('HTML loads jatos.js and no DataPipe plugin', () => {
+    const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+    assert.ok(html.includes('<script src="jatos.js"></script>'));
+    assert.ok(html.indexOf('src="jatos.js"') < html.indexOf('src="conditions.js"'));
+    for (const file of ['index.html', 'conditions.js', 'config.js', 'storage.js', 'experiment.js']) {
+        assert.doesNotMatch(fs.readFileSync(path.join(root, file), 'utf8'), /pipe\.jspsych\.org|plugin-pipe|OSF_EXPERIMENT_ID/i, file);
+    }
 });

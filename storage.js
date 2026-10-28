@@ -1,4 +1,4 @@
-// Analysis export and the existing DataPipe destination. No automatic backup service.
+// Analysis export and the JATOS destination (jatos.js). No automatic backup service.
 function prepareExportRows(rows) {
     return rows.map((original, index) => {
         const row = { ...original, record_index: index + 1 };
@@ -30,10 +30,24 @@ function analysisCsv(rows) {
 
 // Prolific: redirect only after a confirmed upload, and only for links coming from Prolific.
 function redirectToProlific(status, message = 'Data saved. You will now be redirected to Prolific.') {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(studySearch());
     if (!PROLIFIC_COMPLETION_URL || !params.has('PROLIFIC_PID') || !params.has('SESSION_ID')) return;
     status.textContent = message;
     setTimeout(() => { window.location.href = PROLIFIC_COMPLETION_URL; }, 2000);
+}
+
+// Ends the JATOS study result (FINISHED, or ABORTED when consent was withdrawn: JATOS then keeps
+// no result data) and only then redirects to Prolific, so the result is closed either way.
+// Errors here never change what the page says about the data.
+function endJatosStudy(status, abort, message) {
+    const redirect = () => { try { redirectToProlific(status, message); } catch (_) {} };
+    let ending = null;
+    // The *WithoutRedirect names are current JATOS; the *Ajax names are what older versions have.
+    try {
+        ending = abort ? (jatos.abortStudyWithoutRedirect || jatos.abortStudyAjax).call(jatos, 'data_use_consent: no')
+            : (jatos.endStudyWithoutRedirect || jatos.endStudyAjax).call(jatos);
+    } catch (_) {}
+    Promise.resolve(ending).then(redirect, redirect);
 }
 
 function showSubmission(jsPsych, debug) {
@@ -56,7 +70,9 @@ function showSubmission(jsPsych, debug) {
         retry.hidden = true;
         download.hidden = true;
         status.textContent = 'Your data have not been saved and will not be used. Thank you for taking part. You may close this window now.';
-        try { redirectToProlific(status, 'Your data have not been saved. You will now be redirected to Prolific.'); } catch (_) {}
+        const message = 'Your data have not been saved. You will now be redirected to Prolific.';
+        if (!debug && inJatos()) endJatosStudy(status, true, message);
+        else try { redirectToProlific(status, message); } catch (_) {}
         return;
     }
     document.getElementById('save-download').onclick = () => {
@@ -68,30 +84,22 @@ function showSubmission(jsPsych, debug) {
         retry.disabled = true;
         status.textContent = 'Saving responses...';
         try {
-            const result = await fetch('https://pipe.jspsych.org/api/data/', {
-                method: 'POST', headers: { 'Content-Type': 'application/json', Accept: '*/*' },
-                body: JSON.stringify({ experimentID: OSF_EXPERIMENT_ID, filename: dateiName, data: csv })
-            });
-            if (!result.ok) throw new Error('Upload failed');
-            const receipt = await result.json();
-            // DataPipe answers 200 "Success", or 202 with error: null when the storage provider is
-            // briefly unavailable: DataPipe then keeps the data and retries the upload itself.
-            // Both mean the data are safe. Any error code means they are not.
-            const saved = receipt && !receipt.error && receipt.message === 'Success';
-            const queued = receipt && result.status === 202 && receipt.error === null && typeof receipt.message === 'string';
-            if (!saved && !queued) throw new Error('Upload not confirmed');
-            status.textContent = 'Data saved. You may close this window now.';
-            // Isolated so that a redirect problem can never turn a confirmed upload into an error message.
-            try { redirectToProlific(status); } catch (_) {}
+            // JATOS stores the CSV as this study result's data; a retry replaces it with the same text.
+            await jatos.submitResultData(csv);
         } catch (_) {
             status.textContent = 'Upload could not be confirmed. Keep this page open and retry, or download your responses as CSV.';
             retry.hidden = false;
             download.hidden = false;
             retry.disabled = false;
+            return;
         }
+        status.textContent = 'Data saved. You may close this window now.';
+        // Outside the try above, so ending the study or the redirect can never turn a confirmed upload into an error message.
+        endJatosStudy(status, false);
     }
     retry.onclick = upload;
     if (validationError) { retry.hidden = true; download.hidden = false; status.textContent = 'Data validation failed. Download the raw CSV for recovery and contact the study team. No upload was sent.'; }
     else if (debug) { retry.hidden = true; download.hidden = false; status.textContent = 'Debug run: download your responses as CSV. No upload was sent.'; }
+    else if (!inJatos()) { retry.hidden = true; download.hidden = false; status.textContent = 'This page was not opened from the study server: download your responses as CSV. No upload was sent.'; }
     else upload();
 }
