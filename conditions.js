@@ -32,6 +32,10 @@ function isExperimentDebugEnabled(search) {
  * With a Prolific ID, the assigned version is remembered in this browser, so a reload
  * keeps the same condition. Without one (internal pilot, possibly several people on
  * one computer), every new start gets the next condition.
+ * Internal links (STUDY_ID, no Prolific SESSION_ID): if DataPipe cannot assign a
+ * condition (e.g. assignment not active), the version is drawn at random in the
+ * browser instead (simple randomization, condition_assignment = random_local).
+ * Prolific links never fall back: there the study shows an error instead.
  * Links with ?version= (debugging, explicit tests) never ask DataPipe.
  */
 function startWithCondition(start) {
@@ -48,7 +52,13 @@ function startWithCondition(start) {
     }).then(response => response.json()).then(result => {
         const index = result && result.condition;
         if (!Number.isInteger(index) || index < 0 || index > 3) throw new Error('No condition');
+        return index;
+    }).then(index => {
         try { if (key) window.localStorage.setItem(key, String(index + 1)); } catch (_) {}
         start(EXPERIMENT_CONDITIONS[index + 1], 'datapipe');
-    }).catch(() => start(null, 'datapipe_failed'));
+    }, () => {
+        // Only the DataPipe request is handled here, so a later error can never start twice.
+        if (!params.has('SESSION_ID')) return start(EXPERIMENT_CONDITIONS[1 + Math.floor(Math.random() * 4)], 'random_local');
+        start(null, 'datapipe_failed');
+    });
 }
