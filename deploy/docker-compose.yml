@@ -1,4 +1,5 @@
-# JATOS for the visual search experiment: JATOS, its MySQL database and Caddy for HTTPS.
+# JATOS for the visual search experiment: JATOS and its MySQL database. HTTPS and the
+# certificates are the job of an nginx proxy in front (deploy/README.md), not of this stack.
 # Settings come from deploy/.env (copy .env.example). Setup and operation: deploy/README.md.
 name: visuelle-suche
 
@@ -31,34 +32,19 @@ services:
       JATOS_DB_USERNAME: jatos
       JATOS_DB_PASSWORD: ${DB_PASSWORD}
       JATOS_DB_DRIVER: com.mysql.cj.jdbc.Driver
-    # Passed to JATOS after "start": cookies only over HTTPS, since Caddy serves only HTTPS.
+    # Passed to JATOS after "start": cookies only over HTTPS, since participants and the research team
+    # reach JATOS only through the HTTPS proxy (and http://localhost, which browsers allow).
     command: ["-Dplay.http.session.secure=true", "-Djatos.idCookies.secure=true"]
     volumes:
       # Study assets, result files, study logs (the database holds the result data).
       - jatos-data:/opt/jatos_data
       - jatos-logs:/opt/jatos/logs
-    # Only on the server itself, for a proxy of the server's own instead of Caddy (README.md).
+    # Plain HTTP for the nginx proxy. Only on 127.0.0.1 unless JATOS_BIND says otherwise
+    # (nginx on another machine); see README.md before changing it.
     ports:
-      - "127.0.0.1:${JATOS_LOCAL_PORT:-9000}:9000"
-
-  caddy:
-    image: caddy:2
-    restart: unless-stopped
-    depends_on:
-      - jatos
-    environment:
-      JATOS_DOMAIN: ${JATOS_DOMAIN:?set JATOS_DOMAIN in deploy/.env}
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy-data:/data
-      - caddy-config:/config
+      - "${JATOS_BIND:-127.0.0.1}:${JATOS_PORT:-9000}:9000"
 
 volumes:
   db-data:
   jatos-data:
   jatos-logs:
-  caddy-data:
-  caddy-config:
