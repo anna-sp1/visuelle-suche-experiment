@@ -6,14 +6,13 @@ Dieser Ordner betreibt JATOS mit dem Experiment auf einem Server mit Docker (gep
 | --- | --- |
 | `docker-compose.yml` | Zwei Container: `jatos` (JATOS 3.11.3, HTTP, standardmäßig auf `127.0.0.1:9000`) und `db` (MySQL 8.4, die Ergebnisdaten). HTTPS und Zertifikate übernimmt ein nginx-Proxy davor (siehe „nginx-Proxy“). |
 | `.env.example` | Vorlage für `deploy/.env`: Datenbankpasswörter und wo JATOS für den Proxy lauscht. `.env` wird nicht eingecheckt. |
-| `build-study.py` | Packt das Experiment als JATOS-Studienarchiv `dist/visuelle-suche.jzip`. |
-| `upload-study.sh` | Baut das Archiv und importiert es über die JATOS-API (erstes Mal: neue Studie, danach: Aktualisierung). |
+| `study.sh` | `deploy/study.sh` packt das Experiment als JATOS-Studienarchiv `dist/visuelle-suche.jzip`; `deploy/study.sh upload` packt es und importiert es über die JATOS-API (erstes Mal: neue Studie, danach: Aktualisierung). Braucht nur bash, curl und `zip` (fehlt `zip`, nimmt es das `python3` des Systems, ohne zusätzliche Pakete). |
 
 ## Voraussetzungen
 
 - Linux-Server mit Docker und dem Compose-Plugin (`docker compose version`).
 - Ein nginx-Proxy mit Zertifikat für den Servernamen der Studie (z. B. `studie.example.de`), der an JATOS weiterleitet (siehe „nginx-Proxy“).
-- Auf dem Rechner, der die Studie hochlädt: Python 3 und `curl`.
+- Auf dem Rechner, der die Studie hochlädt (der Server selbst oder ein anderer): bash, `curl` und `zip` oder `python3`.
 
 ## Erstmalige Einrichtung
 
@@ -45,19 +44,25 @@ Dieser Ordner betreibt JATOS mit dem Experiment auf einem Server mit Docker (gep
 
 4. Den nginx-Proxy auf JATOS zeigen lassen (siehe „nginx-Proxy“). Danach ist JATOS unter `https://<servername>` erreichbar.
 
-5. In JATOS unter dem eigenen Nutzer (Nutzermenü > API tokens) ein API-Token erzeugen. Dann von einem Rechner mit dem Repository die Studie hochladen:
+5. In JATOS unter dem eigenen Nutzer (Nutzermenü > API tokens) ein API-Token erzeugen und die Studie hochladen. Auf dem Server selbst (JATOS unter `http://localhost:9000`) reicht das Token, z. B. als `JATOS_TOKEN=jap_...` in `deploy/.env`:
 
    ```bash
-   JATOS_URL=https://<servername> JATOS_TOKEN=jap_... deploy/upload-study.sh
+   deploy/study.sh upload
    ```
 
-   Alternativ `python3 deploy/build-study.py` ausführen und `deploy/dist/visuelle-suche.jzip` in der JATOS-Oberfläche über „Import study“ hochladen.
+   Von einem anderen Rechner `JATOS_URL` mitgeben (oder über einen SSH-Tunnel ohne `JATOS_URL`):
+
+   ```bash
+   JATOS_URL=https://<servername> JATOS_TOKEN=jap_... deploy/study.sh upload
+   ```
+
+   Alternativ `deploy/study.sh` ausführen und `deploy/dist/visuelle-suche.jzip` in der JATOS-Oberfläche über „Import study“ hochladen.
 
 6. In JATOS die Studie „Visuelle Suche Experiment“ öffnen, unter „Study Links“ den Link für Prolific anlegen und wie in [docs/JATOS.md](../docs/JATOS.md) beschrieben in Prolific eintragen. Vor dem Start die Batch Session leeren, damit Testläufe die balancierte Vergabe nicht verschieben.
 
 ## Experiment aktualisieren
 
-Nach Änderungen am Experiment erneut `deploy/upload-study.sh` ausführen. Die Studie wird anhand ihrer festen UUID wiedererkannt: Die Dateien werden ersetzt, die in JATOS gesetzten Studieneinstellungen bleiben (`keepProperties`), Ergebnisse bleiben erhalten. Während der Datenerhebung nur aktualisieren, wenn es nötig ist; laufende Durchläufe haben die alten Dateien schon geladen.
+Nach Änderungen am Experiment erneut `deploy/study.sh upload` ausführen. Die Studie wird anhand ihrer festen UUID wiedererkannt: Die Dateien werden ersetzt, die in JATOS gesetzten Studieneinstellungen bleiben (`keepProperties`), Ergebnisse bleiben erhalten. Während der Datenerhebung nur aktualisieren, wenn es nötig ist; laufende Durchläufe haben die alten Dateien schon geladen.
 
 ## Betrieb
 
