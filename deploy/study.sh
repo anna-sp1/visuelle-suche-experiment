@@ -8,8 +8,8 @@
 # study properties set in the JATOS GUI kept (keepProperties), results untouched.
 #
 # upload reads JATOS_TOKEN (JATOS: user menu > API tokens) and JATOS_URL from the environment
-# or from deploy/.env. JATOS_URL defaults to http://localhost:9000: JATOS itself when run on
-# the server, or an SSH tunnel to it (deploy/README.md).
+# or from deploy/.env. JATOS_URL defaults to http://localhost:9000 plus JATOS_URL_BASE_PATH:
+# JATOS itself when run on the server, or an SSH tunnel to it (deploy/README.md).
 #
 # Needs bash and curl, plus zip; without zip it uses the system's python3 (standard library only).
 set -euo pipefail
@@ -107,7 +107,7 @@ setting() {
 
 upload() {
     local url token response status
-    url=$(setting JATOS_URL http://localhost:9000)
+    url=$(setting JATOS_URL "http://localhost:$(setting JATOS_PORT 9000)$(setting JATOS_URL_BASE_PATH /)")
     token=$(setting JATOS_TOKEN)
     [[ -n "$token" ]] || { echo "Set JATOS_TOKEN (JATOS: user menu > API tokens), in the environment or deploy/.env." >&2; exit 1; }
     response="$work/response"

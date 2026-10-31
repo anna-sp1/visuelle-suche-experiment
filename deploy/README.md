@@ -11,7 +11,7 @@ Dieser Ordner betreibt JATOS mit dem Experiment auf einem Server mit Docker (gep
 ## Voraussetzungen
 
 - Linux-Server mit Docker und dem Compose-Plugin (`docker compose version`).
-- Ein nginx-Proxy mit Zertifikat für den Servernamen der Studie (z. B. `studie.example.de`), der an JATOS weiterleitet (siehe „nginx-Proxy“).
+- Ein nginx-Proxy mit Zertifikat, der einen Pfad seines Servernamens (z. B. `https://example.com/jatos/`) an JATOS weiterleitet (siehe „nginx-Proxy“).
 - Auf dem Rechner, der die Studie hochlädt (der Server selbst oder ein anderer): bash, `curl` und `zip` oder `python3`.
 
 ## Erstmalige Einrichtung
@@ -29,10 +29,10 @@ Dieser Ordner betreibt JATOS mit dem Experiment auf einem Server mit Docker (gep
 
    ```bash
    docker compose up -d
-   curl -s http://127.0.0.1:9000/ping   # antwortet, sobald JATOS läuft (beim ersten Start bis zu einer Minute)
+   curl -s http://127.0.0.1:9000/jatos/ping   # antwortet, sobald JATOS läuft (bis zu einer Minute); ohne Basispfad /ping
    ```
 
-3. **Admin-Passwort ändern, bevor JATOS öffentlich erreichbar ist.** JATOS legt beim ersten Start den Nutzer `admin` mit dem Passwort `admin` an. Vom eigenen Rechner einen SSH-Tunnel öffnen, `http://localhost:9000` im Browser aufrufen, mit `admin`/`admin` anmelden und das Passwort ändern (Nutzermenü oben rechts):
+3. **Admin-Passwort ändern, bevor JATOS öffentlich erreichbar ist.** JATOS legt beim ersten Start den Nutzer `admin` mit dem Passwort `admin` an. Vom eigenen Rechner einen SSH-Tunnel öffnen, `http://localhost:9000/jatos/` im Browser aufrufen, mit `admin`/`admin` anmelden und das Passwort ändern (Nutzermenü oben rechts):
 
    ```bash
    ssh -L 9000:127.0.0.1:9000 <nutzer>@<server>
@@ -42,9 +42,9 @@ Dieser Ordner betreibt JATOS mit dem Experiment auf einem Server mit Docker (gep
 
    Im Browser `localhost` verwenden, nicht `127.0.0.1`. JATOS setzt seine Cookies nur für HTTPS, und Browser lassen das für `http://localhost` als Ausnahme zu.
 
-4. Den nginx-Proxy auf JATOS zeigen lassen (siehe „nginx-Proxy“). Danach ist JATOS unter `https://<servername>` erreichbar.
+4. Den nginx-Proxy auf JATOS zeigen lassen (siehe „nginx-Proxy“). Danach ist JATOS unter `https://example.com/jatos/` erreichbar.
 
-5. In JATOS unter dem eigenen Nutzer (Nutzermenü > API tokens) ein API-Token erzeugen und die Studie hochladen. Auf dem Server selbst (JATOS unter `http://localhost:9000`) reicht das Token, z. B. als `JATOS_TOKEN=jap_...` in `deploy/.env`:
+5. In JATOS unter dem eigenen Nutzer (Nutzermenü > API tokens) ein API-Token erzeugen und die Studie hochladen. Auf dem Server selbst (JATOS unter `http://localhost:9000/jatos/`) reicht das Token, z. B. als `JATOS_TOKEN=jap_...` in `deploy/.env`:
 
    ```bash
    deploy/study.sh upload
@@ -53,7 +53,7 @@ Dieser Ordner betreibt JATOS mit dem Experiment auf einem Server mit Docker (gep
    Von einem anderen Rechner `JATOS_URL` mitgeben (oder über einen SSH-Tunnel ohne `JATOS_URL`):
 
    ```bash
-   JATOS_URL=https://<servername> JATOS_TOKEN=jap_... deploy/study.sh upload
+   JATOS_URL=https://example.com/jatos JATOS_TOKEN=jap_... deploy/study.sh upload
    ```
 
    Alternativ `deploy/study.sh` ausführen und `deploy/dist/visuelle-suche.jzip` in der JATOS-Oberfläche über „Import study“ hochladen.
@@ -91,34 +91,27 @@ Zurückspielen der Datenbank: `docker compose exec -T db sh -c 'exec mysql -u ro
 
 ## nginx-Proxy
 
-JATOS spricht nur HTTP. Der nginx-Proxy liefert HTTPS mit dem Zertifikat aus und leitet an JATOS weiter. Er muss dabei WebSockets durchlassen (die Batch Session von jatos.js, also die balancierte Versionsvergabe, läuft darüber) und die Header `Host` und `X-Forwarded-Proto` setzen. HTTP-Anfragen sollte er auf HTTPS umleiten: JATOS setzt seine Cookies nur für HTTPS, eine Anmeldung über reines HTTP hielte nicht.
+JATOS läuft unter einem Pfad des Servernamens, hier `https://example.com/jatos/`. JATOS selbst kennt diesen Pfad (`JATOS_URL_BASE_PATH=/jatos/` in `.env`, mit Schrägstrich an beiden Enden) und erzeugt alle Links, Studienlinks und API-Adressen damit; das Experiment und jatos.js verwenden nur relative Pfade und laufen darunter unverändert. Ohne diesen Eintrag läuft JATOS an der Wurzel (`/`).
+
+JATOS spricht nur HTTP. Der nginx-Proxy liefert HTTPS mit seinem Zertifikat aus und leitet `/jatos/` an JATOS weiter, **ohne den Pfad abzuschneiden** (`proxy_pass` ohne Pfad dahinter). Er muss WebSockets durchlassen (die Batch Session von jatos.js, also die balancierte Versionsvergabe, läuft darüber) und die Header `Host` und `X-Forwarded-Proto` setzen. HTTP sollte auf HTTPS umgeleitet werden: JATOS setzt seine Cookies nur für HTTPS, eine Anmeldung über reines HTTP hielte nicht.
+
+Im vorhandenen `server`-Block für `example.com` (Port 443, mit Zertifikat):
 
 ```nginx
-server {
-    listen 443 ssl;
-    server_name studie.example.de;
-    ssl_certificate     /pfad/zum/zertifikat.pem;   # vom Proxy-Betrieb geliefert
-    ssl_certificate_key /pfad/zum/schluessel.pem;
-
-    location / {
-        proxy_pass http://127.0.0.1:9000;           # JATOS (JATOS_BIND:JATOS_PORT)
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_read_timeout 3600s;                   # WebSockets bleiben lange offen
-        client_max_body_size 200M;                  # Import des Studienarchivs (ca. 15 MB)
-    }
-}
-
-server {
-    listen 80;
-    server_name studie.example.de;
-    return 301 https://$host$request_uri;
+location /jatos/ {
+    proxy_pass http://127.0.0.1:9000;           # JATOS (JATOS_BIND:JATOS_PORT); kein Pfad dahinter
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_read_timeout 3600s;                   # WebSockets bleiben lange offen
+    client_max_body_size 200M;                  # Import des Studienarchivs (ca. 15 MB)
 }
 ```
+
+Ein `proxy_pass http://127.0.0.1:9000/;` (mit Schrägstrich) würde `/jatos/` abschneiden; JATOS fände dann seine Seiten nicht. Ändert sich der Pfad, `JATOS_URL_BASE_PATH` und die `location` gemeinsam ändern und `docker compose up -d` ausführen.
 
 ### nginx auf einem anderen Rechner
 

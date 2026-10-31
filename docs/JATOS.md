@@ -26,7 +26,7 @@ Server mit Docker aufsetzen und Studie hochladen: [deploy/README.md](../deploy/R
 4. Studienlinks anlegen. Für Prolific den Link mit den Prolific-Platzhaltern in Prolific eintragen:
 
    ```text
-   https://<jatos-server>/publix/<study-code>?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}
+   https://example.com/jatos/publix/<study-code>?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}
    ```
 
    Ohne `version` vergibt die Batch Session die Version. Feste Version oder Test: `&version=2`, ohne Upload `&version=2&debug=1`.

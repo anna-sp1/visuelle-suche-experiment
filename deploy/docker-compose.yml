@@ -32,6 +32,8 @@ services:
       JATOS_DB_USERNAME: jatos
       JATOS_DB_PASSWORD: ${DB_PASSWORD}
       JATOS_DB_DRIVER: com.mysql.cj.jdbc.Driver
+      # Path under which JATOS runs, e.g. /jatos/ for https://example.com/jatos/ (default: the root).
+      JATOS_URL_BASE_PATH: ${JATOS_URL_BASE_PATH:-/}
     # Passed to JATOS after "start": cookies only over HTTPS, since participants and the research team
     # reach JATOS only through the HTTPS proxy (and http://localhost, which browsers allow).
     command: ["-Dplay.http.session.secure=true", "-Djatos.idCookies.secure=true"]
