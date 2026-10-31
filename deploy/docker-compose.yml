@@ -1,0 +1,64 @@
+# JATOS for the visual search experiment: JATOS, its MySQL database and Caddy for HTTPS.
+# Settings come from deploy/.env (copy .env.example). Setup and operation: deploy/README.md.
+name: visuelle-suche
+
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: jatos
+      MYSQL_USER: jatos
+      MYSQL_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in deploy/.env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?set DB_ROOT_PASSWORD in deploy/.env}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u jatos -p\"$$MYSQL_PASSWORD\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  jatos:
+    image: jatos/jatos:3.11.3
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      JATOS_DB_URL: "jdbc:mysql://db/jatos?characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+      JATOS_DB_USERNAME: jatos
+      JATOS_DB_PASSWORD: ${DB_PASSWORD}
+      JATOS_DB_DRIVER: com.mysql.cj.jdbc.Driver
+    # Passed to JATOS after "start": cookies only over HTTPS, since Caddy serves only HTTPS.
+    command: ["-Dplay.http.session.secure=true", "-Djatos.idCookies.secure=true"]
+    volumes:
+      # Study assets, result files, study logs (the database holds the result data).
+      - jatos-data:/opt/jatos_data
+      - jatos-logs:/opt/jatos/logs
+    # Only on the server itself, for a proxy of the server's own instead of Caddy (README.md).
+    ports:
+      - "127.0.0.1:${JATOS_LOCAL_PORT:-9000}:9000"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - jatos
+    environment:
+      JATOS_DOMAIN: ${JATOS_DOMAIN:?set JATOS_DOMAIN in deploy/.env}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  db-data:
+  jatos-data:
+  jatos-logs:
+  caddy-data:
+  caddy-config:

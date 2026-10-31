@@ -18,8 +18,10 @@ Die WebApp läuft als Komponente einer JATOS-Studie ([jatos.org](https://www.jat
 
 ## Studie in JATOS einrichten
 
-1. In JATOS eine neue Studie anlegen und die Dateien dieses Repositorys in ihre Study Assets kopieren (mindestens `index.html`, alle `*.js`, `style.css`, `bilder/` und `data/generated/`). `jatos.js` nicht kopieren.
-2. Eine Komponente anlegen, deren HTML-Datei `index.html` ist. Die Studie hat nur diese eine Komponente.
+Server mit Docker aufsetzen und Studie hochladen: [deploy/README.md](../deploy/README.md).
+
+1. Die Studie als Archiv importieren: `deploy/upload-study.sh` (über die JATOS-API) oder `python3 deploy/build-study.py` und `deploy/dist/visuelle-suche.jzip` in JATOS über „Import study“ hochladen. Das Archiv enthält `index.html`, die Skripte, `style.css`, `bilder/`, `tabellen/` und `data/generated/`, aber nicht `jatos.js`, und legt die eine Komponente mit `index.html` an.
+2. Von Hand geht es auch: neue Studie anlegen, dieselben Dateien in ihre Study Assets kopieren und eine Komponente mit der HTML-Datei `index.html` anlegen. Ein späterer Import des Archivs legt dann eine zweite Studie an, weil die UUID nicht übereinstimmt.
 3. Die Option zum Neuladen („Allow reload“) nach Bedarf setzen. Ist sie aus, zeigt JATOS beim Neuladen eine Fehlerseite; ist sie an, behält der Durchlauf seine Version, beginnt aber von vorn (die Antworten liegen bis Submit nur im Tab).
 4. Studienlinks anlegen. Für Prolific den Link mit den Prolific-Platzhaltern in Prolific eintragen:
 

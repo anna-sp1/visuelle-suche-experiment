@@ -1,0 +1,7 @@
+# HTTPS in front of JATOS. Caddy gets and renews the certificate for JATOS_DOMAIN
+# (Let's Encrypt; needs the name to point at this server and ports 80 and 443 open)
+# and passes WebSockets (jatos.js's batch channel) through.
+{$JATOS_DOMAIN} {
+	encode gzip
+	reverse_proxy jatos:9000
+}
