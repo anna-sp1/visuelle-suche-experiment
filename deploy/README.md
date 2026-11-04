@@ -7,6 +7,7 @@ Dieser Ordner betreibt JATOS mit dem Experiment auf einem Server mit Docker (gep
 | `docker-compose.yml` | Zwei Container: `jatos` (JATOS 3.11.3, HTTP, standardmäßig auf `127.0.0.1:9000`) und `db` (MySQL 8.4, die Ergebnisdaten). HTTPS und Zertifikate übernimmt ein nginx-Proxy davor (siehe „nginx-Proxy“). |
 | `.env.example` | Vorlage für `deploy/.env`: Datenbankpasswörter und wo JATOS für den Proxy lauscht. `.env` wird nicht eingecheckt. |
 | `study.sh` | `deploy/study.sh` packt das Experiment als JATOS-Studienarchiv `dist/visuelle-suche.jzip`; `deploy/study.sh upload` packt es und importiert es über die JATOS-API (erstes Mal: neue Studie, danach: Aktualisierung). Braucht nur bash, curl und `zip` (fehlt `zip`, nimmt es das `python3` des Systems, ohne zusätzliche Pakete). |
+| `build-study.ps1` | Dasselbe Archiv unter Windows, nur bauen (ohne Upload): `powershell -ExecutionPolicy Bypass -File deploy\build-study.ps1` im Repository. Windows PowerShell 5.1 oder PowerShell 7, nichts zu installieren. Das Archiv dann in JATOS über „Import study“ hochladen. |
 
 ## Voraussetzungen
 
