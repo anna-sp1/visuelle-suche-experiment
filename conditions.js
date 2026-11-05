@@ -24,6 +24,12 @@ function isExperimentDebugEnabled(search) {
     return values.length === 1 && values[0] === '1';
 }
 
+/** Pilot-only free-text feedback page at the end; enabled with exactly one feedback=1 in the study link. */
+function isPilotFeedbackEnabled(search) {
+    const values = new URLSearchParams(search).getAll('feedback');
+    return values.length === 1 && values[0] === '1';
+}
+
 /** True when the page runs as a JATOS component (jatos.js loaded from the JATOS server). */
 function inJatos() {
     return typeof jatos !== 'undefined' && jatos !== null && typeof jatos.submitResultData === 'function';
