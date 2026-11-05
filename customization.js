@@ -4,6 +4,18 @@ const CUSTOMIZATION_DIMENSIONS = Object.freeze({
     size: Object.freeze(['large', 'small']),
     type: Object.freeze(['L', 'O'])
 });
+// Participant-facing category names, shared by the customization and standard screens so both conditions use identical wording.
+const CUSTOMIZATION_LABELS = Object.freeze({
+    direction: 'Search direction',
+    background: 'Background characteristic',
+    size: 'Letter size',
+    type: 'Letter type'
+});
+// Participant-facing value names in the configuration panels (both conditions). Stored values stay unchanged.
+const CUSTOMIZATION_VALUE_LABELS = Object.freeze({ dark: 'dark areas', light: 'light areas' });
+function customizationValueLabel(value) {
+    return CUSTOMIZATION_VALUE_LABELS[value] || value.replaceAll('_', ' ');
+}
 
 /** starts: first value per dimension (rotated order). orders: optional full order per dimension (free permutation). */
 function buildCustomization(starts, orders = {}) {
@@ -59,23 +71,31 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
         ({ key, input: document.getElementById(`val-${index + 2}`), order: document.getElementById(`order-${index + 2}`) }));
     const dirGrid = fixedSettings ? null : document.getElementById('dir-grid');
     const dirOutput = fixedSettings ? null : document.getElementById('order-1');
-    let dirOrder = dirGrid ? [...CUSTOMIZATION_DIMENSIONS.direction] : null;
+    // No preset: direction starts empty and selects start on an empty placeholder, so every dimension needs an active choice.
+    let dirOrder = dirGrid ? [] : null;
     const apply = document.getElementById(fixedSettings ? 'preview-btn' : 'apply-btn');
     const proceed = document.getElementById('proceed-btn');
     const wrapper = document.getElementById('preview-image-wrapper');
     const image = document.getElementById('preview-image');
     const status = document.getElementById('status-text');
+    const badge = document.getElementById('preview-badge');
     let active = true, busy = false, generation = 0, interval;
 
     function dirComplete() { return !dirGrid || dirOrder.length === CUSTOMIZATION_DIMENSIONS.direction.length; }
+    function selectsComplete() { return selectors.every(({ input }) => input.value !== ''); }
+    function rotatedOrder(dimension, start) {
+        const values = CUSTOMIZATION_DIMENSIONS[dimension];
+        const index = values.indexOf(start);
+        return [...values.slice(index), ...values.slice(0, index)];
+    }
     function read() {
         if (fixedSettings) return fixedSettings;
-        if (!dirComplete()) return null;
+        if (!dirComplete() || !selectsComplete()) return null;
         const starts = Object.fromEntries(selectors.map(({ key, input }) => [key, input.value]));
         return buildCustomization(starts, { direction: dirOrder });
     }
     function refreshButtons() {
-        const blocked = busy || !dirComplete();
+        const blocked = busy || !dirComplete() || !selectsComplete();
         apply.disabled = blocked;
         proceed.disabled = blocked;
     }
@@ -87,16 +107,19 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
             cell.classList.toggle('dir-set', position >= 0);
         });
         dirOutput.textContent = dirComplete()
-            ? dirOrder.map(v => v.replaceAll('_', ' ')).join(' → ')
-            : `${dirOrder.map(v => v.replaceAll('_', ' ')).join(' → ')}${dirOrder.length ? ' → ' : ''}… (click the next area)`;
+            ? dirOrder.map(customizationValueLabel).join(' → ')
+            : dirOrder.length
+                ? `${dirOrder.map(customizationValueLabel).join(' → ')} → … (click the next area)`
+                : '(click the first area)';
     }
     function showOrders() {
         renderDirection();
         refreshButtons();
-        const settings = read();
-        if (!settings) return null;
-        selectors.forEach(({ key, order }) => { order.textContent = settings[key].order.map(v => v.replaceAll('_', ' ')).join(' → '); });
-        return settings;
+        // Each select shows its order as soon as it has a value, independent of the other dimensions.
+        selectors.forEach(({ key, input, order }) => {
+            order.textContent = input.value ? rotatedOrder(key, input.value).map(customizationValueLabel).join(' → ') : '';
+        });
+        return read();
     }
     function setBusy(value) {
         busy = value;
@@ -144,6 +167,7 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
         clearInterval(interval);
         wrapper.querySelectorAll('.ki-ring').forEach(ring => ring.remove());
         wrapper.classList.remove('preview-pass', 'preview-reject');
+        if (badge) badge.textContent = 'Preview Example';
         // Existing prototype template, not verified against the missing reference.
         status.textContent = `... starting search with ${settings.size.start} ${settings.type.start}s on ${settings.background.start} areas in the ${settings.direction.start.replaceAll('_', ' ')} ...`;
         let rows = null, started = false;
@@ -191,6 +215,10 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
                     verdictBox.className = `ai-agent-verdict ai-verdict-${verdict}`;
                     verdictBox.textContent = `Final verdict: ${verdict.toUpperCase()}`;
                     status.appendChild(verdictBox);
+                    // Reassurance in the image badge (no extra panel height): the coloured frame is the intended demo outcome, not an error.
+                    if (badge) badge.textContent = verdict === 'reject'
+                        ? 'Example part with more than 10 defects (correct verdict: reject)'
+                        : 'Example part with 10 or fewer defects (correct verdict: pass)';
                     setBusy(false);
                 }
             }, Number(document.getElementById('preview-speed')?.value) || PREVIEW_SEARCH_STEP_MS);
