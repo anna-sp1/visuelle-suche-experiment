@@ -710,6 +710,21 @@ const outro_trial = {
 };
 timeline.push(outro_trial);
 
+// 6.6 Pilot feedback: only with feedback=1 in the study link (pilots), never in the main study.
+// Optional free text after the debriefing; skipped if the participant withdrew (nothing is saved then).
+if (isPilotFeedbackEnabled(search)) timeline.push({
+    timeline: [{
+        type: jsPsychSurveyText,
+        questions: [{ prompt: 'Was anything in this study unclear, confusing or not working as expected? We also welcome any other feedback you may have. (optional)',
+                      name: 'pilot_feedback', rows: 6, columns: 70, required: false }],
+        button_label: 'Next',
+        data: { phase: 'pilot_feedback' },
+        on_finish: data => { data.pilot_feedback = (data.response?.pilot_feedback || '').trim(); }
+    }],
+    progress_optional: true,
+    conditional_function: () => jsPsych.data.get().filter({ phase: 'submission' }).last(1).values()[0]?.data_use_consent === YES_NO_CODES.yes
+});
+
 loadAiResources(condition, { allowValidatedPartial: debugEnabled }).then(resources => {
     for (const { plan, symbols } of resources) {
         const trial = createAiTrial({ jsPsych, plan, symbols, condition,
