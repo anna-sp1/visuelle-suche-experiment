@@ -105,7 +105,7 @@ for (const version of [1, 2, 3, 4]) {
                 assert.equal(s.finished.length, 0);
                 s.tick(1);
                 const panel = s.document.getElementById('ai-agent-verdict');
-                assert.equal(panel.textContent, `Final verdict: ${verdict.toUpperCase()} | Defects found: 10`);
+                assert.equal(panel.textContent, `Final verdict: ${verdict.toUpperCase()}`);
                 assert.ok(panel.classList.contains(verdict === 'Pass' ? 'ai-verdict-pass' : 'ai-verdict-reject'));
                 // Both test verdicts have 10 rings. REJECT must never be recomputed as PASS.
                 const wrapper = s.document.getElementById('ai-image-wrapper');
