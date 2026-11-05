@@ -671,7 +671,8 @@ timeline.push({ timeline: [
 const outro_trial = {
     type: jsPsychHtmlButtonResponse,
     stimulus: `<div class="doc-page" style="max-width: 1120px; margin: 0 auto; padding: 40px 56px 56px 56px; box-sizing: content-box; color: #222222; font-size: 16px; line-height: 1.6;">
-        <h1 style="margin: 0 0 18px 0;">Thank you for taking part! Please read the following information carefully.</h1>
+        <h1 style="margin: 0 0 18px 0;">Thank you very much for taking part!</h1>
+        <p>Your time and effort make this research possible. Before you finish, please read the following information about the study.</p>
         <p><strong>What was this study about?</strong> We investigate whether configuring an AI assistant yourself makes people feel that it is "theirs" (psychological ownership), and whether this feeling changes how carefully they check the assistant's recommendations, how satisfied they are with it, and how much responsibility they take for errors.</p>
         <p>To study this under controlled conditions, some information was simplified or withheld at the beginning:</p>
         <ol>
@@ -680,27 +681,29 @@ const outro_trial = {
             <li>The settings that some participants could choose (name and search order) only changed how the agent's search was displayed, not how accurate it was. Other participants could not change any settings. Both versions were intended.</li>
             <li>The quality-assurance scenario at the end was the same for everyone. It was not related to your actual performance and was not an evaluation of your work. Your results do not allow any conclusions about your perception, concentration or judgement.</li>
         </ol>
-        <p><strong>Why was this necessary?</strong> Knowing these details in advance would have influenced how people work with the agent and how they evaluate it. Our research question could then not have been answered.</p>
-        <p><strong>Your data and your rights.</strong> Now that you know the full purpose of the study, you can decide below whether your data may be used. This has no effect on your payment. You can also withdraw later by sending us a message via Prolific or an e-mail to ${CONTACT_EMAIL} until two weeks after your participation.</p>
+        <p><strong>Why was this necessary?</strong> If participants had known these details in advance, this would have influenced how they work with the agent and how they evaluate it, and our research question could not have been answered. Withholding information in this way is a common procedure in psychological research. We apologise for any confusion it may have caused.</p>
+        <p><strong>Why your data matter.</strong> Your responses help us understand how AI assistance can be designed so that people stay in control and notice its errors.</p>
+        <div style="margin: 22px 0; padding: 16px 20px; border: 1px solid #d5d9de; border-radius: 4px; background: #f7f8fa;">
+            <p style="margin: 0 0 12px 0;"><strong>Your choice (optional).</strong> If you do not want your data to be used, please tick the box below. Your data will then not be saved. If you leave it unticked, your data will be used for this research. You can also withdraw later by sending us a message via Prolific or an e-mail to ${CONTACT_EMAIL} within two weeks of your participation. In both cases, you will receive your full payment. If you withdraw, none of your answers are kept; we only note that a withdrawal occurred in your study version.</p>
+            <label style="display: block; cursor: pointer;"><input type="checkbox" id="debrief-withdraw" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 10px;">I withdraw my consent to the use of my data.</label>
+        </div>
         <p>Please do not share details of this study with others who might take part.</p>
-        <p style="margin-top: 28px;"><strong>Do you agree that your data may be used for this research?</strong></p>
-        <p>
-            <button id="debrief-yes" style="padding: 10px 22px; margin-right: 12px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #2b3a4a; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">Yes, my data may be used</button>
-            <button id="debrief-no" style="padding: 10px 22px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #2b3a4a; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">No, please do not use my data</button>
-        </p>
+        <p><button id="debrief-finish" style="margin-top: 16px; padding: 10px 26px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #2b3a4a; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">Finish</button></p>
     </div>`,
-    // Both options are shown identically (same size, colour and position logic), so neither is nudged.
+    // Withdrawal: unticked checkbox above the single "Finish" button (no separate opt-out button);
+    // later withdrawal via Prolific message or e-mail. Full payment in both cases.
     choices: [],
     data: { phase: 'submission' },
     on_load: () => {
-        document.getElementById('debrief-yes').addEventListener('click', () => jsPsych.finishTrial({ response: 0 }));
-        document.getElementById('debrief-no').addEventListener('click', () => jsPsych.finishTrial({ response: 1 }));
+        document.getElementById('debrief-finish').addEventListener('click', () =>
+            jsPsych.finishTrial({ withdrawn: document.getElementById('debrief-withdraw').checked }));
     },
     on_finish: data => {
         submitted = true;
         data.submitted = true;
-        // 1 = yes (data may be used), 2 = no (nothing is uploaded, see storage.js).
-        data.data_use_consent = data.response === 1 ? YES_NO_CODES.no : YES_NO_CODES.yes;
+        // 1 = data may be used, 2 = withdrawn (nothing is uploaded, see storage.js; Prolific redirect stays).
+        data.data_use_consent = data.withdrawn ? YES_NO_CODES.no : YES_NO_CODES.yes;
+        delete data.withdrawn;
     }
 };
 timeline.push(outro_trial);

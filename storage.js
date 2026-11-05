@@ -39,12 +39,12 @@ function redirectToProlific(status, message = 'Data saved. You will now be redir
 // Ends the JATOS study result (FINISHED, or ABORTED when consent was withdrawn: JATOS then keeps
 // no result data) and only then redirects to Prolific, so the result is closed either way.
 // Errors here never change what the page says about the data.
-function endJatosStudy(status, abort, message) {
+function endJatosStudy(status, abort, message, abortMessage = 'data_use_consent: no') {
     const redirect = () => { try { redirectToProlific(status, message); } catch (_) {} };
     let ending = null;
     // The *WithoutRedirect names are current JATOS; the *Ajax names are what older versions have.
     try {
-        ending = abort ? (jatos.abortStudyWithoutRedirect || jatos.abortStudyAjax).call(jatos, 'data_use_consent: no')
+        ending = abort ? (jatos.abortStudyWithoutRedirect || jatos.abortStudyAjax).call(jatos, abortMessage)
             : (jatos.endStudyWithoutRedirect || jatos.endStudyAjax).call(jatos);
     } catch (_) {}
     Promise.resolve(ending).then(redirect, redirect);
@@ -71,7 +71,11 @@ function showSubmission(jsPsych, debug) {
         download.hidden = true;
         status.textContent = 'Your data have not been saved and will not be used. Thank you for taking part. You may close this window now.';
         const message = 'Your data have not been saved. You will now be redirected to Prolific.';
-        if (!debug && inJatos()) endJatosStudy(status, true, message);
+        // The abort message (kept by JATOS as result metadata, without result data) names only the
+        // study version, so that withdrawals per condition can be reported.
+        const version = (originals.find(row => row.experiment_version != null) || {}).experiment_version;
+        const abortMessage = 'data_use_consent: no' + (version != null ? `; experiment_version: ${version}` : '');
+        if (!debug && inJatos()) endJatosStudy(status, true, message, abortMessage);
         else try { redirectToProlific(status, message); } catch (_) {}
         return;
     }
