@@ -15,6 +15,7 @@ Die WebApp läuft als Komponente einer JATOS-Studie ([jatos.org](https://www.jat
 | Einwilligung zurückgezogen | Wird nach dem Debriefing „No“ gewählt, wird nichts gesendet. Der Durchlauf wird abgebrochen (`abortStudyWithoutRedirect`, Status ABORTED, Nachricht `data_use_consent: no`); JATOS behält dabei keine Ergebnisdaten. |
 | Prolific | Wie bisher: Weiterleitung auf `PROLIFIC_COMPLETION_URL` (`config.js`), nur wenn gesetzt und `PROLIFIC_PID` und `SESSION_ID` im Studienlink stehen, und erst nachdem JATOS den Durchlauf beendet hat. Die „End Redirect URL“ in den JATOS-Studieneinstellungen wird nicht verwendet und sollte leer bleiben. |
 | Debug | `debug=1` sendet nichts an JATOS und bietet nur den lokalen CSV-Download. |
+| Pilot-Feedback | `feedback=1` zeigt nach dem Debriefing eine optionale Freitextseite (`pilot_feedback`), nur für interne und Prolific-Pilotlinks. Ohne den Parameter (Hauptstudie) erscheint sie nie. Wer die Datennutzung zurückzieht, sieht sie nicht, weil dann ohnehin nichts gespeichert wird. |
 
 ## Studie in JATOS einrichten
 
@@ -29,7 +30,7 @@ Server mit Docker aufsetzen und Studie hochladen: [deploy/README.md](../deploy/R
    https://example.com/jatos/publix/<study-code>?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}
    ```
 
-   Ohne `version` vergibt die Batch Session die Version. Feste Version oder Test: `&version=2`, ohne Upload `&version=2&debug=1`.
+   Ohne `version` vergibt die Batch Session die Version. Feste Version oder Test: `&version=2`, ohne Upload `&version=2&debug=1`. Pilotlinks zusätzlich mit `&feedback=1`.
 5. Vor dem Start die Batch Session des verwendeten Batches leeren, damit Testdurchläufe nicht mitgezählt werden.
 
 ## Daten abrufen

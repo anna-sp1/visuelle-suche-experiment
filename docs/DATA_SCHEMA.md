@@ -29,6 +29,7 @@ Eine Zeile je abgeschlossenem jsPsych-Trial, UTF-8, CSV mit doppelten Anfuehrung
 | preprocessing_seed | Fester Seed des generierten Plans |
 | miss_symbol_ids, false_alarm_symbol_ids, ai_marked_symbol_ids, error_symbol_ids | JSON-Listen konkreter IDs; nur diese mehrwertigen Zuordnungen bleiben JSON |
 | submitted | true auf der Abschlusszeile nach Submit |
+| pilot_feedback | Nur mit `feedback=1` im Link: optionaler Freitext nach dem Debriefing (Zeile mit phase `pilot_feedback`), leer wenn nichts eingegeben |
 
 ## Survey-Spalten
 
