@@ -69,7 +69,7 @@ function showSubmission(jsPsych, debug) {
     if (originals.some(row => row.data_use_consent === YES_NO_CODES.no)) {
         retry.hidden = true;
         download.hidden = true;
-        status.textContent = 'Your data have not been saved and will not be used. Thank you for taking part. You may close this window now.';
+        status.textContent = 'Your data have not been saved and will not be used. You may close this window now.';
         const message = 'Your data have not been saved. You will now be redirected to Prolific.';
         // The abort message (kept by JATOS as result metadata, without result data) names only the
         // study version, so that withdrawals per condition can be reported.
