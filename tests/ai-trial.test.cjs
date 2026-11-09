@@ -96,7 +96,7 @@ for (const version of [1, 2, 3, 4]) {
                 const trial = create(s, version, item);
                 const html = trial.stimulus();
                 assert.ok(html.includes('ai-agent-verdict') && html.includes('ai-pass') && html.includes('ai-reject'));
-                assert.ok(html.includes(`<span class="ai-round-counter" aria-label="Round 1 of ${phase === 'ai_practice' ? 10 : 30}">1/${phase === 'ai_practice' ? 10 : 30}</span>`));
+                assert.ok(html.includes(`<div class="ai-round-counter" aria-label="Round 1 of ${phase === 'ai_practice' ? 10 : 30}">1/${phase === 'ai_practice' ? 10 : 30}</div>`));
                 assert.ok(html.includes('class="image-container trial-image-container"'));
                 trial.on_load();
                 s.document.getElementById('ai-pass').click();
@@ -221,10 +221,12 @@ test(`v${version} partial=${partial}: loader preserves all 40 trials and rejects
 }
 
 for (const [phase, total] of [['ai_practice', 10], ['main_task', 30]]) {
-    test(`${phase}: round counter shows the current trial in the upper right`, () => {
+    test(`${phase}: round counter shows the current trial above the agent panel, outside it`, () => {
         const s = setup();
         const trial = create(s, 1, fixture(1, phase, 'Pass', 4));
-        assert.ok(trial.stimulus().includes(`aria-label="Round 4 of ${total}">4/${total}</span>`));
+        const html = trial.stimulus();
+        assert.ok(html.includes(`<div class="ai-round-counter" aria-label="Round 4 of ${total}">4/${total}</div>`));
+        assert.ok(html.indexOf('ai-round-counter') < html.indexOf('class="ki-panel"'));
     });
 }
 

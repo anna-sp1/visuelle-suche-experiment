@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-test('AI ring diameter is 25% smaller at unchanged symbol coordinates', () => {
+test('AI ring diameter reduced by a further 25% (radius factor 0.9) at unchanged symbol coordinates', () => {
     const rings = [];
     const container = { getBoundingClientRect: () => ({ width: 960 }), appendChild: ring => rings.push(ring) };
     const context = vm.createContext({
@@ -13,8 +13,8 @@ test('AI ring diameter is 25% smaller at unchanged symbol coordinates', () => {
     });
     vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'functions.js'), 'utf8'), context);
     vm.runInContext("renderRing('image', 100, 200, 'groß'); renderRing('image', 100, 200, 'klein');", context);
-    assert.ok(Math.abs(parseFloat(rings[0].style.width) - 45.6) < 0.001);
-    assert.ok(Math.abs(parseFloat(rings[1].style.width) - 28.8) < 0.001);
+    assert.ok(Math.abs(parseFloat(rings[0].style.width) - 34.2) < 0.001);
+    assert.ok(Math.abs(parseFloat(rings[1].style.width) - 21.6) < 0.001);
     for (const ring of rings) {
         assert.equal(ring.style.left, '50px');
         assert.equal(ring.style.top, '100px');
@@ -331,7 +331,7 @@ test('identical beginning in every version, exact supplied task wording and butt
     const task = html[3].replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
     assert.ok(task.includes('An L or an O is a defect. Ignore all other letters.'));
     assert.ok(task.includes('Orange and blue letters as well as large and small ones are equally important.'));
-    assert.ok(task.includes('Flag a component as reject if it contains more than 10 defects. Otherwise, flag it as pass.'));
+    assert.ok(task.includes('Flag a component as Reject if it contains more than 10 defects. Otherwise, flag it as Pass.'));
     assert.match(html[4], /Next, you will practice the task/);
     assert.match(html[10], /You have finished the practice\./);
     baseline.timeline[2].timeline[0].on_load();
