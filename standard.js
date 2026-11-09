@@ -17,40 +17,43 @@ function createStandardPreparation(jsPsych, agentId) {
             .preview-reject { border: 4px solid #d9534f !important; box-shadow: 0 0 15px rgba(217, 83, 79, 0.5) !important; transition: all 0.3s; }
         </style>
 
-        <!-- Gleiches Layout wie die Customization-Seite, nur ohne Auswahlfelder -->
-        <div class="preview-layout" style="display: grid; grid-template-columns: minmax(0, 1fr) 460px; grid-template-rows: auto 1fr; grid-template-areas: 'img status' 'img panel'; gap: 16px; width: min(1180px, calc(100vw - 40px)); margin: 4px auto; align-items: start;">
+        <!-- Gleiches Layout wie die Customization-Seite (Instruktion + Board), nur ohne Auswahlfelder -->
+        <div class="preview-layout cfg-layout">
 
                 <div id="preview-image-wrapper" style="grid-area: img; position:relative; width: min(100%, calc((100vh - 110px) * 1.25)); justify-self: end; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
                     <img id="preview-image" src="bilder/preview_stimulus.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;" />
-                    <div id="preview-badge" style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">Preview Example</div>
+                    <div id="preview-badge" style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">${PREVIEW_BADGE_TEXT}</div>
                 </div>
 
-                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 10px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 92px;">
-                    <div style="background: #999; border: 2px solid #333; padding: 3px 16px; font-size: 18px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 8px;">
-                        ${agentId}
-                    </div>
-                    <div id="status-text" style="font-size: 16px; line-height: 1.5; text-align: left; width: 100%;">
-                        <span style="color:#888; font-style:italic;">Ready for preview...</span>
-                    </div>
+                <div id="instructions-text" class="cfg-instructions">
+                    <strong>${agentId}</strong> was set up with a specific search order.<span style="display:block; height:6px;"></span>
+                    Click <strong>Preview</strong> to run a demo (as often as you like), or <strong>Proceed</strong> once you are ready to practice the task with the agent.
                 </div>
 
-                <div style="grid-area: panel; background:#0f172a; padding:10px 16px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; box-sizing: border-box;">
-                    <div id="instructions-text" style="text-align:center; font-size: 14px; line-height: 1.4; margin-bottom: 10px;">
-                        <strong>${agentId}</strong> was set up with a specific search order.<span style="display:block; height:6px;"></span>
-                        Click <strong style="color: #32b5a1;">Preview</strong> to run a demo (as often as you like), or <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with the agent.
+                <div class="cfg-board">
+                    <div class="cfg-head">
+                        <span class="cfg-name">${agentId}</span>
+                        <div id="status-text" class="cfg-status"><span class="cfg-idle">Ready for preview...</span></div>
                     </div>
-
-                    <div style="display: flex; flex-direction: column; align-items: stretch; gap: 6px;">
-                        ${Object.entries(settings).map(([key, value], index) => `
-                        <div id="row-s${index + 1}" style="display: flex; align-items: center; gap: 15px; padding: 4px 10px; border-radius: 8px; width: 100%; box-sizing: border-box; grid-template-columns: minmax(100px, 120px) minmax(0, 1fr);">
-                            <strong style="color:#32b5a1; font-size: 16px; width: 150px; flex-shrink: 0;">${CUSTOMIZATION_LABELS[key]}:</strong>
-                            <output style="font-size:14px;">${value.order.map(customizationValueLabel).join(' → ')}</output>
-                        </div>`).join('')}
+                    <div class="cfg-order">
+                        <div class="cfg-order-label">Search order</div>
+                        <div class="cfg-rows">
+                            <div id="row-s1" class="cfg-row">
+                                <strong>${CUSTOMIZATION_LABELS.direction}:</strong>
+                                ${staticDirectionGrid(settings.direction.order)}
+                                <output>${orderChips(settings.direction.order)}</output>
+                            </div>
+                            ${['background', 'size', 'type'].map((key, index) => `
+                            <div id="row-s${index + 2}" class="cfg-row">
+                                <strong>${CUSTOMIZATION_LABELS[key]}:</strong>
+                                ${staticOptionPair(key, settings[key].order)}
+                                <output></output>
+                            </div>`).join('')}
+                        </div>
                     </div>
-
-                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
-                        <div style="display:flex; align-items:center; gap:6px; font-size:13px; color:#526276;">Demo speed:
-                            <select id="preview-speed" style="padding: 4px 6px; font-size: 13px; border-radius: 4px;">
+                    <div class="cfg-foot">
+                        <div class="cfg-speed">Demo speed:
+                            <select id="preview-speed">
                                 <option value="320">slow</option>
                                 <option value="180" selected>normal</option>
                                 <option value="70">fast</option>

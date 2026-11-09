@@ -56,19 +56,24 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                     <img id="ai-stimulus-image" src="${escapeAiHtml(plan.image_path)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;" />
                 </div>
                 <div class="right-column">
-                    <div class="ki-panel"><h3>${escapeAiHtml(agentId)}<span class="ai-round-counter" aria-label="Round ${plan.trial_index} of ${plan.phase === 'ai_practice' ? 10 : 30}">${plan.trial_index}/${plan.phase === 'ai_practice' ? 10 : 30}</span></h3>
-                            <p style="line-height:1.5; margin-bottom:14px;">
-                            <b><i style="color:#2e7d5b;">pass</i></b>: 10 or less defects<br>
-                            <b><i style="color:#c0392b;">reject</i></b>: more than 10 defects<br><br>
-                            Defects are <b>L</b>s and <b>O</b>s.
-                        </p>
+                    <!-- Round counter sits outside the agent panel, so the panel only shows the agent's own output. -->
+                    <div class="ai-round-counter" aria-label="Round ${plan.trial_index} of ${plan.phase === 'ai_practice' ? 10 : 30}">${plan.trial_index}/${plan.phase === 'ai_practice' ? 10 : 30}</div>
+                    <div class="ki-panel"><h3>${escapeAiHtml(agentId)}</h3>
                         <div id="ai-search-status"><span class="ai-thinking">Searching</span></div>
                         <div id="ai-search-step"></div>
                         <div id="ai-agent-verdict" class="ai-agent-verdict" aria-live="polite"></div>
                     </div>
-                    <div class="button-container">
-                        <button id="ai-pass" class="action-btn btn-start" disabled>Pass</button>
-                        <button id="ai-reject" class="action-btn btn-reset" disabled>Reject</button>
+                    <!-- Criteria sit with the participant's own buttons, not in the agent's panel. -->
+                    <div class="decision-panel">
+                        <p class="decision-criteria">
+                            <b><i style="color:#2e7d5b;">Pass</i></b>: 10 or less defects<br>
+                            <b><i style="color:#c0392b;">Reject</i></b>: more than 10 defects
+                            <span class="criteria-note">Defects are <b>L</b>s and <b>O</b>s.</span>
+                        </p>
+                        <div class="button-container">
+                            <button id="ai-pass" class="action-btn btn-start" disabled>Pass</button>
+                            <button id="ai-reject" class="action-btn btn-reset" disabled>Reject</button>
+                        </div>
                     </div>
                 </div>
             </div>`;

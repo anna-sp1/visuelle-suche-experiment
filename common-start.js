@@ -166,7 +166,7 @@ let intro_timeline = [
             "The Task", 
             `<p>You will view component images one by one. Your task is to classify each part based on its defects.</p>
              <p>An <strong>L</strong> or an <strong>O</strong> is a defect. Ignore all other letters. Orange and blue letters as well as large and small ones are equally important.</p>
-             <p>Flag a component as <strong><i style="color: #d9534f;">reject</i></strong> if it contains <strong style="color: #d9534f;">more than 10</strong> defects. Otherwise, flag it as <strong><i style="color: #5cb85c;">pass</i></strong>.</p>
+             <p>Flag a component as <strong><i style="color: #d9534f;">Reject</i></strong> if it contains <strong style="color: #d9534f;">more than 10</strong> defects. Otherwise, flag it as <strong><i style="color: #5cb85c;">Pass</i></strong>.</p>
              <p>You can click on defects to mark them for easier counting. Click again to deselect.</p>`
         ),
         choices: [], 
@@ -182,8 +182,8 @@ let intro_timeline = [
                  <p>Later in the study, you will work with an AI agent that also follows a search strategy. While practicing, pay attention to how you search the images: where do you start, and what do you look for first?</p>
                  <p>Use the buttons below to classify each component:</p>
                  <ul style="display: inline-block; text-align: left; margin: 10px auto;">
-                     <li><strong><i style="color: #5cb85c;">pass</i></strong>: 10 or less defects</li>
-                     <li><strong><i style="color: #d9534f;">reject</i></strong>: more than 10 defects</li>
+                     <li><strong><i style="color: #5cb85c;">Pass</i></strong>: 10 or less defects</li>
+                     <li><strong><i style="color: #d9534f;">Reject</i></strong>: more than 10 defects</li>
                  </ul>
                  <p>Defects are <strong>Ls</strong> and <strong>Os</strong>.</p>
              </div>`, 
@@ -216,19 +216,20 @@ for (let t = 1; t <= ANZAHL_TRAINING_RUNDEN; t++) {
                 <img id="training-image" src="${bildPfad}" style="position:absolute; top:0; left:0; width: 100%; height: 100%; object-fit: contain; border-radius: 4px;" />
             </div>
             <div class="right-column">
-                <div style="background:#1e2229; padding:20px; border-radius:10px; color:white; font-family:sans-serif; border: 2px solid #555;">
-                    <h3 style="margin-top:0; border-bottom:1px solid #333; padding-bottom:10px;">TRAINING (${t}/${ANZAHL_TRAINING_RUNDEN})</h3>
-                    <p style="line-height:1.5; margin-bottom:14px;">
-                        <b><i style="color:#2e7d5b;">pass</i></b>: 10 or less defects<br>
-                        <b><i style="color:#c0392b;">reject</i></b>: more than 10 defects<br><br>
-                        Defects are <b>L</b>s and <b>O</b>s.
-                    </p>
-                    <p style="color:#e0e0e0; line-height:1.5;">You can click anywhere on the image to place a marker as a counting aid.</p>
-                    <p style="color:#e0e0e0; line-height:1.5;">You can click on an existing marker to remove it.</p>
-                </div>
-                <div class="button-container" style="margin-top: 20px;">
-                    <button id="btn-pass" class="action-btn" style="background-color: #5cb85c;" disabled>pass</button>
-                    <button id="btn-reject" class="action-btn btn-reset" disabled>reject</button>
+                <!-- Training: one continuous light field (instructions, criteria, buttons); no agent panel here. -->
+                <div class="decision-panel training-panel">
+                    <h3 class="training-title">TRAINING (${t}/${ANZAHL_TRAINING_RUNDEN})</h3>
+                    <p class="training-hint">You can click anywhere on the image to place a marker as a counting aid.</p>
+                    <p class="training-hint">You can click on an existing marker to remove it.</p>
+                    <p class="decision-criteria">
+                            <b><i style="color:#2e7d5b;">Pass</i></b>: 10 or less defects<br>
+                            <b><i style="color:#c0392b;">Reject</i></b>: more than 10 defects
+                            <span class="criteria-note">Defects are <b>L</b>s and <b>O</b>s.</span>
+                        </p>
+                    <div class="button-container">
+                        <button id="btn-pass" class="action-btn" style="background-color: #5cb85c;" disabled>Pass</button>
+                        <button id="btn-reject" class="action-btn btn-reset" disabled>Reject</button>
+                    </div>
                 </div>
             </div>
         </div>

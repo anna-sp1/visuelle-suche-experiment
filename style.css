@@ -193,7 +193,7 @@
 .preview-pass { border: 4px solid #5cb85c !important; }
 .preview-reject { border: 4px solid #d9534f !important; }
 .ai-agent-verdict { margin-top: 20px; padding: 12px; font-weight: bold; font-size: 24px; border-radius: 6px; }
-.ai-round-counter { float: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ai-round-counter { text-align: right; font-size: 13px; font-weight: 600; color: #64748b; font-variant-numeric: tabular-nums; margin: 0 4px 6px 0; }
 .ai-verdict-pass { background: #174c27; color: #fff; border: 3px solid #5cb85c; }
 .ai-verdict-reject { background: #701c20; color: #fff; border: 3px solid #d9534f; }
 
@@ -351,7 +351,7 @@ body, #jspsych-content, .jspsych-display-element {
 /* jsPsych places post-practice and post-task text directly in #jspsych-content. */
 #jspsych-content:has(#jspsych-survey-likert-form),
 #jspsych-content:has(#jspsych-survey-text-form),
-#jspsych-content:has(#jspsych-html-button-response-stimulus):not(:has(.experiment-container, .card, .glasses-screen, [style*="background:#0f172a"], [style*="background: #0f172a"])) {
+#jspsych-content:has(#jspsych-html-button-response-stimulus):not(:has(.experiment-container, .card, .glasses-screen, .cfg-layout, [style*="background:#0f172a"], [style*="background: #0f172a"])) {
     background: #fff;
     border: 1px solid #d7e0e9;
     border-radius: 1rem;
@@ -365,7 +365,7 @@ body, #jspsych-content, .jspsych-display-element {
     align-self: center;
     margin: 2rem auto;
 }
-#jspsych-content:has(#jspsych-html-button-response-stimulus):not(:has(.experiment-container, .card, .glasses-screen, [style*="background:#0f172a"], [style*="background: #0f172a"])) {
+#jspsych-content:has(#jspsych-html-button-response-stimulus):not(:has(.experiment-container, .card, .glasses-screen, .cfg-layout, [style*="background:#0f172a"], [style*="background: #0f172a"])) {
     width: fit-content;
     max-width: min(900px, calc(100vw - 2rem));
 }
@@ -718,3 +718,99 @@ body:has(.doc-page),
     border: 1px solid #b8c4d0; border-radius: .5rem; background: #fff;
 }
 #jspsych-content .form-left #demo-next { margin-top: 24px; }
+
+/* 17. Konfigurationsseite (Customization und Standard, 08.11.2026): Instruktion ohne Kasten,
+   darunter ein zusammengehoeriges Board (Kopfzeile, Anzeige, Einstellungen, Buttons). */
+#jspsych-content .cfg-layout {
+    display: grid; grid-template-columns: minmax(0, 1fr) 460px; grid-template-rows: auto 1fr;
+    grid-template-areas: 'img instr' 'img board'; column-gap: 20px; row-gap: 12px;
+    width: min(1180px, calc(100vw - 40px)); margin: 4px auto; align-items: start;
+}
+#jspsych-content .cfg-instructions { grid-area: instr; text-align: left !important; font-size: 13.5px !important; line-height: 1.4 !important; color: #334155; padding: 0 2px; }
+#jspsych-content .cfg-instructions * { text-align: left !important; }
+#jspsych-content .cfg-board { grid-area: board; background: #ffffff; border: 2px solid #334155; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 14px rgba(15, 23, 42, .12); }
+/* Kopfzeile = Anzeige des Agenten: Name und Status gehoeren zusammen (kein Eingabefeld-Look). */
+#jspsych-content .cfg-head { display: flex; align-items: flex-start; gap: 12px; background: #e8edf3; border-bottom: 1px solid #cbd5e1; padding: 10px 14px; min-height: 64px; box-sizing: border-box; }
+#jspsych-content .cfg-name { flex-shrink: 0; background: #1f2937; color: #ffffff; font-weight: 700; letter-spacing: 3px; padding: 3px 10px; border-radius: 4px; font-size: 15px; }
+#jspsych-content .cfg-status { flex: 1; min-width: 0; text-align: left !important; font-size: 15px !important; line-height: 1.35 !important; padding-top: 2px; }
+#jspsych-content .cfg-status .cfg-idle { color: #64748b; font-style: italic; }
+#jspsych-content .cfg-status .ai-agent-verdict { font-size: 17px !important; margin-top: 6px !important; padding: 6px !important; text-align: center !important; }
+/* Einstellungen: eine gemeinsame Beschriftung "Search order" links neben allen vier Zeilen. */
+#jspsych-content .cfg-order { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; padding: 10px 14px 10px 8px; }
+#jspsych-content .cfg-order-label { writing-mode: vertical-rl; transform: rotate(180deg); text-align: center !important; align-self: center; font-size: 12px !important; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #64748b; }
+#jspsych-content .cfg-rows { display: flex; flex-direction: column; gap: 5px; }
+/* Höhere Spezifität als die alten [id^="row-"]-Regeln (Abschnitt Preview), damit Standard- und Custom-Board identisch rendern. */
+#jspsych-content .cfg-board .cfg-rows .cfg-row { display: grid !important; grid-template-columns: 116px auto minmax(0, 1fr) !important; align-items: center; gap: 10px !important;
+    width: 100% !important; box-sizing: border-box; min-height: 38px; background: #f8fafc !important; border: 1px solid #e2e8f0; border-radius: 6px; padding: 5px 8px !important; }
+#jspsych-content .cfg-board .cfg-rows .cfg-row strong { font-size: 13.5px !important; }
+#jspsych-content .cfg-board .cfg-rows .cfg-row output { font-size: 12.5px !important; }
+#jspsych-content .cfg-board .opt-btn { font-size: 13px !important; line-height: 1.3 !important; padding: 4px 10px !important; }
+#jspsych-content .cfg-row strong { color: #256c59 !important; font-size: 13.5px !important; line-height: 1.2 !important; text-align: left !important; }
+#jspsych-content .cfg-row output { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; }
+#jspsych-content .opt-pair { display: flex; gap: 6px; }
+#jspsych-content .opt-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 0 !important; height: auto !important; padding: 4px 10px !important; font-size: 13px !important; font-weight: 500 !important;
+    background: #ffffff !important; color: #1e293b !important; border: 1px solid #cbd5e1 !important; border-radius: 6px !important; cursor: pointer; box-shadow: none !important; white-space: nowrap; }
+#jspsych-content .opt-btn:hover:not(:disabled) { background: #e6f2ee !important; border-color: #256c59 !important; }
+#jspsych-content .opt-btn.opt-set { background: #d9f1ea !important; border-color: #256c59 !important; }
+#jspsych-content .opt-btn .opt-num:empty { display: none; }
+#jspsych-content .opt-btn .opt-num { display: inline-flex; justify-content: center; align-items: center; width: 17px; height: 17px; border-radius: 50%; background: #256c59; color: #fff; font-size: 11px; }
+#jspsych-content .opt-static, #jspsych-content .dir-static { cursor: default !important; }
+#jspsych-content .dir-static-grid .dir-cell { display: flex; align-items: center; justify-content: center; font-weight: 700; color: #256c59; }
+#jspsych-content .ord-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; color: #1e293b; background: #e2e8f0; border-radius: 10px; padding: 1px 8px 1px 2px; white-space: nowrap; }
+#jspsych-content .ord-chip b { display: inline-flex; justify-content: center; align-items: center; width: 16px; height: 16px; border-radius: 50%; background: #256c59; color: #fff; font-size: 11px; }
+#jspsych-content .ord-hint { font-size: 12px; line-height: 1.25; color: #64748b; font-style: italic; }
+#jspsych-content .cfg-foot { display: flex; justify-content: flex-end; align-items: center; gap: 10px; flex-wrap: wrap; border-top: 1px solid #e2e8f0; background: #f8fafc; padding: 10px 14px; }
+#jspsych-content .cfg-speed { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #526276; margin-right: auto; }
+#jspsych-content .cfg-speed select { padding: 3px 6px; font-size: 13px; }
+@media (max-width: 900px) {
+    #jspsych-content .cfg-layout { grid-template-columns: 1fr; grid-template-areas: 'img' 'instr' 'board'; }
+}
+
+/* 18. Entscheidungsbox in Training und KI-Trials: Kriterien gehoeren sichtbar zu den eigenen Buttons. */
+#jspsych-content .decision-panel { background: #ffffff; border: 2px solid #94a3b8; border-radius: 10px; padding: 12px 14px 14px 14px; }
+#jspsych-content .decision-panel .decision-criteria { font-size: 15px !important; line-height: 1.5 !important; color: #526276 !important; font-style: normal !important; margin: 0 0 20px 0; text-align: left !important; }
+#jspsych-content .decision-panel .criteria-note { display: block; margin-top: 8px; }
+
+/* 19. Verantwortungs-Szenario als kurze Geschichte (Blocksatz), auf beiden Seiten gleich formatiert. */
+#jspsych-content .scenario-page { max-width: 760px; margin: 0 auto; }
+#jspsych-content .scenario-title { font-size: 20px !important; margin: 0 0 14px 0; text-align: center !important; }
+#jspsych-content .scenario-recap { background: #f1f5f9; border-left: 3px solid #94a3b8; border-radius: 6px; padding: 14px 20px; margin-bottom: 18px; }
+#jspsych-content .scenario-recap p { text-align: left !important; font-size: 17px !important; line-height: 1.6 !important; color: #334155; margin: 0; }
+
+
+/* Bild-Etikett der Preview steht jetzt von Anfang an da: kleiner, damit es moeglichst wenig vom Bild verdeckt. */
+#jspsych-content #preview-badge { font-size: 12.5px !important; font-weight: 600 !important; padding: 3px 8px !important; bottom: 6px !important; left: 6px !important; }
+/* Reihenfolge der Bildbereiche immer untereinander (Standard und Custom gleich) */
+#jspsych-content .cfg-board .cfg-row:has(#dir-grid) output { flex-direction: column; align-items: flex-start; }
+/* Hintergrund/Größe/Typ: Slot 1 = Dropdown (Custom) bzw. fester Wert (Standard), Slot 2 automatisch ergänzt */
+#jspsych-content .cfg-board .sel-pair { display: flex; align-items: center; gap: 10px; }
+#jspsych-content .cfg-board .sel-slot { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #1e293b; }
+#jspsych-content .cfg-board .sel-slot .opt-num { display: inline-flex; justify-content: center; align-items: center; width: 17px; height: 17px; border-radius: 50%;
+    background: #cbd5e1; color: #fff; font-size: 11px; flex: none; }
+#jspsych-content .cfg-board .sel-slot.sel-done .opt-num { background: #256c59; }
+#jspsych-content .cfg-board .cfg-rows .cfg-row select.ord-select,
+#jspsych-content .cfg-board .ord-select-static { width: 102px !important; min-width: 0; box-sizing: border-box; font-size: 13px !important; line-height: 1.3 !important;
+    padding: 4px 26px 4px 9px !important; border: 1px solid #94a3b8 !important; border-radius: 5px; background-color: #fff !important; color: #172033 !important; }
+#jspsych-content .cfg-board .cfg-rows .cfg-row select.ord-select:invalid,
+#jspsych-content .cfg-board .cfg-rows .cfg-row select.ord-select:has(option[value=""]:checked) { color: #64748b !important; font-style: italic; }
+#jspsych-content .cfg-board .cfg-rows .cfg-row .sel-done select.ord-select,
+#jspsych-content .cfg-board .ord-select-static { background-color: #d9f1ea !important; border-color: #256c59 !important; }
+#jspsych-content .cfg-board .ord-select-static { display: inline-block; padding-right: 9px !important; cursor: default; }
+#jspsych-content .cfg-board .sel-auto-val { display: inline-block; box-sizing: border-box; width: 102px; padding: 4px 9px; border: 1px dashed #cbd5e1; border-radius: 5px; color: #334155; font-size: 13px; line-height: 1.3; }
+#jspsych-content .cfg-board .sel-auto-val:empty::before { content: '\2013'; color: #94a3b8; }
+/* Slot 2 sieht gewählt genauso aus wie Slot 1: Reihenfolge, kein Relevanzunterschied */
+#jspsych-content .cfg-board .sel-done .sel-auto-val { border-style: solid; border-color: #256c59; background: #d9f1ea; color: #172033; }
+#jspsych-content .decision-panel .criteria-note { text-align: left !important; }
+
+/* 20. Rechte Spalte: Agent-/Trainingsfeld grau (Information), Entscheidungsfeld hell (Kriterien + Buttons), Buttons hervorgehoben */
+#jspsych-content .right-column .ki-panel,
+#jspsych-content .right-column [style*="background:#1e2229"] { background: #e3e8ee !important; border: 1px solid #cbd3dd !important; box-shadow: none !important; }
+#jspsych-content .right-column .ki-panel h3,
+#jspsych-content .right-column [style*="background:#1e2229"] h3 { border-bottom-color: #c5ced9 !important; }
+#jspsych-content .right-column .decision-panel { background: #ffffff !important; border: 2px solid #a9b4c2 !important; box-shadow: 0 6px 18px rgba(15, 23, 42, .12); padding: 14px 16px 16px 16px !important; }
+#jspsych-content .right-column .decision-panel .action-btn { min-height: 3.2rem !important; font-size: 17px !important; letter-spacing: .01em; box-shadow: 0 3px 0 rgba(15, 23, 42, .25), 0 4px 10px rgba(15, 23, 42, .15) !important; }
+#jspsych-content .right-column .decision-panel .action-btn:disabled { box-shadow: none !important; }
+#jspsych-content .right-column .training-panel .training-title { margin: 2px 0 10px 0 !important; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0; text-align: center; font-size: 1.1rem; color: #172033 !important; }
+#jspsych-content .right-column .training-panel .training-hint { color: #334155 !important; line-height: 1.5; text-align: center; margin: 0 0 8px 0 !important; }
+#jspsych-content .right-column .training-panel .decision-criteria { margin-top: 14px !important; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+#jspsych-content .right-column .ai-round-counter { text-align: right !important; margin: 0 4px -8px 0 !important; padding: 0 !important; line-height: 1.2; }

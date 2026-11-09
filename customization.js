@@ -16,6 +16,29 @@ const CUSTOMIZATION_VALUE_LABELS = Object.freeze({ dark: 'dark areas', light: 'l
 function customizationValueLabel(value) {
     return CUSTOMIZATION_VALUE_LABELS[value] || value.replaceAll('_', ' ');
 }
+// Search order shown as numbered chips (1, 2, ...) instead of arrows; same in both conditions.
+function orderChips(values) {
+    return values.map((value, index) => `<span class="ord-chip"><b>${index + 1}</b>${customizationValueLabel(value)}</span>`).join('');
+}
+// Standard board: the same controls as in the customization board, filled in and not clickable.
+function staticDirectionGrid(order) {
+    const cell = q => `<div class="dir-cell dir-set dir-static" title="${q.replaceAll('_', ' ')}">${order.indexOf(q) + 1}</div>`;
+    return `<div id="dir-grid" class="dir-static-grid">${['top_left', 'top_right', 'bottom_left', 'bottom_right'].map(cell).join('')}</div>`;
+}
+// Background, size, type: slot 1 = what is searched first, slot 2 = the remaining value (filled in automatically).
+// Customization: slot 1 is a dropdown. Standard: the same two slots, filled in and not editable.
+function orderSelectPair(dimension, id) {
+    const options = CUSTOMIZATION_DIMENSIONS[dimension].map(v => `<option value="${v}">${customizationValueLabel(v)}</option>`).join('');
+    return `<div id="opt-${id}" class="opt-pair sel-pair" data-key="${dimension}">
+        <span class="sel-slot"><b class="opt-num">1</b><select id="sel-${id}" class="ord-select"><option value="" selected disabled>choose</option>${options}</select></span>
+        <span class="sel-slot sel-auto"><b class="opt-num">2</b><span id="auto-${id}" class="sel-auto-val"></span></span>
+    </div>`;
+}
+function staticOptionPair(dimension, order) {
+    return `<div class="opt-pair sel-pair">${order.map((v, i) => `<span class="sel-slot sel-done"><b class="opt-num">${i + 1}</b><span class="${i === 0 ? 'ord-select ord-select-static' : 'sel-auto-val'}">${customizationValueLabel(v)}</span></span>`).join('')}</div>`;
+}
+// Image label of the preview example; the example is fixed and always has 14 defects (verdict reject).
+const PREVIEW_BADGE_TEXT = 'Example component with more than 10 defects (correct verdict: Reject)';
 
 /** starts: first value per dimension (rotated order). orders: optional full order per dimension (free permutation). */
 function buildCustomization(starts, orders = {}) {
@@ -66,9 +89,11 @@ function applyCustomization(settings) {
 
 /** Owns one preview screen; a generation token rejects stale load responses. */
 function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
-    // Direction is set by clicking the four image areas in order (free order); the other categories use selects.
+    // Direction: click the four image areas in order (last area implied). Background, size, type: choose the first
+    // value in the dropdown; the remaining value is filled in automatically.
     const selectors = fixedSettings ? [] : ['background', 'size', 'type'].map((key, index) =>
-        ({ key, input: document.getElementById(`val-${index + 2}`), order: document.getElementById(`order-${index + 2}`) }));
+        ({ key, pair: document.getElementById(`opt-${index + 2}`), select: document.getElementById(`sel-${index + 2}`),
+           auto: document.getElementById(`auto-${index + 2}`), value: [] }));
     const dirGrid = fixedSettings ? null : document.getElementById('dir-grid');
     const dirOutput = fixedSettings ? null : document.getElementById('order-1');
     // No preset: direction starts empty and selects start on an empty placeholder, so every dimension needs an active choice.
@@ -78,21 +103,16 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
     const wrapper = document.getElementById('preview-image-wrapper');
     const image = document.getElementById('preview-image');
     const status = document.getElementById('status-text');
-    const badge = document.getElementById('preview-badge');
     let active = true, busy = false, generation = 0, interval;
 
     function dirComplete() { return !dirGrid || dirOrder.length === CUSTOMIZATION_DIMENSIONS.direction.length; }
-    function selectsComplete() { return selectors.every(({ input }) => input.value !== ''); }
-    function rotatedOrder(dimension, start) {
-        const values = CUSTOMIZATION_DIMENSIONS[dimension];
-        const index = values.indexOf(start);
-        return [...values.slice(index), ...values.slice(0, index)];
-    }
+    function selectsComplete() { return selectors.every(({ key, value }) => value.length === CUSTOMIZATION_DIMENSIONS[key].length); }
     function read() {
         if (fixedSettings) return fixedSettings;
         if (!dirComplete() || !selectsComplete()) return null;
-        const starts = Object.fromEntries(selectors.map(({ key, input }) => [key, input.value]));
-        return buildCustomization(starts, { direction: dirOrder });
+        const starts = Object.fromEntries(selectors.map(({ key, value }) => [key, value[0]]));
+        const orders = Object.fromEntries(selectors.map(({ key, value }) => [key, value]));
+        return buildCustomization(starts, { direction: dirOrder, ...orders });
     }
     function refreshButtons() {
         const blocked = busy || !dirComplete() || !selectsComplete();
@@ -106,29 +126,34 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
             cell.textContent = position >= 0 ? String(position + 1) : '';
             cell.classList.toggle('dir-set', position >= 0);
         });
-        dirOutput.textContent = dirComplete()
-            ? dirOrder.map(customizationValueLabel).join(' → ')
+        dirOutput.innerHTML = dirComplete()
+            ? orderChips(dirOrder)
             : dirOrder.length
-                ? `${dirOrder.map(customizationValueLabel).join(' → ')} → … (click the next area)`
-                : '(click the first area)';
+                ? `${orderChips(dirOrder)}<span class="ord-hint">(click the next area)</span>`
+                : '<span class="ord-hint">(click the first area)</span>';
     }
     function showOrders() {
         renderDirection();
         refreshButtons();
-        // Each select shows its order as soon as it has a value, independent of the other dimensions.
-        selectors.forEach(({ key, input, order }) => {
-            order.textContent = input.value ? rotatedOrder(key, input.value).map(customizationValueLabel).join(' → ') : '';
+        selectors.forEach(({ pair, auto, value }) => {
+            auto.textContent = value.length ? customizationValueLabel(value[1]) : '';
+            pair.querySelectorAll('.sel-slot').forEach(slot => slot.classList.toggle('sel-done', value.length > 0));
         });
         return read();
     }
     function setBusy(value) {
         busy = value;
         refreshButtons();
-        selectors.forEach(({ input }) => { input.disabled = value; });
+        selectors.forEach(({ select }) => { select.disabled = value; });
         if (dirGrid) dirGrid.classList.toggle('dir-busy', value);
     }
     function dispose() { active = false; generation++; clearInterval(interval); }
-    selectors.forEach(({ input }) => input.addEventListener('change', showOrders));
+    selectors.forEach(selector => selector.select.addEventListener('change', () => {
+        if (!active || busy) return;
+        const first = selector.select.value;
+        selector.value = [first, ...CUSTOMIZATION_DIMENSIONS[selector.key].filter(v => v !== first)];
+        showOrders();
+    }));
     if (dirGrid) {
         const remaining = () => CUSTOMIZATION_DIMENSIONS.direction.filter(v => !dirOrder.includes(v));
         const pick = cell => {
@@ -167,7 +192,6 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
         clearInterval(interval);
         wrapper.querySelectorAll('.ki-ring').forEach(ring => ring.remove());
         wrapper.classList.remove('preview-pass', 'preview-reject');
-        if (badge) badge.textContent = 'Preview Example';
         // Existing prototype template, not verified against the missing reference.
         status.textContent = `... starting search with ${settings.size.start} ${settings.type.start}s on ${settings.background.start} areas in the ${settings.direction.start.replaceAll('_', ' ')} ...`;
         let rows = null, started = false;
@@ -215,10 +239,8 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
                     verdictBox.className = `ai-agent-verdict ai-verdict-${verdict}`;
                     verdictBox.textContent = `Final verdict: ${verdict.toUpperCase()}`;
                     status.appendChild(verdictBox);
-                    // Reassurance in the image badge (no extra panel height): the coloured frame is the intended demo outcome, not an error.
-                    if (badge) badge.textContent = verdict === 'reject'
-                        ? 'Example part with more than 10 defects (correct verdict: reject)'
-                        : 'Example part with 10 or fewer defects (correct verdict: pass)';
+                    // The image label (PREVIEW_BADGE_TEXT) states from the start that this example should be rejected,
+                    // so the red frame reads as the intended outcome, not as an error.
                     setBusy(false);
                 }
             }, Number(document.getElementById('preview-speed')?.value) || PREVIEW_SEARCH_STEP_MS);

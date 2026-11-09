@@ -179,10 +179,10 @@ const standard_intro_new_1 = {
         return `
         <div style="background:#0f172a; padding:40px; color:white; font-family:sans-serif; text-align:center; border-radius: 8px; max-width: 700px; margin: 40px auto; border: 1px solid #334155;">
             <p style="font-size: 22px; line-height: 1.6; margin-bottom: 20px;">
-                The AI <i>DA02</i> will assist by marking defects and providing a reject or pass recommendation for each component.
+                The AI <i>DA02</i> will assist by marking defects and providing a Reject or Pass recommendation for each component.
             </p>
             <p style="font-size: 22px; line-height: 1.6; margin-bottom: 30px;">
-                Your task remains to classify each part as ready to proceed (pass) or defective (reject).
+                Your task remains to classify each part as ready to proceed (Pass) or defective (Reject).
             </p>
             <button id="next-btn-std-1" class="action-btn btn-start" style="padding: 12px 30px;">Next</button>
         </div>
@@ -223,10 +223,10 @@ const customization_intro_new_1 = {
     stimulus: `
     <div style="background:#0f172a; padding: 60px 40px; color:white; font-family:sans-serif; text-align:center; border-radius: 8px; max-width: 700px; margin: 40px auto;">
         <p style="font-size: 24px; line-height: 1.4; margin-bottom: 30px;">
-            The AI will assist by marking defects and providing a reject or pass recommendation for each component.
+            The AI will assist by marking defects and providing a Reject or Pass recommendation for each component.
         </p>
         <p style="font-size: 24px; line-height: 1.4; margin-bottom: 40px;">
-            Your task remains to classify each part as ready to proceed (pass) or defective (reject).
+            Your task remains to classify each part as ready to proceed (Pass) or defective (Reject).
         </p>
         <button id="next-btn-cust-1" class="action-btn btn-start" style="padding: 12px 30px;">Next</button>
     </div>
@@ -259,7 +259,7 @@ const customization_name_trial = {
     stimulus: `
         <div style="background:#0f172a; padding:40px; color:white; font-family:sans-serif; text-align:center; border-radius: 8px; max-width: 600px; margin: 40px auto; border: 1px solid #334155;">
             <h2 style="color:#deff9a; margin-top:0;">Agent Identification</h2>
-            <p style="margin-bottom: 20px; font-size: 18px; line-height: 1.5; text-align: left;">First, give your AI agent an identification so that your settings can be saved. Identifications consist of 2 letters and 2 numbers (e.g. AI01).</p>
+            <p style="margin-bottom: 20px; font-size: 18px; line-height: 1.5; text-align: left;">First, give your AI agent an identification. Identifications must consist of 2 letters and 2 numbers (e.g. AI01).</p>
             
             <!-- NEU: Versteckte Fehlermeldung, falls die Eingabe falsch ist -->
             <div id="name-error-msg" style="color:#d9534f; display:none; margin-bottom:15px; font-weight:bold; background: rgba(217, 83, 79, 0.1); padding: 10px; border-radius: 4px;">
@@ -296,19 +296,13 @@ const customization_settings_trial = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function() {
         // Die Kategorien sind jetzt fest vorgegeben, nur noch die Werte sind wählbar
-        function makeRow(id, label, catValue, options) {
-            // Empty, non-selectable placeholder first: no value is preset, participants must choose actively.
-            let opts = '<option value="" selected disabled>Please choose</option>'
-                + options.map(o => `<option value="${o.v}">${o.t}</option>`).join('');
+        // Background, size, type: choose the first value in a dropdown; the remaining value fills slot 2 automatically.
+        function makeRow(id, dimension) {
             return `
-            <div id="row-${id}" style="display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 8px; width: 100%; box-sizing: border-box; transition: background 0.3s;">
-                <strong style="color:#32b5a1; font-size: 16px; width: 150px; flex-shrink: 0;">${label}:</strong>
-                <input type="hidden" id="cat-${id}" value="${catValue}">
-                <input type="hidden" id="label-${id}" value="${label}">
-                <select id="val-${id}" style="padding: 6px; font-size: 15px; border-radius: 4px; border: 1px solid #555; background: #1e2229; color: white; flex: 1;">
-                    ${opts}
-                </select>
-                <output id="order-${id}" style="font-size:14px;"></output>
+            <div id="row-${id}" class="cfg-row">
+                <strong>${CUSTOMIZATION_LABELS[dimension]}:</strong>
+                ${orderSelectPair(dimension, id)}
+                <output id="order-${id}"></output>
             </div>`;
         }
 
@@ -318,48 +312,45 @@ const customization_settings_trial = {
             .preview-reject { border: 4px solid #d9534f !important; box-shadow: 0 0 15px rgba(217, 83, 79, 0.5) !important; transition: all 0.3s; }
         </style>
 
-        <!-- Alles auf einen Blick: Bild links, Status und Einstellungen rechts (kein Scrollen noetig) -->
-        <div class="preview-layout" style="display: grid; grid-template-columns: minmax(0, 1fr) 460px; grid-template-rows: auto 1fr; grid-template-areas: 'img status' 'img panel'; gap: 16px; width: min(1180px, calc(100vw - 40px)); margin: 4px auto; align-items: start;">
+        <!-- Bild links; rechts oben die Instruktion (ohne Kasten), darunter ein zusammengehoeriges Einstell-Board -->
+        <div class="preview-layout cfg-layout">
 
                 <div id="preview-image-wrapper" style="grid-area: img; position:relative; width: min(100%, calc((100vh - 110px) * 1.25)); justify-self: end; aspect-ratio: 1000/800; background: #222; border: 2px solid #555; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
                     <img id="preview-image" src="bilder/preview_stimulus.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;" />
-                    <div id="preview-badge" style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">Preview Example</div>
+                    <div id="preview-badge" style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:5px 10px; border-radius:4px; font-weight:bold;">${PREVIEW_BADGE_TEXT}</div>
                 </div>
 
-                <div style="grid-area: status; background: #d0d0d0; border: 2px solid #333; padding: 10px 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; color: #444; font-family: sans-serif; min-height: 92px;">
-                    <div style="background: #999; border: 2px solid #333; padding: 3px 16px; font-size: 18px; font-weight: bold; letter-spacing: 4px; color: #111; margin-bottom: 8px;">
-                        ${aiName}
-                    </div>
-                    <div id="status-text" style="font-size: 16px; line-height: 1.5; text-align: left; width: 100%;">
-                        <span style="color:#888; font-style:italic;">Ready for configuration...</span>
-                    </div>
+                <div id="instructions-text" class="cfg-instructions">
+                    Think about how you searched the images during the training. You can set <strong>${aiName}</strong>'s search order to match your own approach by choosing what it should search first in each category. For <em>${CUSTOMIZATION_LABELS.direction}</em>, click the four image areas in the order in which you search them.<span style="display:block; height:6px;"></span>
+                    Once all four categories are set, click <strong>Apply</strong> to run a demo with your settings (as often as you like), or <strong>Proceed</strong> once you are ready to practice the task with your agent.
                 </div>
 
-                <div style="grid-area: panel; background:#0f172a; padding:10px 16px; color:white; font-family:sans-serif; border-radius: 8px; border: 1px solid #334155; box-sizing: border-box;">
-                    <div id="instructions-text" style="text-align:center; font-size: 14px; line-height: 1.4; margin-bottom: 10px;">
-                        Think about how you searched the images during the training. You can set <strong>${aiName}</strong>'s search order to match your own approach by choosing what it should search first in each category. For <em>${CUSTOMIZATION_LABELS.direction}</em>, click the four image areas in the order in which you search them.<span style="display:block; height:6px;"></span>
-                        Once all four categories are set, click <strong style="color: #32b5a1;">Apply</strong> to run a demo with your current settings (as often as you like), or <strong style="color: #32b5a1;">Proceed</strong> once you are ready to practice the task with your agent.
+                <div class="cfg-board">
+                    <div class="cfg-head">
+                        <span class="cfg-name">${aiName}</span>
+                        <div id="status-text" class="cfg-status"><span class="cfg-idle">Ready for configuration...</span></div>
                     </div>
-
-                    <div style="display: flex; flex-direction: column; align-items: stretch; gap: 6px;">
-                        <div id="row-1" style="display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 8px; width: 100%; box-sizing: border-box; transition: background 0.3s;">
-                            <strong style="color:#32b5a1; font-size: 16px; width: 150px; flex-shrink: 0;">${CUSTOMIZATION_LABELS.direction}:</strong>
-                            <div id="dir-grid" aria-label="Click the four image areas in the order you search them">
-                                <div class="dir-cell" data-q="top_left" role="button" tabindex="0" title="top left"></div>
-                                <div class="dir-cell" data-q="top_right" role="button" tabindex="0" title="top right"></div>
-                                <div class="dir-cell" data-q="bottom_left" role="button" tabindex="0" title="bottom left"></div>
-                                <div class="dir-cell" data-q="bottom_right" role="button" tabindex="0" title="bottom right"></div>
+                    <div class="cfg-order">
+                        <div class="cfg-order-label">Search order</div>
+                        <div class="cfg-rows">
+                            <div id="row-1" class="cfg-row">
+                                <strong>${CUSTOMIZATION_LABELS.direction}:</strong>
+                                <div id="dir-grid" aria-label="Click the four image areas in the order you search them">
+                                    <div class="dir-cell" data-q="top_left" role="button" tabindex="0" title="top left"></div>
+                                    <div class="dir-cell" data-q="top_right" role="button" tabindex="0" title="top right"></div>
+                                    <div class="dir-cell" data-q="bottom_left" role="button" tabindex="0" title="bottom left"></div>
+                                    <div class="dir-cell" data-q="bottom_right" role="button" tabindex="0" title="bottom right"></div>
+                                </div>
+                                <output id="order-1"></output>
                             </div>
-                            <output id="order-1" style="font-size:14px;"></output>
+                            ${makeRow(2, 'background')}
+                            ${makeRow(3, 'size')}
+                            ${makeRow(4, 'type')}
                         </div>
-                        ${makeRow(2, CUSTOMIZATION_LABELS.background, 'bg', [{v:'dark', t:customizationValueLabel('dark')}, {v:'light', t:customizationValueLabel('light')}])}
-                        ${makeRow(3, CUSTOMIZATION_LABELS.size, 'size', [{v:'large', t:'large'}, {v:'small', t:'small'}])}
-                        ${makeRow(4, CUSTOMIZATION_LABELS.type, 'type', [{v:'L', t:'L'}, {v:'O', t:'O'}])}
                     </div>
-
-                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
-                        <div style="display:flex; align-items:center; gap:6px; font-size:13px; color:#526276;">Demo speed:
-                            <select id="preview-speed" style="padding: 4px 6px; font-size: 13px; border-radius: 4px;">
+                    <div class="cfg-foot">
+                        <div class="cfg-speed">Demo speed:
+                            <select id="preview-speed">
                                 <option value="320">slow</option>
                                 <option value="180" selected>normal</option>
                                 <option value="70">fast</option>
@@ -408,7 +399,7 @@ const ai_mistakes_trial = {
         return `
         <div style="background:#0f172a; padding:40px; color:white; font-family:sans-serif; text-align:center; border-radius: 8px; max-width: 700px; margin: 40px auto; border: 1px solid #334155;">
             <p style="font-size: 20px; line-height: 1.6; margin-bottom: 30px;">
-            Like all systems of this type, <strong>${aiName}</strong> can make mistakes. <br>Under the operating conditions used here, it classifies approximately 90% of individual markings correctly. Its pass/reject recommendation is based on the number of defects it has marked. <br>Residual misclassifications are an expected characteristic of intelligent visual inspection and are documented in the system specification. They occur because surface texture, contrast, and marking geometry can make individual markings harder to resolve. <br><strong>Your task is still to make the final assessment for each component based on its number of defects by clicking <i style="color: #5cb85c;">pass</i> or <i style="color: #d9534f;">reject</i>.</strong>
+            Like all systems of this type, <strong>${aiName}</strong> can make mistakes. <br>Under the operating conditions used here, it classifies approximately 90% of individual markings correctly. Its Pass/Reject recommendation is based on the number of defects it has marked. <br>Residual misclassifications are an expected characteristic of intelligent visual inspection and are documented in the system specification. They occur because surface texture, contrast, and marking geometry can make individual markings harder to resolve. <br><strong>Your task is still to make the final assessment for each component based on its number of defects by clicking <i style="color: #5cb85c;">Pass</i> or <i style="color: #d9534f;">Reject</i>.</strong>
             </p>
             <button id="next-btn-1" class="action-btn btn-start" style="padding: 12px 30px;">Next</button>
         </div>
@@ -437,8 +428,8 @@ const ai_practice_reminder_trial = {
             
             <p style="font-size: 20px; margin-bottom: 10px;">Remember:</p>
             <ul style="display: inline-block; text-align: left; font-size: 20px; line-height: 1.6; margin: 0 auto 30px auto; padding-left: 20px;">
-                <li><i style="color: #5cb85c; font-weight: bold;">pass</i>: 10 or less defects</li>
-                <li><i style="color: #d9534f; font-weight: bold;">reject</i>: more than 10 defects</li>
+                <li><i style="color: #5cb85c; font-weight: bold;">Pass</i>: 10 or less defects</li>
+                <li><i style="color: #d9534f; font-weight: bold;">Reject</i>: more than 10 defects</li>
                 <li>Defects: <strong>Ls</strong> and <strong>Os</strong></li>
             </ul>
             <br>
@@ -526,8 +517,8 @@ timeline.push({
           stimulus: () => `<p>Now, after the practice phase, you will work with ${escapeAiHtml(condition.customizationEnabled ? aiName : condition.fixedAgentName)} on the main inspection task.</p>
             <p>Remember:</p>
             <ul style="display: inline-block; margin: 0 auto 10px auto; padding-left: 20px;">
-                <li><i style="color: #5cb85c; font-weight: bold;">pass</i>: 10 or less defects</li>
-                <li><i style="color: #d9534f; font-weight: bold;">reject</i>: more than 10 defects</li>
+                <li><i style="color: #5cb85c; font-weight: bold;">Pass</i>: 10 or less defects</li>
+                <li><i style="color: #d9534f; font-weight: bold;">Reject</i>: more than 10 defects</li>
                 <li>Defects: <strong>Ls</strong> and <strong>Os</strong></li>
             </ul>`,
           choices: ['Start'], data: { phase: 'main_task_transition' } }
@@ -535,7 +526,9 @@ timeline.push({
 });
 timeline.push(mainTaskTimeline);
 // Responsibility vignette: shown alone first, then repeated above the questions.
-const responsibility_vignette = '<p>Now, imagine that you have submitted your classifications to your company.<br>During routine quality assurance, a discrepancy was identified for one of the components you inspected: the recorded number of defects did not match the result of the follow-up examination.<br>An experienced engineer has raised concerns about the accuracy of the defect detection for this component and about how it was classified.<br>In short, they gave a negative evaluation of the classification for this component.</p>';
+// Shown as a short story in a framed box; the question page repeats the identical box (no extra label).
+const responsibility_vignette_text = '<p>You have submitted your classifications to your company. During routine quality assurance, a discrepancy was identified for one of the components you inspected: the recorded number of defects did not match the result of the follow-up examination. An experienced engineer has raised concerns about the accuracy of the defect detection for this component and about how it was classified. In short, they gave a negative evaluation of the classification for this component.</p>';
+const responsibility_vignette = `<div class="scenario-page"><h2 class="scenario-title">Please imagine yourself in the following scenario:</h2><div class="scenario-recap">${responsibility_vignette_text}</div></div>`;
 // Post-task measures follow Main Trial 30 directly.
 timeline.push(
     { type: jsPsychHtmlButtonResponse,
@@ -554,7 +547,8 @@ timeline.push(
             'I am personally responsible for the misclassified component.',
             'The AI agent is responsible for the misclassified component.'
         ], 'post', ['responsibility_self', 'responsibility_agent']), {
-                    preamble: `<div style="max-width: 800px; margin: 0 auto 20px auto;"><div class="scenario-recap"><p class="recap-label">The situation (same as on the previous page):</p>${responsibility_vignette}</div><p><strong>Please imagine yourself in this situation and indicate how much you agree with the following statements.</strong></p></div>`
+                    // Same heading and box as on the previous page; the instruction is the one used for the other scales.
+                    preamble: responsibility_vignette + short_preamble
     })
 );
 // Final questionnaire: shared across all four conditions.
@@ -686,8 +680,13 @@ const outro_trial = {
         <p><strong>Why was this necessary?</strong> If participants had known these details in advance, this would have influenced how they work with the agent and how they evaluate it, and our research question could not have been answered. Withholding information in this way is a common procedure in psychological research. We apologise for any confusion it may have caused.</p>
         <p><strong>Why your data matter.</strong> Your responses help us understand how AI assistance can be designed so that people stay in control and notice its errors.</p>
         <div style="margin: 22px 0; padding: 16px 20px; border: 1px solid #d5d9de; border-radius: 4px; background: #f7f8fa;">
-            <p style="margin: 0 0 12px 0;"><strong>Your choice (optional).</strong> If you do not want your data to be used, please tick the box below. Your data will then not be saved. If you leave it unticked, your data will be used for this research. You can also withdraw later by sending us a message via Prolific or an e-mail to ${CONTACT_EMAIL} within two weeks of your participation. In both cases, you will receive your full payment. If you withdraw, none of your answers are kept; we only note that a withdrawal occurred in your study version.</p>
-            <label style="display: block; cursor: pointer;"><input type="checkbox" id="debrief-withdraw" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 10px;">I withdraw my consent to the use of my data.</label>
+            <p style="margin: 0 0 12px 0;"><strong>Your choice (optional).</strong> If you do not want your data to be used, please tick the box below. Otherwise, your data will be used for this research as planned. You can also withdraw later by sending us a message via Prolific or an e-mail to ${CONTACT_EMAIL} within two weeks of your participation. Withdrawing does not affect your payment.</p>
+            <label style="display: block; cursor: pointer;"><input type="checkbox" id="debrief-withdraw" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 10px;">I do <strong>not</strong> want my data to be used.</label>
+            <div id="withdraw-confirm" hidden style="margin-top: 12px; padding: 12px 14px; background: #ffffff; border: 1px solid #d0d5dd; border-radius: 4px;">
+                <p style="margin: 0 0 10px 0;">If you withdraw, none of your answers will be saved; we only note that a withdrawal occurred in your study version. You will still receive your full payment.</p>
+                <button id="withdraw-yes" style="padding: 7px 16px; font-size: 14px; font-family: Arial, Helvetica, sans-serif; background: #ffffff; color: #b42318; border: 1px solid #b42318; border-radius: 3px; cursor: pointer; margin-right: 8px;">Withdraw and finish</button>
+                <button id="withdraw-cancel" style="padding: 7px 16px; font-size: 14px; font-family: Arial, Helvetica, sans-serif; background: #ffffff; color: #334155; border: 1px solid #98a2b3; border-radius: 3px; cursor: pointer;">Cancel</button>
+            </div>
         </div>
         <p>Please do not share details of this study with others who might take part.</p>
         <p><button id="debrief-finish" style="margin-top: 16px; padding: 10px 26px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #2b3a4a; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">Finish</button></p>
@@ -697,8 +696,15 @@ const outro_trial = {
     choices: [],
     data: { phase: 'submission' },
     on_load: () => {
-        document.getElementById('debrief-finish').addEventListener('click', () =>
-            jsPsych.finishTrial({ withdrawn: document.getElementById('debrief-withdraw').checked }));
+        // Ticking the box only opens a confirmation; withdrawal needs "Withdraw and finish".
+        // While the confirmation is open, the regular Finish button is disabled.
+        const box = document.getElementById('debrief-withdraw'), confirm = document.getElementById('withdraw-confirm');
+        const finish = document.getElementById('debrief-finish');
+        const toggle = () => { confirm.hidden = !box.checked; finish.disabled = box.checked; finish.style.opacity = box.checked ? '0.4' : '1'; };
+        box.addEventListener('change', toggle);
+        document.getElementById('withdraw-cancel').addEventListener('click', () => { box.checked = false; toggle(); });
+        document.getElementById('withdraw-yes').addEventListener('click', () => jsPsych.finishTrial({ withdrawn: true }));
+        finish.addEventListener('click', () => { if (!box.checked) jsPsych.finishTrial({ withdrawn: false }); });
     },
     on_finish: data => {
         submitted = true;

@@ -23,8 +23,9 @@ function renderRing(containerId, originalX, originalY, elementSize, originalWidt
     }
 
     // 2. Originalgrößen berechnen
-    // 1.2 instead of 1.6 reduces both AI ring diameters by 25% while keeping their centers fixed.
-    const originalRadius = (elementSize === 'groß') ? (19 * 1.2 * 2) : (12 * 1.2 * 2);
+    // 0.9 (formerly 1.2, before that 1.6): AI rings another 25% smaller (08.11.2026) so that dense images overlap less.
+    // Large rings stay wider than the diagonal of large symbols (size_px 35 at 1000 px width).
+    const originalRadius = (elementSize === 'groß') ? (19 * 0.9 * 2) : (12 * 0.9 * 2);
     const originalDiameter = originalRadius * 2;
     const currentX = offsetX + originalX * scale;
     const currentY = offsetY + originalY * scale;
@@ -47,9 +48,9 @@ function renderRing(containerId, originalX, originalY, elementSize, originalWidt
 function renderTrainingMarker(container, x, y, image) {
     const marker = document.createElement('div');
     marker.classList.add('ki-ring', 'training-marker');
-    // Large source symbols use size_px=35; 72px encloses their diagonal with room around it.
+    // Large source symbols use size_px=35 (diagonal ~50px); 56px (formerly 72px) still encloses them.
     const scale = image?.naturalWidth ? (image.clientWidth || image.offsetWidth || image.naturalWidth) / image.naturalWidth : 1;
-    const diameter = 72 * scale;
+    const diameter = 56 * scale;
     marker.style.width = diameter + 'px';
     marker.style.height = diameter + 'px';
     marker.style.left = x + 'px';
