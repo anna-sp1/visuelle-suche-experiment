@@ -814,3 +814,17 @@ body:has(.doc-page),
 #jspsych-content .right-column .training-panel .training-hint { color: #334155 !important; line-height: 1.5; text-align: center; margin: 0 0 8px 0 !important; }
 #jspsych-content .right-column .training-panel .decision-criteria { margin-top: 14px !important; padding-top: 14px; border-top: 1px solid #e2e8f0; }
 #jspsych-content .right-column .ai-round-counter { text-align: right !important; margin: 0 4px -8px 0 !important; padding: 0 !important; line-height: 1.2; }
+
+/* 21. Konfigurationsseite (09.11.2026): Bild und rechte Spalte vertikal zueinander zentriert; kompakte Auswahlfelder.
+   daisyUI gibt .select eine feste Höhe (~40 px); im Board überschreiben, damit Slot ① und ② gleich hoch sind. */
+@media (min-width: 901px) {
+    #jspsych-content .cfg-layout { grid-template-rows: 1fr auto auto 1fr !important; grid-template-areas: 'img .' 'img instr' 'img board' 'img .' !important; row-gap: 0 !important; }
+    #jspsych-content .cfg-layout #preview-image-wrapper { align-self: center; }
+    #jspsych-content .cfg-layout .cfg-instructions { margin-bottom: 12px !important; }
+}
+#jspsych-content .cfg-board select,
+#jspsych-content .cfg-board .cfg-rows .cfg-row select.ord-select { height: 30px !important; min-height: 0 !important; line-height: 1.2 !important; padding-top: 0 !important; padding-bottom: 0 !important; box-sizing: border-box; }
+#jspsych-content .cfg-board .sel-auto-val,
+#jspsych-content .cfg-board .ord-select-static { height: 30px; display: inline-flex !important; align-items: center; padding-top: 0 !important; padding-bottom: 0 !important; }
+#jspsych-content .cfg-speed { white-space: nowrap; }
+#jspsych-content .cfg-speed select { width: auto !important; min-width: 0 !important; }
