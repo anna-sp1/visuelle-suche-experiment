@@ -6,7 +6,7 @@ Die fuenf manuellen Trainingsbilder, zehn PrePO-Bilder und dreissig PostPO-Bilde
 
 ## Groesse der manuellen Trainingsmarker
 
-Die frei setzbaren Marker im Training haben bei 1000 px Originalbildbreite 72 px Durchmesser und skalieren mit der dargestellten Bildbreite. So umfassen sie auch grosse Symbole (`size_px=35`). KI-Ringe und die Interaktion zum Entfernen bleiben unveraendert.
+Die frei setzbaren Marker im Training haben bei 1000 px Originalbildbreite 56 px Durchmesser (Nutzerentscheidung 08.11.2026, vorher 72 px) und skalieren mit der dargestellten Bildbreite. So umfassen sie auch grosse Symbole (`size_px=35`). KI-Ringe und die Interaktion zum Entfernen bleiben unveraendert.
 
 ## Bildformat im manuellen Training
 
@@ -18,7 +18,7 @@ KI-Ringe muessen auf den CSV-Symbolzentren der tatsaechlich dargestellten Bildfl
 
 ## KI-Ringgroesse (aktueller Folgeauftrag)
 
-Die automatisch um Symbole gesetzten KI-Ringe in Preview, AI Practice und Main Task werden gegenueber dem bisherigen Durchmesser um 25 % verkleinert. Mittelpunkt und CSV-Koordinaten bleiben unveraendert. Die Trainingsmarker haben eine separate Groesseneinstellung.
+Die automatisch um Symbole gesetzten KI-Ringe in Preview, AI Practice und Main Task werden gegenueber dem bisherigen Durchmesser um 25 % verkleinert. Nutzerentscheidung 08.11.2026: nochmals um 25 % verkleinert (Radiusfaktor in `functions.js` 1.2 → 0.9). Mittelpunkt und CSV-Koordinaten bleiben unveraendert. Die Trainingsmarker haben eine separate Groesseneinstellung.
 
 ## Sichtbarkeit der Ringe
 
@@ -30,7 +30,19 @@ In AI Practice und Main Task erscheint beim Final Verdict zusaetzlich die Anzahl
 
 ## Rundencounter in KI-Trials
 
-Oben rechts im KI-Panel zeigt ein Rundencounter die aktuelle Trialnummer. AI Practice (PrePO) zeigt `x/10`, Main Task (PostPO) zeigt `x/30`; beide Phasen zaehlen separat ab 1.
+Ein Rundencounter zeigt die aktuelle Trialnummer, klein und grau rechts ueber dem KI-Panel, nicht darin (Nutzerentscheidung 09.11.2026: das KI-Panel zeigt nur die Ausgabe des Agenten; moeglichst wenig Text, daher nur die Zahl). AI Practice (PrePO) zeigt `x/10`, Main Task (PostPO) zeigt `x/30`; beide Phasen zaehlen separat ab 1.
+
+## Rechte Spalte in Training und KI-Trials (Nutzerentscheidung 08./09.11.2026)
+
+- Die Entscheidungskriterien (Pass: 10 or less defects / Reject: more than 10 defects / Defects are Ls and Os.) stehen nicht mehr im Agent- bzw. Trainingspanel, sondern zusammen mit den Pass-/Reject-Buttons in einem hellen Entscheidungsfeld (`.decision-panel`). Kriterientext grau und linksbuendig. Bewusst ohne Ueberschrift wie „Your decision“, um nicht zu einer Entscheidung zu draengen.
+- KI-Trials: Das Agent-Panel ist grau (Information), das Entscheidungsfeld weiß mit grauem Rahmen und Schatten; die Buttons sind etwas hoeher und mit Schatten hervorgehoben (Abgrenzung der sicherheitsrelevanten menschlichen Entscheidung von der Agentenausgabe).
+- Training: ein durchgehendes helles Feld mit Ueberschrift, Markerhinweisen, Kriterien und Buttons (kein separates dunkles Panel).
+- Pass/Reject werden ueberall in Teilnehmertexten und Buttons grossgeschrieben (vorher im Training klein). Gespeicherte Werte bleiben `pass`/`reject`.
+
+## Verantwortungsszenario und Debriefing (Nutzerentscheidung 08.11.2026)
+
+- Szenario: Seite 1 mit zentrierter Überschrift „Please imagine yourself in the following scenario:“ und linksbündigem Szenariotext im Kasten (ohne „now“). Seite 2 zeigt Überschrift und Szenario erneut, darüber den Items dieselbe Instruktion wie bei den anderen Skalen („Please indicate the degree to which you personally agree or disagree with the following statements.“).
+- Debriefing „Your choice (optional)“: Text „…please tick the box below. Otherwise, your data will be used for this research as planned. … Withdrawing does not affect your payment.“ Kästchen „I do **not** want my data to be used.“ öffnet ein Bestätigungsfeld mit „Withdraw and finish“/„Cancel“ und gesperrtem „Finish“. Der Zahlungshinweis steht bewusst kurz auch im Haupttext, damit die Entscheidung nicht aus Sorge um die Bezahlung beeinflusst wird. Details in `docs/DATA_SCHEMA.md` (`data_use_consent`).
 
 ## Sichtbare Preview-Suche (aktueller Folgeauftrag)
 
@@ -126,10 +138,13 @@ Items, Bildzuordnungen, konkrete Darstellungen und genaue Texte dürfen nicht au
 - Nur Version 1/2: AI assistance introduction → Customization introduction → Agent-ID → Interface/Preview → AI mistakes information → AI practice reminder. Exakte Referenztexte; fehlende Originale als Blocker dokumentieren.
 - Agent-ID: zwei Buchstaben, zwei Ziffern, Groß-/Kleinschreibung akzeptieren, uppercase als `agent_id` speichern; ungültige Eingaben blockieren.
 - Vier Dimensionen: Direction (top left, top right, bottom right, bottom left), Background (dark, light), Size (large, small), Type (L, O). Startpräferenz zuerst, anschließend Alternativen; Direction zyklisch in der genannten Reihenfolge. Vollständige Reihenfolgen sichtbar anzeigen.
-- Keine Voreinstellung (Nutzerentscheidung 05.11.2026): Direction startet leer, Background/Size/Type starten auf einem nicht wählbaren Platzhalter „Please choose“. Apply und Proceed bleiben deaktiviert, bis alle vier Dimensionen aktiv gewählt sind. Grund: Ohne aktive Wahl hätten Teilnehmende ohne Änderung exakt die Standardkonfiguration erhalten und kaum Kontrolle erlebt. Die Standardbedingung (Version 3/4) ist unverändert.
+- Keine Voreinstellung (Nutzerentscheidung 05.11.2026): Direction startet leer, Background/Size/Type starten auf einem nicht wählbaren Platzhalter (seit 09.11.2026 „choose“). Apply und Proceed bleiben deaktiviert, bis alle vier Dimensionen aktiv gewählt sind. Grund: Ohne aktive Wahl hätten Teilnehmende ohne Änderung exakt die Standardkonfiguration erhalten und kaum Kontrolle erlebt. Die Standardbedingung (Version 3/4) ist unverändert.
 - Instruktion und Kategorienamen (Nutzerentscheidung 05.11.2026): Der Satz zur festen Kategorienreihenfolge entfällt, weil er für Teilnehmende vor allem betont, was nicht änderbar ist. Neuer Wortlaut in `experiment.js`; Hinweis „Once all four categories are set“ vor Apply/Proceed; Direction-Anzeige startet mit „(click the first area)“. Kategorienamen zentral in `CUSTOMIZATION_LABELS` (`customization.js`): Search direction, Background characteristic, Letter size, Letter type. Sie gelten auch in der Standard-Preview, damit sich die Bedingungen nur in der Manipulation unterscheiden. Interne Dimensionsschlüssel und Datenfelder bleiben unverändert. In den Konfigurationspanels beider Bedingungen werden die Background-Werte als „dark areas“/„light areas“ angezeigt (`CUSTOMIZATION_VALUE_LABELS`); gespeichert wird weiterhin `dark`/`light`.
+- Konfigurationsboard (Nutzerentscheidung 08./09.11.2026): Bild links; rechts Instruktion ohne Kasten und darunter ein zusammenhängendes Board. Kopfzeile mit Agent-Namen und Statusanzeige („Ready for configuration...“); links neben den vier Zeilen einmal senkrecht „Search order“. Reihenfolgen mit Nummern statt Pfeilen. Direction: die vier Bildbereiche nacheinander anklicken, der letzte ergibt sich automatisch; erneuter Klick auf eine vollständige Reihenfolge beginnt neu. Background/Size/Type: Slot ① ist ein Dropdown (was zuerst gesucht wird), Slot ② wird automatisch mit dem übrigen Wert gefüllt. ① und ② sehen gewählt gleich aus (Reihenfolge, kein Relevanzunterschied). Instruktion: „…click Apply to run a demo with your settings…“ (ohne „current“).
+- Standard-Board (Nutzerentscheidung 08.11.2026): identischer Aufbau wie das Konfigurationsboard (Quadranten-Raster mit Nummern, Nummernliste, Slots ①/②), aber statisch ohne Dropdown-Pfeil, damit sich die Bedingungen nur in der Konfigurationstätigkeit unterscheiden.
+- Agent-ID-Text (Nutzerentscheidung 08.11.2026): „First, give your AI agent an identification. Identifications must consist of 2 letters and 2 numbers (e.g. AI01).“
 - Standard-Preview (Nutzerentscheidung 05.11.2026): „DA02 was set up with a specific search order.“ ersetzt „has learned a specific search order based on defect-occurrence probabilities“, damit der Standard-Agent nicht kompetenter wirkt als der selbst konfigurierte (möglicher Confound mit Trust/Oversight).
-- Demo-Hinweis (Nutzerentscheidung 05.11.2026): Nach dem Final verdict der Preview ändert sich in beiden Bedingungen das Bild-Etikett („Preview Example“, `#preview-badge`) zu „Example part with more than 10 defects (correct verdict: reject)“ (bei pass entsprechend). Beim nächsten Apply/Preview wird es zurückgesetzt. Zweck: Teilnehmende sollen den roten Rahmen nicht als Fehler deuten. Bewusst im Etikett statt im Panel, weil das Panel sonst wächst und auf 1366×768-Bildschirmen knapp wird.
+- Demo-Hinweis (Nutzerentscheidung 05.11.2026, geändert 08.11.2026): Das Bild-Etikett (`#preview-badge`) zeigt von Anfang an „Example component with more than 10 defects (correct verdict: Reject)“ (`PREVIEW_BADGE_TEXT`); das Beispielbild hat immer 14 Defekte. Kein Zurücksetzen mehr. Zweck: Teilnehmende sollen den roten Rahmen nicht als Fehler deuten. Bewusst im Etikett statt im Panel, weil das Panel sonst wächst und auf 1366×768-Bildschirmen knapp wird.
 - Pilot-Feedback (Nutzerentscheidung 05.11.2026): Mit `feedback=1` im Studienlink folgt nach dem Debriefing eine optionale Freitextseite („Was anything in this study unclear, confusing or not working as expected? We also welcome any other feedback you may have. (optional)“), gespeichert als `pilot_feedback`. Nur für Pilots; nicht bei zurückgezogener Einwilligung. Wird nicht ausgewertet, nur zur Verbesserung des Experiments.
 - Apply übernimmt Einstellungen und startet die Preview erneut; mehrfach nutzbar. Proceed speichert aktuelle Einstellungen dauerhaft in Teilnehmerdaten und beendet den Trial.
 - Speichern: `agent_id` und je Dimension `custom_<dimension>_start`/`custom_<dimension>_order`, wobei Background als `background` benannt wird.
