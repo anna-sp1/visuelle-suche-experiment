@@ -96,16 +96,17 @@ for (const version of [1, 2, 3, 4]) {
                 const trial = create(s, version, item);
                 const html = trial.stimulus();
                 assert.ok(html.includes('ai-agent-verdict') && html.includes('ai-pass') && html.includes('ai-reject'));
-                assert.ok(html.includes(`<span class="ai-round-counter" aria-label="Round 1 of ${phase === 'ai_practice' ? 10 : 30}">1/${phase === 'ai_practice' ? 10 : 30}</span>`));
+                assert.ok(html.includes(`<div class="ai-round-counter" aria-label="Round 1 of ${phase === 'ai_practice' ? 10 : 30}">1/${phase === 'ai_practice' ? 10 : 30}</div>`));
                 assert.ok(html.includes('class="image-container trial-image-container"'));
                 trial.on_load();
                 s.document.getElementById('ai-pass').click();
                 assert.equal(s.finished.length, 0);
                 s.tick(31);
                 assert.equal(s.finished.length, 0);
-                s.tick(1);
+                // Ring-paced search (11.11.2026): run until the search is complete.
+                s.tick(2000);
                 const panel = s.document.getElementById('ai-agent-verdict');
-                assert.equal(panel.textContent, `Final verdict: ${verdict.toUpperCase()} | Defects found: 10`);
+                assert.equal(panel.textContent, `Final verdict: ${verdict.toUpperCase()}`);
                 assert.ok(panel.classList.contains(verdict === 'Pass' ? 'ai-verdict-pass' : 'ai-verdict-reject'));
                 // Both test verdicts have 10 rings. REJECT must never be recomputed as PASS.
                 const wrapper = s.document.getElementById('ai-image-wrapper');
@@ -151,7 +152,7 @@ for (const version of [1, 2, 3, 4]) {
 
 test('participant Pass records code 1 and correctness independently of AI agreement', () => {
     const s = setup(), trial = create(s, 1, fixture(1));
-    trial.stimulus(); trial.on_load(); s.tick(32);
+    trial.stimulus(); trial.on_load(); s.tick(2000);
     s.document.getElementById('ai-pass').click();
     assert.equal(s.finished[0].participant_verdict_code, 1);
     assert.equal(s.finished[0].agreement_with_agent, true);
@@ -221,10 +222,12 @@ test(`v${version} partial=${partial}: loader preserves all 40 trials and rejects
 }
 
 for (const [phase, total] of [['ai_practice', 10], ['main_task', 30]]) {
-    test(`${phase}: round counter shows the current trial in the upper right`, () => {
+    test(`${phase}: round counter shows the current trial above the agent panel, outside it`, () => {
         const s = setup();
         const trial = create(s, 1, fixture(1, phase, 'Pass', 4));
-        assert.ok(trial.stimulus().includes(`aria-label="Round 4 of ${total}">4/${total}</span>`));
+        const html = trial.stimulus();
+        assert.ok(html.includes(`<div class="ai-round-counter" aria-label="Round 4 of ${total}">4/${total}</div>`));
+        assert.ok(html.indexOf('ai-round-counter') < html.indexOf('class="ki-panel"'));
     });
 }
 
@@ -238,7 +241,7 @@ test('Main rings follow the displayed image box, including contain margins', () 
     const trial = create(s, 1, item);
     trial.stimulus();
     trial.on_load();
-    s.tick(32);
+    s.tick(2000);
     const first = s.document.getElementById('ai-image-wrapper').children[0];
     assert.equal(first.style.left, '102px');
     assert.equal(first.style.top, '250px');
