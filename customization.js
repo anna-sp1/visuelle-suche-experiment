@@ -18,11 +18,11 @@ function customizationValueLabel(value) {
 }
 // Search order shown as numbered chips (1, 2, ...) instead of arrows; same in both conditions.
 function orderChips(values) {
-    return values.map((value, index) => `<span class="ord-chip"><b>${index + 1}</b>${customizationValueLabel(value)}</span>`).join('');
+    return values.map((value, index) => `<span class="ord-chip" data-dim="direction" data-v="${value}"><b>${index + 1}</b>${customizationValueLabel(value)}</span>`).join('');
 }
 // Standard board: the same controls as in the customization board, filled in and not clickable.
 function staticDirectionGrid(order) {
-    const cell = q => `<div class="dir-cell dir-set dir-static" title="${q.replaceAll('_', ' ')}">${order.indexOf(q) + 1}</div>`;
+    const cell = q => `<div class="dir-cell dir-set dir-static" data-dim="direction" data-v="${q}" title="${q.replaceAll('_', ' ')}">${order.indexOf(q) + 1}</div>`;
     return `<div id="dir-grid" class="dir-static-grid">${['top_left', 'top_right', 'bottom_left', 'bottom_right'].map(cell).join('')}</div>`;
 }
 // Background, size, type: slot 1 = what is searched first, slot 2 = the remaining value (filled in automatically).
@@ -35,8 +35,9 @@ function orderSelectPair(dimension, id) {
     </div>`;
 }
 function staticOptionPair(dimension, order) {
-    return `<div class="opt-pair sel-pair">${order.map((v, i) => `<span class="sel-slot sel-done"><b class="opt-num">${i + 1}</b><span class="${i === 0 ? 'ord-select ord-select-static' : 'sel-auto-val'}">${customizationValueLabel(v)}</span></span>`).join('')}</div>`;
+    return `<div class="opt-pair sel-pair">${order.map((v, i) => `<span class="sel-slot sel-done" data-dim="${dimension}" data-v="${v}"><b class="opt-num">${i + 1}</b><span class="${i === 0 ? 'ord-select ord-select-static' : 'sel-auto-val'}">${customizationValueLabel(v)}</span></span>`).join('')}</div>`;
 }
+
 // Image label of the preview example; the example is fixed and always has 14 defects (verdict reject).
 const PREVIEW_BADGE_TEXT = 'Example component with more than 10 defects (correct verdict: Reject)';
 
@@ -101,6 +102,8 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
     const apply = document.getElementById(fixedSettings ? 'preview-btn' : 'apply-btn');
     const proceed = document.getElementById('proceed-btn');
     const wrapper = document.getElementById('preview-image-wrapper');
+    // The four search areas are always outlined on the preview image (both conditions).
+    showQuadrantLines('preview-image-wrapper');
     const image = document.getElementById('preview-image');
     const status = document.getElementById('status-text');
     let active = true, busy = false, generation = 0, interval;
@@ -135,8 +138,10 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
     function showOrders() {
         renderDirection();
         refreshButtons();
-        selectors.forEach(({ pair, auto, value }) => {
+        selectors.forEach(({ key, pair, auto, value }) => {
             auto.textContent = value.length ? customizationValueLabel(value[1]) : '';
+            // Slots carry their current value so they can light up during the demo.
+            pair.querySelectorAll('.sel-slot').forEach((slot, i) => { slot.dataset.dim = key; if (value[i]) slot.dataset.v = value[i]; else delete slot.dataset.v; });
             pair.querySelectorAll('.sel-slot').forEach(slot => slot.classList.toggle('sel-done', value.length > 0));
         });
         return read();
@@ -210,7 +215,11 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
             const rendered = new Set();
             const truth = value => value === true || value === 'True' || value === 'true' || value === 1;
             const marked = rows.filter(row => truth(row.bekommt_kreis));
-            let index = 0;
+            let index = 0, hold = 0;
+            const board = document.querySelector('.cfg-board');
+            // Board cells of the direction grid can be lit by direction.
+            board?.querySelectorAll('.dir-cell[data-q]').forEach(cell => { cell.dataset.dim = 'direction'; cell.dataset.v = cell.dataset.q; });
+            const ringMs = Number(document.getElementById('preview-speed')?.value) || PREVIEW_SEARCH_RING_MS;
             function draw(row) {
                 renderRing('preview-image-wrapper', row.center_x, row.center_y,
                     truth(row.is_small) ? 'klein' : 'groß', image.naturalWidth, image);
@@ -218,32 +227,43 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
             }
             interval = setInterval(() => {
                 if (!current()) return;
+                if (hold > 1) { hold--; return; }
+                if (index === steps.length) { finish(); return; }
                 const step = steps[index++];
                 status.style.whiteSpace = 'pre-line';
                 status.innerHTML = `<span class="ai-thinking">Searching</span><br><span style="color:#64748b; font-size:15px;">Area ${settings.direction.order.indexOf(step.direction) + 1} of ${settings.direction.order.length}: ${step.direction.replaceAll('_', ' ')}<br><span class="search-substep">${step.background} areas, ${step.size}, ${step.type}</span></span>`;
+                showSearchArea('preview-image-wrapper', step.direction);
+                markSearchStep(board, step);
+                let drawn = 0;
                 marked.forEach(row => {
+                    if (rendered.has(row)) return;
                     const left = row.center_x <= image.naturalWidth / 2;
                     const top = row.center_y <= image.naturalHeight / 2;
                     const direction = `${top ? 'top' : 'bottom'}_${left ? 'left' : 'right'}`;
                     if (direction === step.direction && (truth(row.bg_dark) ? 'dark' : 'light') === step.background &&
-                        (truth(row.is_small) ? 'small' : 'large') === step.size && row.shape === step.type) draw(row);
+                        (truth(row.is_small) ? 'small' : 'large') === step.size && row.shape === step.type) { draw(row); drawn++; }
                 });
-                if (index === steps.length) {
-                    clearInterval(interval);
-                    // Preserve existing CSV false positives outside L/O, formerly shown in the final scan.
-                    marked.filter(row => !rendered.has(row)).forEach(draw);
-                    const verdict = rendered.size > 10 ? 'reject' : 'pass';
-                    wrapper.classList.add(`preview-${verdict}`);
-                    status.innerHTML = '<span style="color:#64748b; font-size:15px;">&#10003; Search complete</span>';
-                    const verdictBox = document.createElement('div');
-                    verdictBox.className = `ai-agent-verdict ai-verdict-${verdict}`;
-                    verdictBox.textContent = `Final verdict: ${verdict.toUpperCase()}`;
-                    status.appendChild(verdictBox);
-                    // The image label (PREVIEW_BADGE_TEXT) states from the start that this example should be rejected,
-                    // so the red frame reads as the intended outcome, not as an error.
-                    setBusy(false);
-                }
-            }, Number(document.getElementById('preview-speed')?.value) || PREVIEW_SEARCH_STEP_MS);
+                hold = searchHoldTicks(drawn, ringMs);
+            }, SEARCH_TICK_MS);
+            function finish() {
+                if (!current()) return;
+                clearInterval(interval);
+                clearSearchArea('preview-image-wrapper');
+                markSearchStep(board, null);
+                // Preserve existing CSV false positives outside L/O, formerly shown in the final scan.
+                marked.filter(row => !rendered.has(row)).forEach(draw);
+                const verdict = rendered.size > 10 ? 'reject' : 'pass';
+                wrapper.classList.add(`preview-${verdict}`);
+                status.innerHTML = '<span style="color:#64748b; font-size:15px;">&#10003; Search complete</span>';
+                const verdictBox = document.createElement('div');
+                verdictBox.className = `ai-agent-verdict ai-verdict-${verdict}`;
+                verdictBox.textContent = `Final verdict: ${verdict.toUpperCase()}`;
+                status.appendChild(verdictBox);
+                // The image label (PREVIEW_BADGE_TEXT) states from the start that this example should be rejected,
+                // so the red frame reads as the intended outcome, not as an error.
+                setBusy(false);
+            }
+
         }
         image.addEventListener('load', start, { once: true });
         image.addEventListener('error', fail, { once: true });

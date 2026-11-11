@@ -54,9 +54,9 @@ function createStandardPreparation(jsPsych, agentId) {
                     <div class="cfg-foot">
                         <div class="cfg-speed">Demo speed:
                             <select id="preview-speed">
-                                <option value="320">slow</option>
-                                <option value="180" selected>normal</option>
-                                <option value="70">fast</option>
+                                <option value="700">slow</option>
+                                <option value="400" selected>normal</option>
+                                <option value="150">fast</option>
                             </select>
                         </div>
                         <button id="preview-btn" class="action-btn" style="background:#555; padding: 9px 18px; width: 120px;">Preview</button>

@@ -22,10 +22,13 @@ const ANZAHL_TRAINING_RUNDEN = 5;
 // Shared verdict coding; see docs/DATA_SCHEMA.md. Independent of Yes/No coding.
 const VERDICT_CODES = Object.freeze({ pass: 1, reject: 2 });
 const YES_NO_CODES = Object.freeze({ yes: 1, no: 2 });
-// AI practice/main search timing remains 32 combinations * 15 ms = 480 ms.
-const SEARCH_STEP_MS = 80;
-// Preview-only pacing requested for a visibly sequential demonstration (5.76 seconds).
-const PREVIEW_SEARCH_STEP_MS = 180;
+// Ring-paced search (user decision 11.11.2026): the agent runs through its 32 search steps in a base tick of
+// SEARCH_TICK_MS; a step that reveals at least one ring is held for the phase's ring interval, empty steps pass
+// after one tick. The order of ring appearance therefore shows the configured order, at nearly unchanged duration.
+const SEARCH_TICK_MS = 30;
+const SEARCH_RING_MS = Object.freeze({ ai_practice: 400, main_task: 250 });
+// Configuration demo: same pacing as the calibration block ('normal'); slow/fast selectable on the page.
+const PREVIEW_SEARCH_RING_MS = 400;
 let participantCustomization = null;
 
 // Probanden-ID und Dateiname

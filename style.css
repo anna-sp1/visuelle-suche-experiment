@@ -828,3 +828,44 @@ body:has(.doc-page),
 #jspsych-content .cfg-board .ord-select-static { height: 30px; display: inline-flex !important; align-items: center; padding-top: 0 !important; padding-bottom: 0 !important; }
 #jspsych-content .cfg-speed { white-space: nowrap; }
 #jspsych-content .cfg-speed select { width: auto !important; min-width: 0 !important; }
+
+/* 22. Fehlerarten-Erklärung vor der KI-Übung (11.11.2026) */
+#jspsych-content .error-types { text-align: left !important; font-size: 18px; line-height: 1.55; margin: 0 auto 22px auto; padding: 14px 20px; border: 1px solid #cbd5e1; border-radius: 8px; max-width: 620px; }
+#jspsych-content .error-types p { margin: 0 0 8px 0 !important; text-align: left !important; }
+#jspsych-content .error-types p:last-child { margin: 10px 0 0 0 !important; }
+#jspsych-content .error-types ul { margin: 0 !important; padding-left: 22px !important; text-align: left !important; }
+#jspsych-content .error-types li { margin: 0 0 6px 0; text-align: left !important; }
+
+/* 23. Aktueller Suchbereich der KI im Bild (11.11.2026), in Demo und KI-Durchgängen gleich */
+#ai-image-wrapper, #preview-image-wrapper { position: relative; }
+.ai-search-area { position: absolute; width: 50%; height: 50%; box-sizing: border-box; pointer-events: none; z-index: 1;
+    border: 3px solid rgba(45, 212, 191, .95); background: transparent; box-shadow: inset 0 0 0 1px rgba(255,255,255,.55), 0 0 0 1px rgba(255,255,255,.55);
+    transition: top .15s ease, left .15s ease; }
+#preview-badge { z-index: 3; }
+
+/* 24. Suchbereiche (11.11.2026): ganz leichte graue Trennlinien zwischen den vier Bildbereichen (Preview-Bild beider
+   Bedingungen und Kalibrierungsblock) und ein weißes Highlight um den Bereich, der gerade abgesucht wird – passend zu den
+   weißen KI-Kreisen. Keine eigene Agentenfarbe mehr; Namensbox wie das Konfigurationsboard (dunkel). */
+.quadrant-lines { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.quadrant-lines::before, .quadrant-lines::after { content: ''; position: absolute; background: rgba(71, 85, 105, .35); }
+.quadrant-lines::before { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-.5px); }
+.quadrant-lines::after { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-.5px); }
+html body .ai-search-area { z-index: 2; border: 3px solid rgba(255, 255, 255, .95) !important; background: transparent !important;
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, .28), inset 0 0 0 1px rgba(15, 23, 42, .28) !important; }
+html body #jspsych-content .right-column .ki-panel h3 { display: table !important; margin: 0 auto 14px auto !important; padding: 4px 14px !important;
+    background: #1f2937 !important; color: #fff !important; border: 0 !important; border-radius: 5px; letter-spacing: 3px; font-size: 1.05rem !important; }
+/* Hauptaufgabe: Highlight nur angedeutet (11.11.2026) */
+html body #ai-image-wrapper.search-subtle .ai-search-area { border: 2px solid rgba(255, 255, 255, .45) !important; box-shadow: none !important; }
+
+/* 25. Ringgekoppelte Suche (11.11.2026): Elemente der Suchreihenfolge leuchten auf, solange die KI gerade danach sucht –
+   im Konfigurations-/Standard-Board (Demo). Im KI-Panel bleibt der „thought process“ (Statuszeilen). */
+html body #jspsych-content .dir-cell.is-searching { background: #256c59 !important; color: #fff !important; border-color: #256c59 !important; }
+html body #jspsych-content .cfg-board .sel-slot.is-searching .ord-select,
+html body #jspsych-content .cfg-board .sel-slot.is-searching select.ord-select,
+html body #jspsych-content .cfg-board .sel-slot.is-searching .sel-auto-val { background-color: #256c59 !important; color: #fff !important; border-color: #256c59 !important; }
+html body #jspsych-content .cfg-board .sel-slot.is-searching .opt-num { background: #172033 !important; }
+html body #jspsych-content .cfg-board .cfg-rows .cfg-row .sel-slot.is-searching select.ord-select { background-color: #256c59 !important; color: #fff !important; border-color: #256c59 !important; opacity: 1 !important; }
+html body #jspsych-content .ord-chip.is-searching { background: #256c59 !important; color: #fff !important; }
+html body #jspsych-content .ord-chip.is-searching b { background: #fff !important; color: #256c59 !important; }
+/* Während der Demo bleibt das Richtungsraster voll sichtbar (nur nicht klickbar), damit das Aufleuchten erkennbar ist. */
+html body #dir-grid.dir-busy { opacity: 1 !important; }

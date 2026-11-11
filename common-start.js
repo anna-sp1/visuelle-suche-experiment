@@ -39,16 +39,16 @@ const consent_trial = {
             <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px;">
                 <div>
                     <h2 style="${consentH2}">About the study</h2>
-                    <p style="margin: 0;">This study is conducted by the German Aerospace Center (DLR), ${STUDY_INSTITUTE}. We investigate how people work together with an AI-based assistance system in a simulated visual inspection task. Some aspects of the study can only be explained in full at the end. You will receive a complete explanation after you have finished.</p>
+                    <p style="margin: 0;">This study is conducted by the German Aerospace Center (DLR), ${STUDY_INSTITUTE}. We investigate how people work together with an AI agent that assists them in a simulated visual inspection task. Some aspects of the study can only be explained in full at the end. You will receive a complete explanation after you have finished.</p>
                     <h2 style="${consentH2}">Procedure</h2>
-                    <p style="margin: 0 0 10px 0;">You will practise the inspection task, get to know an assistant, and then classify a series of images with its support. Afterwards, you will answer questions about your experience, including questions on hypothetical work scenarios, your attitudes towards technology and AI, and your age, gender and highest level of education.</p>
+                    <p style="margin: 0 0 10px 0;">You will practise the inspection task, get to know the agent, and then classify a series of images with its support. Afterwards, you will answer questions about your experience, including questions on hypothetical work scenarios, your attitudes towards technology and AI, and your age, gender and highest level of education.</p>
                     <p style="margin: 0;">The study takes about 30–35 minutes. The visual task may be tiring but there is no time pressure, and you can take short breaks between task blocks. There are no known risks beyond those of regular computer use.</p>
                     <h2 style="${consentH2}">Requirements and payment</h2>
                     <p style="margin: 0;">You must be at least 18 years old, have normal or corrected-to-normal vision, have no known colour vision deficiency, and use a desktop or laptop computer. You will receive ${PAYMENT_AMOUNT} via Prolific. Payment does not depend on your performance. If you end the study early, you are not eligible for payment.</p>
                 </div>
                 <div>
                     <h2 style="${consentH2}">Data processing and voluntariness</h2>
-                    <p style="margin: 0 0 10px 0;">Your decisions, response times and questionnaire answers are recorded. These data are collected to better understand how the assistance is perceived and used by different people. They do not allow any conclusions to be drawn about your identity. The only identifier is your Prolific ID. It is used for payment, to prevent repeated participation and to handle withdrawal requests, and it will be removed from the data set two weeks after data collection has ended. It will not be possible to link your data to your name.</p>
+                    <p style="margin: 0 0 10px 0;">Your decisions, response times and questionnaire answers are recorded. These data are collected to better understand how the agent is perceived and used by different people. They do not allow any conclusions to be drawn about your identity. The only identifier is your Prolific ID. It is used for payment, to prevent repeated participation and to handle withdrawal requests, and it will be removed from the data set two weeks after data collection has ended. It will not be possible to link your data to your name.</p>
                     <p style="margin: 0 0 10px 0;">The study results will be published in anonymised form, that means your data cannot be linked to your ID or identity. The anonymised data will be stored for at least 10 years. In the spirit of Open Science, the collected data may be made available in an open data repository. The purpose, nature, and extent of any potential reuse cannot be determined at this time.</p>
                     <p style="margin: 0;">Participation in this study is voluntary. You can withdraw from the study at any time and without providing any reason. If you end the study early, none of your answers will be saved.</p>
                     <h2 style="${consentH2}">Questions and withdrawal</h2>
@@ -167,7 +167,7 @@ let intro_timeline = [
             `<p>You will view component images one by one. Your task is to classify each part based on its defects.</p>
              <p>An <strong>L</strong> or an <strong>O</strong> is a defect. Ignore all other letters. Orange and blue letters as well as large and small ones are equally important.</p>
              <p>Flag a component as <strong><i style="color: #d9534f;">Reject</i></strong> if it contains <strong style="color: #d9534f;">more than 10</strong> defects. Otherwise, flag it as <strong><i style="color: #5cb85c;">Pass</i></strong>.</p>
-             <p>You can click on defects to mark them for easier counting. Click again to deselect.</p>`
+             <p>During practice, you can click on defects to mark them for easier counting. Click again to deselect.</p>`
         ),
         choices: [], 
         on_load: () => document.getElementById('custom-next-btn').addEventListener('click', () => jsPsych.finishTrial())
@@ -179,7 +179,7 @@ let intro_timeline = [
             "Practice", 
             `<div style="text-align: center;">
                  <p>Next, you will practice the task.</p>
-                 <p>Later in the study, you will work with an AI agent that also follows a search strategy. While practicing, pay attention to how you search the images: where do you start, and what do you look for first?</p>
+                 <p>Later in the study, you will work with an AI agent that also follows a search strategy. While practicing, pay attention to how you search the images: where do you start, and what do you look for first? Marking the defects as you find them can help you notice your own search order.</p>
                  <p>Use the buttons below to classify each component:</p>
                  <ul style="display: inline-block; text-align: left; margin: 10px auto;">
                      <li><strong><i style="color: #5cb85c;">Pass</i></strong>: 10 or less defects</li>
@@ -315,7 +315,7 @@ const practice_finished_trial = {
             You have finished the practice.
         </p>
         <p style="font-size: 24px; line-height: 1.4; margin-bottom: 40px;">
-            Your company has introduced an intelligent assistance system for defect detection. In this next phase, an AI agent will assist you during the task.
+            Your company has introduced an AI agent for defect detection. In this next phase, it will assist you during the task.
         </p>
         <button id="next-btn-practice-done" class="action-btn btn-start" style="padding: 12px 30px;">Next</button>
     </div>

@@ -117,6 +117,10 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                 wrapper.style.setProperty('aspect-ratio', `${image.naturalWidth} / ${image.naturalHeight}`, 'important');
                 const steps = customizationCombinations(searchOrder);
                 assertAi(steps.length === 32, 'Invalid search order');
+                // Calibration (AI practice) only: outline the four search areas; the main task shows the image without lines.
+                if (plan.phase === 'ai_practice') showQuadrantLines('ai-image-wrapper');
+                // Main task: the current search area is only faintly outlined, so it does not distract from the image.
+                else wrapper.classList?.add('search-subtle');
                 startTime = performance.now();
                 let index = 0;
                 // Rings appear step by step in the active search order (configured or standard).
@@ -135,16 +139,25 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                     return direction === step.direction && (s.bg_dark ? 'dark' : 'light') === step.background &&
                         s.size === step.size && type === step.type;
                 }
+                const ringMs = SEARCH_RING_MS[plan.phase] || SEARCH_RING_MS.main_task;
+                let hold = 0;
                 interval = setInterval(() => {
                     if (!active) return;
+                    if (hold > 1) { hold--; return; }
+                    // All steps done and the last ring held: finish.
+                    if (index === steps.length) { clearInterval(interval); finish(); return; }
                     const step = steps[index++];
-                    // Readable progress: only the current image area (changes every 8 steps).
                     const areas = searchOrder.direction.order;
-                    // Area stays for 8 steps (readable); background, size and type change underneath.
                     document.getElementById('ai-search-step').innerHTML = `Area ${areas.indexOf(step.direction) + 1} of ${areas.length}: ${step.direction.replaceAll('_', ' ')}<br><span class="search-substep">${step.background} areas, ${step.size}, ${step.type}</span>`;
-                    plan.ai_marked_symbol_ids.forEach(id => { if (!shown.has(id) && matchesStep(byId.get(id), step)) draw(id); });
-                    if (index !== steps.length) return;
-                    clearInterval(interval);
+                    showSearchArea('ai-image-wrapper', step.direction);
+                    let drawn = 0;
+                    plan.ai_marked_symbol_ids.forEach(id => { if (!shown.has(id) && matchesStep(byId.get(id), step)) { draw(id); drawn++; } });
+                    // Ring-paced: a step that revealed a ring is held for ringMs, empty steps pass after one tick.
+                    hold = searchHoldTicks(drawn, ringMs);
+                }, SEARCH_TICK_MS);
+                function finish() {
+                    if (!active) return;
+                    clearSearchArea('ai-image-wrapper');
                     // Safety net: any planned ring not matched by a step is shown at the end.
                     plan.ai_marked_symbol_ids.forEach(id => { if (!shown.has(id)) draw(id); });
                     // After the search: short completion note instead of the last search step.
@@ -156,7 +169,7 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                     animationDuration = performance.now() - startTime;
                     ready = true;
                     pass.disabled = reject.disabled = false;
-                }, SEARCH_STEP_MS);
+                }
             }
             image.addEventListener('load', start);
             image.addEventListener('error', () => {

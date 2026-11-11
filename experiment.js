@@ -25,7 +25,7 @@ if (!condition) {
     return;
 }
 
-let aiName = condition.agentNameMode === 'fixed' ? condition.fixedAgentName : "AI ASSISTANT";
+let aiName = condition.agentNameMode === 'fixed' ? condition.fixedAgentName : "AI AGENT";
 
 let submitted = false;
 // Progress bar: advances by one equal step after every screen ("Next").
@@ -351,9 +351,9 @@ const customization_settings_trial = {
                     <div class="cfg-foot">
                         <div class="cfg-speed">Demo speed:
                             <select id="preview-speed">
-                                <option value="320">slow</option>
-                                <option value="180" selected>normal</option>
-                                <option value="70">fast</option>
+                                <option value="700">slow</option>
+                                <option value="400" selected>normal</option>
+                                <option value="150">fast</option>
                             </select>
                         </div>
                         <button id="apply-btn" class="action-btn" style="background:#555; padding: 9px 18px; width: 120px;">Apply</button>
@@ -397,9 +397,21 @@ const ai_mistakes_trial = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function() {
         return `
-        <div style="background:#0f172a; padding:40px; color:white; font-family:sans-serif; text-align:center; border-radius: 8px; max-width: 700px; margin: 40px auto; border: 1px solid #334155;">
+        <div style="background:#0f172a; padding:40px; color:white; font-family:sans-serif; text-align:center; border-radius: 8px; max-width: 760px; margin: 40px auto; border: 1px solid #334155;">
+            <p style="font-size: 20px; line-height: 1.6; margin-bottom: 16px;">
+            Like all systems of this type, <strong>${aiName}</strong> can make mistakes. <br>Under the operating conditions used here, it classifies approximately 90% of individual markings correctly. Its Pass/Reject recommendation is based on the number of defects it has marked.
+            </p>
+            <!-- Error types (feedback 11.11.2026): how marking errors arise and what they do to the verdict; no colour/background cues. -->
+            <div class="error-types">
+                <p>Two kinds of marking errors can occur:</p>
+                <ul>
+                    <li><strong>Missed defect:</strong> an L or O is not marked. Too few marks can lead to a wrong <i style="color: #5cb85c;">Pass</i>.</li>
+                    <li><strong>False marking:</strong> another letter (T or Q) is marked. Too many marks can lead to a wrong <i style="color: #d9534f;">Reject</i>.</li>
+                </ul>
+                <p>Both kinds of errors can occur in the same component. Both a wrong Pass and a wrong Reject should be avoided equally.</p>
+            </div>
             <p style="font-size: 20px; line-height: 1.6; margin-bottom: 30px;">
-            Like all systems of this type, <strong>${aiName}</strong> can make mistakes. <br>Under the operating conditions used here, it classifies approximately 90% of individual markings correctly. Its Pass/Reject recommendation is based on the number of defects it has marked. <br>Residual misclassifications are an expected characteristic of intelligent visual inspection and are documented in the system specification. They occur because surface texture, contrast, and marking geometry can make individual markings harder to resolve. <br><strong>Your task is still to make the final assessment for each component based on its number of defects by clicking <i style="color: #5cb85c;">Pass</i> or <i style="color: #d9534f;">Reject</i>.</strong>
+            <strong>Your task is still to make the final assessment for each component based on its number of defects by clicking <i style="color: #5cb85c;">Pass</i> or <i style="color: #d9534f;">Reject</i>.</strong>
             </p>
             <button id="next-btn-1" class="action-btn btn-start" style="padding: 12px 30px;">Next</button>
         </div>
@@ -420,6 +432,9 @@ const ai_practice_reminder_trial = {
                 Now you can practice the detection task with <strong>${aiName}</strong>.
             </p>
             <p style="font-size: 20px; line-height: 1.6; margin-bottom: 10px;">
+                From now on, <strong>${aiName}</strong> searches the images and marks the defects it finds. The rings show its markings.
+            </p>
+            <p style="font-size: 20px; line-height: 1.6; margin-bottom: 10px;">
                 To help you get started, the practice begins with images that contain fewer symbols.
             </p>
             <p style="font-size: 20px; line-height: 1.6; margin-bottom: 30px;">
@@ -433,7 +448,7 @@ const ai_practice_reminder_trial = {
                 <li>Defects: <strong>Ls</strong> and <strong>Os</strong></li>
             </ul>
             <br>
-            <button id="next-btn-2" class="action-btn btn-start" style="padding: 12px 30px;">start</button>
+            <button id="next-btn-2" class="action-btn btn-start" style="padding: 12px 30px;">Start</button>
         </div>
         `;
     },
@@ -669,16 +684,16 @@ const outro_trial = {
     stimulus: `<div class="doc-page" style="max-width: 1120px; margin: 0 auto; padding: 40px 56px 56px 56px; box-sizing: content-box; color: #222222; font-size: 16px; line-height: 1.6;">
         <h1 style="margin: 0 0 18px 0;">Thank you very much for taking part!</h1>
         <p>Your time and effort make this research possible. Before you finish, please read the following information about the study.</p>
-        <p><strong>What was this study about?</strong> We investigate whether configuring an AI assistant yourself makes people feel that it is "theirs" (psychological ownership), and whether this feeling changes how carefully they check the assistant's recommendations, how satisfied they are with it, and how much responsibility they take for errors.</p>
+        <p><strong>What was this study about?</strong> We investigate whether configuring an AI agent yourself makes people feel that it is "theirs" (psychological ownership), and whether this feeling changes how carefully they check the agent's recommendations, how satisfied they are with it, and how much responsibility they take for errors.</p>
         <p>To study this under controlled conditions, some information was simplified or withheld at the beginning:</p>
         <ol>
             <li>The task was not a real inspection of industrial components. The images were abstract, computer-generated patterns, and your decisions had no consequences outside this study.</li>
             <li>The "AI agent" was not a real AI system. Its markings and recommendations, including its errors, were fixed in advance and were identical for all participants in the same study version.</li>
-            <li>The settings that some participants could choose (name and search order) only changed how the agent's search was displayed, not how accurate it was. Other participants could not change any settings. Both versions were intended.</li>
-            <li>The quality-assurance scenario at the end was the same for everyone. It was not related to your actual performance and was not an evaluation of your work. Your results do not allow any conclusions about your perception, concentration or judgement.</li>
+            <li>The settings that some participants could choose (name and search order) only changed how the agent's search was displayed, not how accurate it was. The other participants worked with a pre-set agent and could not change any settings. Both versions were intended.</li>
+            <li>The scenario at the end, in which an engineer raised concerns about one of your classifications, was the same for everyone. It was not related to your actual performance and was not an evaluation of your work. Your results do not allow any conclusions about your perception, concentration or judgement.</li>
         </ol>
         <p><strong>Why was this necessary?</strong> If participants had known these details in advance, this would have influenced how they work with the agent and how they evaluate it, and our research question could not have been answered. Withholding information in this way is a common procedure in psychological research. We apologise for any confusion it may have caused.</p>
-        <p><strong>Why your data matter.</strong> Your responses help us understand how AI assistance can be designed so that people stay in control and notice its errors.</p>
+        <p><strong>Why your data matter.</strong> Your responses help us understand how AI agents can be designed so that people stay in control and notice their errors.</p>
         <div style="margin: 22px 0; padding: 16px 20px; border: 1px solid #d5d9de; border-radius: 4px; background: #f7f8fa;">
             <p style="margin: 0 0 12px 0;"><strong>Your choice (optional).</strong> If you do not want your data to be used, please tick the box below. Otherwise, your data will be used for this research as planned. You can also withdraw later by sending us a message via Prolific or an e-mail to ${CONTACT_EMAIL} within two weeks of your participation. Withdrawing does not affect your payment.</p>
             <label style="display: block; cursor: pointer;"><input type="checkbox" id="debrief-withdraw" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 10px;">I do <strong>not</strong> want my data to be used.</label>

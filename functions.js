@@ -63,3 +63,47 @@ function renderTrainingMarker(container, x, y, image) {
     container.appendChild(marker);
     return marker;
 }
+
+// Highlights the image quarter the agent is currently searching (feedback 11.11.2026: the search
+// order should be visible where participants are looking, not only in the side panel).
+// Same helper for the configuration demo and the AI trials, so both look identical.
+function showSearchArea(containerId, direction) {
+    const container = document.getElementById(containerId);
+    if (!container?.querySelector) return;
+    let area = container.querySelector(':scope > .ai-search-area');
+    if (!area) {
+        area = document.createElement('div');
+        area.className = 'ai-search-area';
+        area.setAttribute('aria-hidden', 'true');
+        container.appendChild(area);
+    }
+    const [vertical, horizontal] = direction.split('_');
+    area.style.top = vertical === 'top' ? '0' : '50%';
+    area.style.left = horizontal === 'left' ? '0' : '50%';
+}
+function clearSearchArea(containerId) {
+    document.getElementById(containerId)?.querySelector?.(':scope > .ai-search-area')?.remove();
+}
+
+// Faint grey lines dividing the image into its four search areas (feedback 11.11.2026).
+// Used on the configuration/standard preview image and in the AI practice (calibration) block.
+function showQuadrantLines(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container?.querySelector || container.querySelector(':scope > .quadrant-lines')) return;
+    const lines = document.createElement('div');
+    lines.className = 'quadrant-lines';
+    lines.setAttribute('aria-hidden', 'true');
+    container.appendChild(lines);
+}
+
+// Number of base ticks a step is held: steps with a ring are held for ringMs, empty steps for one tick.
+function searchHoldTicks(drawnCount, ringMs) {
+    return drawnCount > 0 ? Math.max(1, Math.round(ringMs / SEARCH_TICK_MS)) : 1;
+}
+// Lights up the elements of the search order that belong to the current step (null clears).
+// Elements carry data-dim (direction/background/size/type) and data-v (value).
+function markSearchStep(root, step) {
+    if (!root?.querySelectorAll) return;
+    root.querySelectorAll('[data-dim][data-v]').forEach(el =>
+        el.classList.toggle('is-searching', !!step && step[el.dataset.dim] === el.dataset.v));
+}
