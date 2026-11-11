@@ -32,6 +32,18 @@ In AI Practice und Main Task erscheint beim Final Verdict zusaetzlich die Anzahl
 
 Ein Rundencounter zeigt die aktuelle Trialnummer, klein und grau rechts ueber dem KI-Panel, nicht darin (Nutzerentscheidung 09.11.2026: das KI-Panel zeigt nur die Ausgabe des Agenten; moeglichst wenig Text, daher nur die Zahl). AI Practice (PrePO) zeigt `x/10`, Main Task (PostPO) zeigt `x/30`; beide Phasen zaehlen separat ab 1.
 
+## Nutzerentscheidungen 11.11.2026
+
+- Seite vor der KI-Übung: Satz zur „system specification“ und Ursachensatz („surface texture, contrast…“) entfernt (Kontrast könnte auf die Farb-/Hintergrundmuster hinweisen). Neuer Kasten mit den zwei Fehlerarten: Missed defect (L/O nicht markiert → kann zu falschem Pass führen), False marking (T/Q markiert → kann zu falschem Reject führen); beide können im selben Bauteil vorkommen; „Both a wrong Pass and a wrong Reject should be avoided equally.“ Keine Farb- oder Hintergrundhinweise.
+- KI-Übung (Kalibrierung) enthält bewusst Markierungsfehler, aber keine falschen KI-Urteile.
+- Marker: „The Task“ sagt „During practice, you can click…“; Seite „Practice“ ergänzt „Marking the defects as you find them can help you notice your own search order.“; vor der KI-Übung: „From now on, <Agent> searches the images and marks the defects it finds. The rings show its markings.“ Kein Klick-Hinweis.
+- Knopf vor der KI-Übung „Start“ (groß).
+- Suche ringgekoppelt (`SEARCH_TICK_MS` 30, `SEARCH_RING_MS` ai_practice 400 / main_task 250): Ein Schritt mit Ring wird gehalten, leere Schritte laufen in einem Tick durch. Demo „normal“ = 400 ms pro Ring (slow 700, fast 150).
+- Suchbereiche: ganz leichte graue Trennlinien der vier Bildviertel auf dem Vorschaubild (beide Bedingungen) und in der Kalibrierung; aktiver Bereich mit weißem Rahmen, in der Hauptaufgabe nur angedeutet; nach dem Final verdict weg. Keine eigene Agentenfarbe; Name im KI-Panel als dunkle Box wie auf dem Board.
+- Demo auf Konfigurations-/Standard-Seite: die Felder der Suchreihenfolge, nach denen gerade gesucht wird, leuchten im Board auf. Im KI-Panel der Kalibrierung bleibt der „thought process“ (keine Zusammenfassung der Suchreihenfolge).
+- Debriefing: „The other participants worked with a pre-set agent and could not change any settings.“; „The scenario at the end, in which an engineer raised concerns about one of your classifications, was the same for everyone.“
+- Trainingsbild 5 ersetzt (siehe `scripts/README.md`).
+
 ## Rechte Spalte in Training und KI-Trials (Nutzerentscheidung 08./09.11.2026)
 
 - Die Entscheidungskriterien (Pass: 10 or less defects / Reject: more than 10 defects / Defects are Ls and Os.) stehen nicht mehr im Agent- bzw. Trainingspanel, sondern zusammen mit den Pass-/Reject-Buttons in einem hellen Entscheidungsfeld (`.decision-panel`). Kriterientext grau und linksbuendig. Bewusst ohne Ueberschrift wie „Your decision“, um nicht zu einer Entscheidung zu draengen.
