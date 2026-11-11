@@ -103,7 +103,8 @@ for (const version of [1, 2, 3, 4]) {
                 assert.equal(s.finished.length, 0);
                 s.tick(31);
                 assert.equal(s.finished.length, 0);
-                s.tick(1);
+                // Ring-paced search (11.11.2026): run until the search is complete.
+                s.tick(2000);
                 const panel = s.document.getElementById('ai-agent-verdict');
                 assert.equal(panel.textContent, `Final verdict: ${verdict.toUpperCase()}`);
                 assert.ok(panel.classList.contains(verdict === 'Pass' ? 'ai-verdict-pass' : 'ai-verdict-reject'));
@@ -151,7 +152,7 @@ for (const version of [1, 2, 3, 4]) {
 
 test('participant Pass records code 1 and correctness independently of AI agreement', () => {
     const s = setup(), trial = create(s, 1, fixture(1));
-    trial.stimulus(); trial.on_load(); s.tick(32);
+    trial.stimulus(); trial.on_load(); s.tick(2000);
     s.document.getElementById('ai-pass').click();
     assert.equal(s.finished[0].participant_verdict_code, 1);
     assert.equal(s.finished[0].agreement_with_agent, true);
@@ -240,7 +241,7 @@ test('Main rings follow the displayed image box, including contain margins', () 
     const trial = create(s, 1, item);
     trial.stimulus();
     trial.on_load();
-    s.tick(32);
+    s.tick(2000);
     const first = s.document.getElementById('ai-image-wrapper').children[0];
     assert.equal(first.style.left, '102px');
     assert.equal(first.style.top, '250px');
