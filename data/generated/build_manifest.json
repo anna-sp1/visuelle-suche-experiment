@@ -29,9 +29,9 @@
     },
     {
       "source": "Training_Images/visual_search_data_training_5.zip",
-      "source_sha256": "65918e99eb6764bc30341061490b669218005e69122bcb94380839f0b4d030c5",
-      "image_sha256": "2fcf8b3ec0c4b303a1c406306b82a33a1418e95ebcfbcae8419d2d664e81b066",
-      "table_sha256": "320f0be29caebaeed709abba14c63fa64bd94509cd796a72b63268ac8e3fbbe0"
+      "source_sha256": "51839b2a9ccbc7040b8200a4b58176744938a5a568e121c3a0694037e45501e7",
+      "image_sha256": "f3e838b0b957706b538560c749b5c448c23eb242e690b558699bce0d84dd3ff3",
+      "table_sha256": "9d95af3aa5dd7f90531384281c680ae4367bd84f6f1bc5e7ad3f1623e0c69222"
     },
     {
       "source": "PrePO_Images/visual_search_data_PrePO_1.zip",
