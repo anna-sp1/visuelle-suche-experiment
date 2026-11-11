@@ -1,6 +1,6 @@
 {
   "status": "confirmed",
-  "note": "PrePO trials 1-10 use byte-identical named copies of generator archives 10-19. PostPO trials 1-23 use byte-identical named copies of generator archives 26-48; trial 24 uses (50); trials 25-27 and 29-30 use 51-53 and 55-56. PostPO trial 28 uses the user-supplied corrected archive (100 symbols, 2 orange targets). Original archive (54) is retained; (49) remains superseded.",
+  "note": "PrePO trials 1-10 use byte-identical named copies of generator archives 10-19. PostPO trials 1-23 use byte-identical named copies of generator archives 26-48; trial 24 uses (50); trials 25-27 and 29-30 use 51-53 and 55-56. PostPO trial 28 uses the user-supplied corrected archive (100 symbols, 2 orange targets). Original archive (54) is retained; (49) remains superseded. Training trial 5 uses a regenerated user-supplied archive (11.11.2026: two touching Qs in the original were ambiguous; same 40 symbols / 7 targets); the original is retained as Training_Images/visual_search_data_training_5_original_ambiguous.zip.",
   "exceptions": [
     {
       "sheet": "PostPO",

@@ -1,6 +1,8 @@
 # Trial-Spezifikationen bauen
 
-## Aktueller Stand: korrigierter Main-Trial 28
+## Aktueller Stand: korrigierter Main-Trial 28, neues Trainingsbild 5
+
+Trainingsdurchgang 5 (11.11.2026): Das neu generierte `Training_Images/visual_search_data_training_5.zip` ersetzt das alte Bild, in dem sich zwei orange Qs berührten und wie zwei verbundene Os aussahen. Gleiche Vorgaben (40 Symbole, 7 Targets: 4 L, 3 O, 16 T, 17 Q), keine sich berührenden Symbole. Das alte Archiv bleibt als `visual_search_data_training_5_original_ambiguous.zip` erhalten. Hinweis: `--check` meldet unter Linux alle Ausgaben als „stale“, weil die CSVs im Repository LF-Zeilenenden haben und der Build die CRLF-Bytes aus den ZIPs schreibt; das betrifft den Ausgangsstand genauso und ist kein inhaltlicher Unterschied.
 
 Das vom Nutzer gelieferte `Post_PO_Images/visual_search_data_PostPO_28.zip` enthaelt 100 Symbole und drei Targets, darunter zwei orange. Das urspruengliche `visual_search_data(54).zip` bleibt erhalten. Excel verlangt 2 Misses, 1 False Alarm und Verdict Pass. Der vollstaendige Build validiert alle vier Versionen; `validation_status.json` erlaubt den Start.
 
