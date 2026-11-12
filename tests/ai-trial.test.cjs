@@ -99,8 +99,6 @@ for (const version of [1, 2, 3, 4]) {
                 assert.ok(html.includes(`<div class="ai-round-counter" aria-label="Round 1 of ${phase === 'ai_practice' ? 10 : 30}">1/${phase === 'ai_practice' ? 10 : 30}</div>`));
                 assert.ok(html.includes('class="image-container trial-image-container"'));
                 trial.on_load();
-                s.document.getElementById('ai-pass').click();
-                assert.equal(s.finished.length, 0);
                 s.tick(31);
                 assert.equal(s.finished.length, 0);
                 // Ring-paced search (11.11.2026): run until the search is complete.
@@ -133,6 +131,8 @@ for (const version of [1, 2, 3, 4]) {
                 assert.equal(row.agreement_with_agent, verdict === 'Reject');
                 assert.equal(row.response_correct, true); // 12 actual L/O defects
                 assert.equal(row.rt, 730);
+                assert.equal(row.responded_before_ai_verdict, false);
+                assert.equal(row.ai_search_steps_completed, 32);
                 assert.equal(row.search_animation_duration_ms, 480);
                 assert.equal(row.specified_misses, 2);
                 assert.equal(row.specified_false_alarms, 0);
@@ -262,4 +262,15 @@ test('global validation blocker prevents every version from loading even valid L
             assert.equal(requested.length, 2);
         }
     }
+});
+
+test('Pass/Reject during the search: response accepted and flagged as before the verdict (12.11.2026)', () => {
+    const s = setup(), trial = create(s, 1, fixture(1));
+    trial.stimulus(); trial.on_load(); s.tick(3);
+    s.document.getElementById('ai-pass').click();
+    assert.equal(s.finished.length, 1);
+    assert.equal(s.finished[0].responded_before_ai_verdict, true);
+    assert.ok(s.finished[0].ai_search_steps_completed < 32);
+    assert.equal(s.finished[0].search_animation_duration_ms, null);
+    assert.equal(s.timers.size, 0);
 });
