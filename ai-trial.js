@@ -39,7 +39,7 @@ function validateAiTrialInput(plan, symbols, condition) {
 
 function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearchOrder }) {
     const groundTruth = validateAiTrialInput(plan, symbols, condition);
-    let active = false, interval, image, startTime, animationDuration, ready = false;
+    let active = false, interval, image, startTime, animationDuration, ready = false, searchStepsDone = 0;
     let agentId, searchOrder;
     function cleanup() { active = false; clearInterval(interval); }
     return {
@@ -87,8 +87,12 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
             const wrapper = document.getElementById('ai-image-wrapper');
             const pass = document.getElementById('ai-pass'), reject = document.getElementById('ai-reject');
             const status = document.getElementById('ai-search-status');
+            // Pass/Reject are available as soon as the image is shown and the search has started, also before the
+            // agent's verdict (user decision 12.11.2026: the human decides, the agent does not have the last word).
+            // Whether the verdict had been shown is recorded per trial.
             function respond(verdict) {
-                if (!active || !ready) return;
+                if (!active || startTime === null) return;
+                const verdictShown = ready;
                 const rt = performance.now() - startTime;
                 cleanup();
                 pass.disabled = reject.disabled = true;
@@ -102,6 +106,8 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                     agreement_with_agent: verdict === plan.agent_verdict.toLowerCase(),
                     response_correct: verdict === groundTruth, rt,
                     search_animation_duration_ms: animationDuration,
+                    responded_before_ai_verdict: !verdictShown,
+                    ai_search_steps_completed: searchStepsDone,
                     miss_symbol_ids: JSON.stringify(plan.miss_symbol_ids),
                     false_alarm_symbol_ids: JSON.stringify(plan.false_alarm_symbol_ids),
                     ai_marked_symbol_ids: JSON.stringify(plan.ai_marked_symbol_ids),
@@ -122,6 +128,8 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                 // Main task: the current search area is only faintly outlined, so it does not distract from the image.
                 else wrapper.classList?.add('search-subtle');
                 startTime = performance.now();
+                searchStepsDone = 0;
+                pass.disabled = reject.disabled = false;
                 let index = 0;
                 // Rings appear step by step in the active search order (configured or standard).
                 // The marked set itself stays exactly as planned; only its reveal timing follows the search.
@@ -147,6 +155,7 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                     // All steps done and the last ring held: finish.
                     if (index === steps.length) { clearInterval(interval); finish(); return; }
                     const step = steps[index++];
+                    searchStepsDone = index;
                     const areas = searchOrder.direction.order;
                     document.getElementById('ai-search-step').innerHTML = `Area ${areas.indexOf(step.direction) + 1} of ${areas.length}: ${step.direction.replaceAll('_', ' ')}<br><span class="search-substep">${step.background} areas, ${step.size}, ${step.type}</span>`;
                     showSearchArea('ai-image-wrapper', step.direction);

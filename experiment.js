@@ -502,7 +502,8 @@ function createPerceptionSurvey(scale, prompts, prefix = 'pre', explicitNames = 
     const names = explicitNames || prompts.map((_, index) => `${prefix}_${scale}_${index + 1}`);
     return {
         type: jsPsychSurveyLikert,
-        preamble: short_preamble,
+        // Single item: "statement" instead of "statements" (12.11.2026).
+        preamble: prompts.length === 1 ? short_preamble.replace('the following statements.', 'the following statement.') : short_preamble,
         data: { phase: `${prefix}_perceptions`, scale },
         questions: prompts.map((prompt, index) => ({ prompt, name: names[index], labels: likert_scale, required: true })),
         randomize_question_order: false,
