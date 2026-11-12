@@ -26,6 +26,8 @@ Eine Zeile je abgeschlossenem jsPsych-Trial, UTF-8, CSV mit doppelten Anfuehrung
 | agent_verdict | Pass/Reject exakt aus Trialplan |
 | agreement_with_agent, response_correct | Boolean: Uebereinstimmung bzw. Richtigkeit gegen echte L/O-Defekte (>10 reject) |
 | search_animation_duration_ms | Gemessene Dauer der KI-Suchanimation |
+| responded_before_ai_verdict | true, wenn Pass/Reject geklickt wurde, bevor die KI ihr Urteil angezeigt hat (seit 12.11.2026 sind die Knöpfe ab Suchbeginn aktiv); dann ist search_animation_duration_ms leer |
+| ai_search_steps_completed | Zahl der bis zur Antwort abgelaufenen KI-Suchschritte (0–32; 32 = Suche vollständig) |
 | preprocessing_seed | Fester Seed des generierten Plans |
 | miss_symbol_ids, false_alarm_symbol_ids, ai_marked_symbol_ids, error_symbol_ids | JSON-Listen konkreter IDs; nur diese mehrwertigen Zuordnungen bleiben JSON |
 | submitted | true auf der Abschlusszeile nach Submit |

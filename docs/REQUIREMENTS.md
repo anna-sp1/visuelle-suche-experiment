@@ -32,6 +32,11 @@ In AI Practice und Main Task erscheint beim Final Verdict zusaetzlich die Anzahl
 
 Ein Rundencounter zeigt die aktuelle Trialnummer, klein und grau rechts ueber dem KI-Panel, nicht darin (Nutzerentscheidung 09.11.2026: das KI-Panel zeigt nur die Ausgabe des Agenten; moeglichst wenig Text, daher nur die Zahl). AI Practice (PrePO) zeigt `x/10`, Main Task (PostPO) zeigt `x/30`; beide Phasen zaehlen separat ab 1.
 
+## Nutzerentscheidungen 12.11.2026
+
+- Pass/Reject sind in KI-Übung und Hauptaufgabe ab Suchbeginn klickbar, nicht erst nach dem Final verdict (menschliche Autonomie: die KI hat nicht das letzte Wort). Eine frühe Antwort beendet den Durchgang; gespeichert werden `responded_before_ai_verdict` und `ai_search_steps_completed`.
+- Einzelitem-Seiten (z. B. Suspicion) sagen „the following statement.“ statt „statements“.
+
 ## Nutzerentscheidungen 11.11.2026
 
 - Seite vor der KI-Übung: Satz zur „system specification“ und Ursachensatz („surface texture, contrast…“) entfernt (Kontrast könnte auf die Farb-/Hintergrundmuster hinweisen). Neuer Kasten mit den zwei Fehlerarten: Missed defect (L/O nicht markiert → kann zu falschem Pass führen), False marking (T/Q markiert → kann zu falschem Reject führen); beide können im selben Bauteil vorkommen; „Both a wrong Pass and a wrong Reject should be avoided equally.“ Keine Farb- oder Hintergrundhinweise.
