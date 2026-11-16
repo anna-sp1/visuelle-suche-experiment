@@ -18,7 +18,7 @@ Eine Zeile je abgeschlossenem jsPsych-Trial, UTF-8, CSV mit doppelten Anfuehrung
 | scale | ownership, satisfaction, trust, responsibility, manipulation, attitude bei Skalen |
 | trial_index | Training 1-5, AI Practice 1-10, Main 1-30; sonst jsPsych-Index |
 | trial_type, internal_node_id, time_elapsed | jsPsych Pluginname, Timeline-Knoten-ID und kumulative Millisekunden (soweit vom Plugin geliefert) |
-| rt | Millisekunden; Stimuli ab geladenem Bild bis Antwort, AI einschliesslich Animation; Surveys nach Pluginmessung |
+| rt | Millisekunden; Stimuli ab geladenem Bild bis Antwort, AI einschliesslich Startpause und Animation (Antwort erst nach dem Final verdict möglich); Surveys nach Pluginmessung |
 | stimulus_id | Quellenkennung des Stimulus |
 | participant_verdict, participant_verdict_code | pass=1, reject=2; zentral VERDICT_CODES in config.js |
 | manual_marker_count_at_response | Anzahl verbleibender manueller Trainingsmarker |
@@ -26,8 +26,6 @@ Eine Zeile je abgeschlossenem jsPsych-Trial, UTF-8, CSV mit doppelten Anfuehrung
 | agent_verdict | Pass/Reject exakt aus Trialplan |
 | agreement_with_agent, response_correct | Boolean: Uebereinstimmung bzw. Richtigkeit gegen echte L/O-Defekte (>10 reject) |
 | search_animation_duration_ms | Gemessene Dauer der KI-Suchanimation |
-| responded_before_ai_verdict | true, wenn Pass/Reject geklickt wurde, bevor die KI ihr Urteil angezeigt hat (seit 12.11.2026 sind die Knöpfe ab Suchbeginn aktiv); dann ist search_animation_duration_ms leer |
-| ai_search_steps_completed | Zahl der bis zur Antwort abgelaufenen KI-Suchschritte (0–32; 32 = Suche vollständig) |
 | preprocessing_seed | Fester Seed des generierten Plans |
 | miss_symbol_ids, false_alarm_symbol_ids, ai_marked_symbol_ids, error_symbol_ids | JSON-Listen konkreter IDs; nur diese mehrwertigen Zuordnungen bleiben JSON |
 | submitted | true auf der Abschlusszeile nach Submit |

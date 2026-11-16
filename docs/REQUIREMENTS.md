@@ -32,9 +32,19 @@ In AI Practice und Main Task erscheint beim Final Verdict zusaetzlich die Anzahl
 
 Ein Rundencounter zeigt die aktuelle Trialnummer, klein und grau rechts ueber dem KI-Panel, nicht darin (Nutzerentscheidung 09.11.2026: das KI-Panel zeigt nur die Ausgabe des Agenten; moeglichst wenig Text, daher nur die Zahl). AI Practice (PrePO) zeigt `x/10`, Main Task (PostPO) zeigt `x/30`; beide Phasen zaehlen separat ab 1.
 
+## Nutzerentscheidungen 16.11.2026 (Betreuer-Feedback)
+
+- Pass/Reject erst ab dem Final verdict klickbar (die Regel vom 12.11. ist zurückgenommen: eine Entscheidung vor dem Urteil wäre keine Aufsicht über die Empfehlung). `responded_before_ai_verdict` und `ai_search_steps_completed` entfallen.
+- Suchstart verzögert (`AI_START_DELAY_MS`: Kalibrierung 1,5 s, Hauptaufgabe 1 s); „Searching“ erscheint erst mit dem ersten Suchschritt.
+- Mindestdauer pro Suchbereich `SEARCH_AREA_MIN_MS` = 600 ms in Kalibrierung, Hauptaufgabe und Demo (auch Bereiche ohne Fund), damit die Bereichsreihenfolge sichtbar ist. Kein Log/keine Zeitstempel, kein Popup, kein Recap vor der Kalibrierung.
+- Vor der KI-Übung: „You can no longer mark defects yourself.“ Übergangsseite: „an AI (artificial intelligence) agent“ (Einwilligung unverändert, wegen Ethikantrag).
+- Fließtext auf Instruktions- und Fragebogenseiten linksbündig (style.css Abschnitt 26), Überschriften/Buttons zentriert; Rating-Aussagen linksbündig.
+- Kein Hover-Rahmen auf den nicht klickbaren Richtungskästchen der Standard-Bedingung.
+- Quadrantenrahmen in der Hauptaufgabe bleibt (sichtbare Folge der Konfiguration).
+
 ## Nutzerentscheidungen 12.11.2026
 
-- Pass/Reject sind in KI-Übung und Hauptaufgabe ab Suchbeginn klickbar, nicht erst nach dem Final verdict (menschliche Autonomie: die KI hat nicht das letzte Wort). Eine frühe Antwort beendet den Durchgang; gespeichert werden `responded_before_ai_verdict` und `ai_search_steps_completed`.
+- (Zurückgenommen am 16.11.2026) Pass/Reject ab Suchbeginn klickbar.
 - Einzelitem-Seiten (z. B. Suspicion) sagen „the following statement.“ statt „statements“.
 
 ## Nutzerentscheidungen 11.11.2026
