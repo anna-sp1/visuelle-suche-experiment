@@ -216,6 +216,7 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
             const truth = value => value === true || value === 'True' || value === 'true' || value === 1;
             const marked = rows.filter(row => truth(row.bekommt_kreis));
             let index = 0, hold = 0;
+            const pacer = createAreaPacer(SEARCH_AREA_MIN_MS);
             const board = document.querySelector('.cfg-board');
             // Board cells of the direction grid can be lit by direction.
             board?.querySelectorAll('.dir-cell[data-q]').forEach(cell => { cell.dataset.dim = 'direction'; cell.dataset.v = cell.dataset.q; });
@@ -227,9 +228,12 @@ function mountSearchPreview(jsPsych, agentId, fixedSettings = null) {
             }
             interval = setInterval(() => {
                 if (!current()) return;
+                pacer.tick();
                 if (hold > 1) { hold--; return; }
+                if (pacer.mustWait(index === steps.length ? null : steps[index].direction)) return;
                 if (index === steps.length) { finish(); return; }
                 const step = steps[index++];
+                pacer.enter(step.direction);
                 status.style.whiteSpace = 'pre-line';
                 status.innerHTML = `<span class="ai-thinking">Searching</span><br><span style="color:#64748b; font-size:15px;">Area ${settings.direction.order.indexOf(step.direction) + 1} of ${settings.direction.order.length}: ${step.direction.replaceAll('_', ' ')}<br><span class="search-substep">${step.background} areas, ${step.size}, ${step.type}</span></span>`;
                 showSearchArea('preview-image-wrapper', step.direction);

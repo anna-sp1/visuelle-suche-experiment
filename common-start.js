@@ -50,9 +50,9 @@ const consent_trial = {
                     <h2 style="${consentH2}">Data processing and voluntariness</h2>
                     <p style="margin: 0 0 10px 0;">Your decisions, response times and questionnaire answers are recorded. These data are collected to better understand how the agent is perceived and used by different people. They do not allow any conclusions to be drawn about your identity. The only identifier is your Prolific ID. It is used for payment, to prevent repeated participation and to handle withdrawal requests, and it will be removed from the data set two weeks after data collection has ended. It will not be possible to link your data to your name.</p>
                     <p style="margin: 0 0 10px 0;">The study results will be published in anonymised form, that means your data cannot be linked to your ID or identity. The anonymised data will be stored for at least 10 years. In the spirit of Open Science, the collected data may be made available in an open data repository. The purpose, nature, and extent of any potential reuse cannot be determined at this time.</p>
-                    <p style="margin: 0;">Participation in this study is voluntary. You can withdraw from the study at any time and without providing any reason. If you end the study early, none of your answers will be saved.</p>
+                    <p style="margin: 0;">Participation in this study is voluntary. If you do not want to take part, please close this page and return the study on Prolific. You can withdraw from the study at any time and without providing any reason. If you end the study early, none of your answers will be saved.</p>
                     <h2 style="${consentH2}">Questions and withdrawal</h2>
-                    <p style="margin: 0;">You can request the deletion of your data within two weeks after your participation. To do so, you just need to provide your Prolific ID. For any questions, or to withdraw your consent and request the deletion of your data, please write a message via the Prolific portal or an e-mail to ${CONTACT_EMAIL}.</p>
+                    <p style="margin: 0;">You can withdraw your consent and request the deletion of your data within two weeks after your participation. To do so, please send a message via the Prolific portal. For any questions, you can also write an e-mail to ${CONTACT_EMAIL}.</p>
                 </div>
             </div>
             <h2 style="font-size: 17px; margin: 26px 0 6px 0;">Data protection</h2>
@@ -65,7 +65,7 @@ const consent_trial = {
                 <li>I agree to take part in this study, which takes about 30–35 minutes.</li>
                 <li>I agree to the collection and processing of my data as described above. My data are recorded and analysed pseudonymously by the German Aerospace Center (DLR), using my Prolific ID and without my name. Only the research team can link my data to my Prolific ID.</li>
                 <li>Two weeks after data collection has ended, the Prolific IDs will be deleted from the data set. My data are then anonymous, and no one will be able to link them to me.</li>
-                <li>I can withdraw my consent at any time without any disadvantages and request the deletion of all my data, by sending a message via Prolific or an e-mail. Once the Prolific IDs have been deleted, my data can no longer be identified and therefore can no longer be deleted.</li>
+                <li>I can withdraw my consent at any time without any disadvantages and request the deletion of all my data by sending a message via Prolific. Once the Prolific IDs have been deleted, my data can no longer be identified and therefore can no longer be deleted.</li>
                 <li>I agree that my anonymised data may be used for further research purposes, may be published in an open science repository, and will be stored for at least 10 years.</li>
                 <li>I have had enough time to make my decision. I know that participation is voluntary and that I can stop at any time without giving reasons.</li>
             </ul>
@@ -315,7 +315,7 @@ const practice_finished_trial = {
             You have finished the practice.
         </p>
         <p style="font-size: 24px; line-height: 1.4; margin-bottom: 40px;">
-            Your company has introduced an AI agent for defect detection. In this next phase, it will assist you during the task.
+            Your company has introduced an AI (artificial intelligence) agent for defect detection. In this next phase, it will assist you during the task.
         </p>
         <button id="next-btn-practice-done" class="action-btn btn-start" style="padding: 12px 30px;">Next</button>
     </div>

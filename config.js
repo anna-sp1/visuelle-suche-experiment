@@ -29,6 +29,12 @@ const SEARCH_TICK_MS = 30;
 const SEARCH_RING_MS = Object.freeze({ ai_practice: 400, main_task: 250 });
 // Configuration demo: same pacing as the calibration block ('normal'); slow/fast selectable on the page.
 const PREVIEW_SEARCH_RING_MS = 400;
+// Supervisor feedback 16.11.2026: the agent starts searching only after a short pause, so participants can first
+// orient themselves on the image; Pass/Reject become available once the verdict is shown.
+const AI_START_DELAY_MS = Object.freeze({ ai_practice: 1500, main_task: 1000 });
+// Each search area stays active for at least this long (also areas without findings), in all phases and the demo,
+// so the order of the areas can be followed.
+const SEARCH_AREA_MIN_MS = 600;
 let participantCustomization = null;
 
 // Probanden-ID und Dateiname

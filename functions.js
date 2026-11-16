@@ -107,3 +107,15 @@ function markSearchStep(root, step) {
     root.querySelectorAll('[data-dim][data-v]').forEach(el =>
         el.classList.toggle('is-searching', !!step && step[el.dataset.dim] === el.dataset.v));
 }
+
+// Minimum time per search area: the next area (or the end of the search) only starts once the current area has
+// been active for SEARCH_AREA_MIN_MS. tick() once per interval tick; enter() when a step starts.
+function createAreaPacer(minMs) {
+    const minTicks = Math.max(1, Math.round(minMs / SEARCH_TICK_MS));
+    let area = null, ticks = 0;
+    return {
+        tick() { ticks++; },
+        mustWait(nextDirection) { return area !== null && nextDirection !== area && ticks < minTicks; },
+        enter(direction) { if (direction !== area) { area = direction; ticks = 0; } }
+    };
+}

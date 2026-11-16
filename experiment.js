@@ -432,7 +432,7 @@ const ai_practice_reminder_trial = {
                 Now you can practice the detection task with <strong>${aiName}</strong>.
             </p>
             <p style="font-size: 20px; line-height: 1.6; margin-bottom: 10px;">
-                From now on, <strong>${aiName}</strong> searches the images and marks the defects it finds. The rings show its markings.
+                From now on, <strong>${aiName}</strong> searches the images and marks the defects it finds. The rings show its markings. You can no longer mark defects yourself.
             </p>
             <p style="font-size: 20px; line-height: 1.6; margin-bottom: 10px;">
                 To help you get started, the practice begins with images that contain fewer symbols.
@@ -696,7 +696,7 @@ const outro_trial = {
         <p><strong>Why was this necessary?</strong> If participants had known these details in advance, this would have influenced how they work with the agent and how they evaluate it, and our research question could not have been answered. Withholding information in this way is a common procedure in psychological research. We apologise for any confusion it may have caused.</p>
         <p><strong>Why your data matter.</strong> Your responses help us understand how AI agents can be designed so that people stay in control and notice their errors.</p>
         <div style="margin: 22px 0; padding: 16px 20px; border: 1px solid #d5d9de; border-radius: 4px; background: #f7f8fa;">
-            <p style="margin: 0 0 12px 0;"><strong>Your choice (optional).</strong> If you do not want your data to be used, please tick the box below. Otherwise, your data will be used for this research as planned. You can also withdraw later by sending us a message via Prolific or an e-mail to ${CONTACT_EMAIL} within two weeks of your participation. Withdrawing does not affect your payment.</p>
+            <p style="margin: 0 0 12px 0;"><strong>Your choice (optional).</strong> If you do not want your data to be used, please tick the box below. Otherwise, your data will be used for this research as planned. You can also withdraw later by sending us a message via Prolific within two weeks of your participation. Withdrawing does not affect your payment.</p>
             <label style="display: block; cursor: pointer;"><input type="checkbox" id="debrief-withdraw" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 10px;">I do <strong>not</strong> want my data to be used.</label>
             <div id="withdraw-confirm" hidden style="margin-top: 12px; padding: 12px 14px; background: #ffffff; border: 1px solid #d0d5dd; border-radius: 4px;">
                 <p style="margin: 0 0 10px 0;">If you withdraw, none of your answers will be saved; we only note that a withdrawal occurred in your study version. You will still receive your full payment.</p>
@@ -708,7 +708,7 @@ const outro_trial = {
         <p><button id="debrief-finish" style="margin-top: 16px; padding: 10px 26px; font-size: 15px; font-family: Arial, Helvetica, sans-serif; background: #2b3a4a; color: #ffffff; border: none; border-radius: 3px; cursor: pointer;">Finish</button></p>
     </div>`,
     // Withdrawal: unticked checkbox above the single "Finish" button (no separate opt-out button);
-    // later withdrawal via Prolific message or e-mail. Full payment in both cases.
+    // later withdrawal via Prolific message only (no e-mail: would link Prolific ID and identity). Full payment in both cases.
     choices: [],
     data: { phase: 'submission' },
     on_load: () => {

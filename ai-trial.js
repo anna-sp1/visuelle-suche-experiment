@@ -39,7 +39,7 @@ function validateAiTrialInput(plan, symbols, condition) {
 
 function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearchOrder }) {
     const groundTruth = validateAiTrialInput(plan, symbols, condition);
-    let active = false, interval, image, startTime, animationDuration, ready = false, searchStepsDone = 0;
+    let active = false, interval, image, startTime, animationDuration, ready = false;
     let agentId, searchOrder;
     function cleanup() { active = false; clearInterval(interval); }
     return {
@@ -59,7 +59,7 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                     <!-- Round counter sits outside the agent panel, so the panel only shows the agent's own output. -->
                     <div class="ai-round-counter" aria-label="Round ${plan.trial_index} of ${plan.phase === 'ai_practice' ? 10 : 30}">${plan.trial_index}/${plan.phase === 'ai_practice' ? 10 : 30}</div>
                     <div class="ki-panel"><h3>${escapeAiHtml(agentId)}</h3>
-                        <div id="ai-search-status"><span class="ai-thinking">Searching</span></div>
+                        <div id="ai-search-status"><span class="ai-thinking" style="visibility:hidden">Searching</span></div>
                         <div id="ai-search-step"></div>
                         <div id="ai-agent-verdict" class="ai-agent-verdict" aria-live="polite"></div>
                     </div>
@@ -87,12 +87,11 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
             const wrapper = document.getElementById('ai-image-wrapper');
             const pass = document.getElementById('ai-pass'), reject = document.getElementById('ai-reject');
             const status = document.getElementById('ai-search-status');
-            // Pass/Reject are available as soon as the image is shown and the search has started, also before the
-            // agent's verdict (user decision 12.11.2026: the human decides, the agent does not have the last word).
-            // Whether the verdict had been shown is recorded per trial.
+            // Pass/Reject are enabled only once the agent's verdict is shown (supervisor feedback 16.11.2026:
+            // deciding before the agent has finished would not be oversight of its recommendation).
+            // rt is measured from image onset.
             function respond(verdict) {
-                if (!active || startTime === null) return;
-                const verdictShown = ready;
+                if (!active || !ready) return;
                 const rt = performance.now() - startTime;
                 cleanup();
                 pass.disabled = reject.disabled = true;
@@ -106,8 +105,6 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                     agreement_with_agent: verdict === plan.agent_verdict.toLowerCase(),
                     response_correct: verdict === groundTruth, rt,
                     search_animation_duration_ms: animationDuration,
-                    responded_before_ai_verdict: !verdictShown,
-                    ai_search_steps_completed: searchStepsDone,
                     miss_symbol_ids: JSON.stringify(plan.miss_symbol_ids),
                     false_alarm_symbol_ids: JSON.stringify(plan.false_alarm_symbol_ids),
                     ai_marked_symbol_ids: JSON.stringify(plan.ai_marked_symbol_ids),
@@ -128,8 +125,6 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                 // Main task: the current search area is only faintly outlined, so it does not distract from the image.
                 else wrapper.classList?.add('search-subtle');
                 startTime = performance.now();
-                searchStepsDone = 0;
-                pass.disabled = reject.disabled = false;
                 let index = 0;
                 // Rings appear step by step in the active search order (configured or standard).
                 // The marked set itself stays exactly as planned; only its reveal timing follows the search.
@@ -149,13 +144,22 @@ function createAiTrial({ jsPsych, plan, symbols, condition, getAgentId, getSearc
                 }
                 const ringMs = SEARCH_RING_MS[plan.phase] || SEARCH_RING_MS.main_task;
                 let hold = 0;
+                // Short pause before the search starts; the 'Searching' note appears with the first step.
+                let wait = Math.round((AI_START_DELAY_MS[plan.phase] ?? AI_START_DELAY_MS.main_task) / SEARCH_TICK_MS);
+                const pacer = createAreaPacer(SEARCH_AREA_MIN_MS);
                 interval = setInterval(() => {
                     if (!active) return;
+                    if (wait > 0) { wait--; return; }
+                    const thinking = status.querySelector?.('.ai-thinking');
+                    if (thinking?.style) thinking.style.visibility = '';
+                    pacer.tick();
                     if (hold > 1) { hold--; return; }
+                    // Each area stays active for at least SEARCH_AREA_MIN_MS before the next area (or the end).
+                    if (pacer.mustWait(index === steps.length ? null : steps[index].direction)) return;
                     // All steps done and the last ring held: finish.
                     if (index === steps.length) { clearInterval(interval); finish(); return; }
                     const step = steps[index++];
-                    searchStepsDone = index;
+                    pacer.enter(step.direction);
                     const areas = searchOrder.direction.order;
                     document.getElementById('ai-search-step').innerHTML = `Area ${areas.indexOf(step.direction) + 1} of ${areas.length}: ${step.direction.replaceAll('_', ' ')}<br><span class="search-substep">${step.background} areas, ${step.size}, ${step.type}</span>`;
                     showSearchArea('ai-image-wrapper', step.direction);
