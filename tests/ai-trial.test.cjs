@@ -80,6 +80,10 @@ for (const version of [1, 3]) {
         trial.on_load();
         s.tick(100);
         assert.equal(nextScreen, false);
+        // Before the verdict a click is ignored (16.11.2026); after the search it ends the trial.
+        s.document.getElementById('ai-pass').click();
+        assert.equal(nextScreen, false);
+        s.tick(3000);
         s.document.getElementById('ai-pass').click();
         assert.equal(nextScreen, true);
         assert.equal(s.finished[0].trial_index, 30);
@@ -131,8 +135,6 @@ for (const version of [1, 2, 3, 4]) {
                 assert.equal(row.agreement_with_agent, verdict === 'Reject');
                 assert.equal(row.response_correct, true); // 12 actual L/O defects
                 assert.equal(row.rt, 730);
-                assert.equal(row.responded_before_ai_verdict, false);
-                assert.equal(row.ai_search_steps_completed, 32);
                 assert.equal(row.search_animation_duration_ms, 480);
                 assert.equal(row.specified_misses, 2);
                 assert.equal(row.specified_false_alarms, 0);
@@ -264,13 +266,15 @@ test('global validation blocker prevents every version from loading even valid L
     }
 });
 
-test('Pass/Reject during the search: response accepted and flagged as before the verdict (12.11.2026)', () => {
+test('Pass/Reject before the verdict: click ignored, accepted once the verdict is shown (16.11.2026)', () => {
     const s = setup(), trial = create(s, 1, fixture(1));
     trial.stimulus(); trial.on_load(); s.tick(3);
     s.document.getElementById('ai-pass').click();
+    assert.equal(s.finished.length, 0);
+    s.tick(3000);
+    assert.ok(s.document.getElementById('ai-agent-verdict').textContent.startsWith('Final verdict'));
+    s.document.getElementById('ai-pass').click();
     assert.equal(s.finished.length, 1);
-    assert.equal(s.finished[0].responded_before_ai_verdict, true);
-    assert.ok(s.finished[0].ai_search_steps_completed < 32);
-    assert.equal(s.finished[0].search_animation_duration_ms, null);
+    assert.equal(s.finished[0].responded_before_ai_verdict, undefined);
     assert.equal(s.timers.size, 0);
 });
