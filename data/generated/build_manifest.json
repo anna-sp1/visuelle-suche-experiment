@@ -1,7 +1,7 @@
 {
   "workbook": "Stimuli_log.xlsx",
-  "workbook_sha256": "d5f64231d8ff1994b582cf535c42cc9fe288fe2c772543feaab7a878e6bdffb0",
-  "mapping_sha256": "4579b5973781b6cb195712cf4151cd46c122c6de02811c7d9aaa8c2d9d6df41e",
+  "workbook_sha256": "3bf84a5384ddc55ae3e78edf86e3d6520fbb35d48cbdaf880ae9f9275e6f5657",
+  "mapping_sha256": "103cc2e31502bf47ae79746d5802750c6e5564cb8d25f9499b4dc7fc1ec5a0ea",
   "assets": [
     {
       "source": "Training_Images/visual_search_data_training_1.zip",
@@ -94,28 +94,28 @@
       "table_sha256": "e464e356d832903f6385be3396849d3a4668aa5e3c531d39e5a880fb8e974744"
     },
     {
-      "source": "Post_PO_Images/visual_search_data_PostPO_1.zip",
-      "source_sha256": "e76784a37a3406c2a087b802904566f219181cdc2684d22917913c98ba21b01d",
-      "image_sha256": "5d16accfab0b273bae6da650a10d1b4c046efa9585abb8ab122ff6b6c1383c1c",
-      "table_sha256": "2ca724d2f45fbe8e54cc6d2bccbd21de77728a531c3e2f77dcca885c40fb657f"
+      "source": "Post_PO_Images/visual_search_data_PostPO_1_easy_Pre11.zip",
+      "source_sha256": "40f9212d2504d3e85efbd9784448dcea87022e64fcd22b519283cce773757680",
+      "image_sha256": "dc6269cd314b8fc1eb8f2d00fbe7e109ce9820325257b20f44be87d9cd9aad18",
+      "table_sha256": "0287e2b745150c6545396322428e9819198ec93b5deb5169c668edaa6657ac67"
     },
     {
-      "source": "Post_PO_Images/visual_search_data_PostPO_2.zip",
-      "source_sha256": "cd013a08345e9a39743fe560f66fdfbed256550061692895fdb6e0f5bec60349",
-      "image_sha256": "6d6d51955848da05498548c988aae1f50274fe37d113b83d71326ec87b841710",
-      "table_sha256": "cb45fe034c716b110c67f0413050350d2e85a2cf783d51280012a05b16a2b023"
+      "source": "Post_PO_Images/visual_search_data_PostPO_2_easy_Pre13.zip",
+      "source_sha256": "e3ad5e2e49ead97330d393956dc646644fec6ba85824d3f13befd7341bfc56e3",
+      "image_sha256": "6d5268af0c7cd172bdb231ad49fa569dcdef349296e879f0248cbc63b898b2d1",
+      "table_sha256": "e0e8c1d57fcd1c97cbedbf3e2c7cef9e97afcf0b93b2fd5f2e9fb5b3dd17e62d"
     },
     {
-      "source": "Post_PO_Images/visual_search_data_PostPO_3.zip",
-      "source_sha256": "5ede452b932c9668b36be827d3910acb758d69649ec631cce5cb9a13f5541df8",
-      "image_sha256": "04a6f8e8b370b91d0816bf44754d3b638935b420e623ce6b5697e9c5add48888",
-      "table_sha256": "c7e35d180eee5c925dffbfd17668130247e1a9cfec298bd7d0e030d26666eb2a"
+      "source": "Post_PO_Images/visual_search_data_PostPO_3_easy_Pre15.zip",
+      "source_sha256": "919e2bbb359c990f2b96c7c98933905afe276882a25c546e448b1ff50a418ab4",
+      "image_sha256": "b049a46985161e25852f4e7ecdb41cb4bade4ea881f1193e6c457fbb12785df7",
+      "table_sha256": "f979b552339b598c274b0631d4f04fac19fdb238a41ee4b3483837d7f579047a"
     },
     {
-      "source": "Post_PO_Images/visual_search_data_PostPO_4.zip",
-      "source_sha256": "6a925e2dbe7ffa1bc974babeb40313be4dd0144c14afa2db30819aa0c92422c4",
-      "image_sha256": "91c31c65490640571d9f6fec42d9f79f102a009156d0e05301a44ff97319ca6a",
-      "table_sha256": "dfb48e51785b30af26ee6a9835eceb3da6d20b802ab24bb054dcc2b8572799fc"
+      "source": "Post_PO_Images/visual_search_data_PostPO_4_easy_Pre16.zip",
+      "source_sha256": "1ecff80ccaddd262f7a77eb37065e2766fb6c4104c1fe5268c0c3a732561c0a6",
+      "image_sha256": "78a759fac2340ecddf481decf42ce4aa2926153bd0f204b39d4cc9e24e24c454",
+      "table_sha256": "af864da193db085c9b56e79402efda8b52fa6409bbfaaa4a65d296c52195d47e"
     },
     {
       "source": "Post_PO_Images/visual_search_data_PostPO_5.zip",
