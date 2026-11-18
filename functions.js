@@ -119,3 +119,18 @@ function createAreaPacer(minMs) {
         enter(direction) { if (direction !== area) { area = direction; ticks = 0; } }
     };
 }
+
+// Warning when leaving or reloading the page (18.11.2026, internal pilot: JATOS ends a reloaded run with FAIL and
+// all answers are lost). Active from consent until the submission screen; the browser shows its own generic dialog.
+let leaveWarningActive = false;
+function leaveWarningHandler(event) {
+    event.preventDefault();
+    event.returnValue = '';
+    return '';
+}
+function setLeaveWarning(on) {
+    if (typeof window === 'undefined' || !window.addEventListener || on === leaveWarningActive) return;
+    if (on) window.addEventListener('beforeunload', leaveWarningHandler);
+    else window.removeEventListener('beforeunload', leaveWarningHandler);
+    leaveWarningActive = on;
+}

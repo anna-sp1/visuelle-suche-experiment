@@ -51,6 +51,8 @@ function endJatosStudy(status, abort, message, abortMessage = 'data_use_consent:
 }
 
 function showSubmission(jsPsych, debug) {
+    // From here on, leaving the page loses nothing (data are uploaded or the study ends): no leave warning.
+    if (typeof setLeaveWarning === 'function') setLeaveWarning(false);
     const originals = jsPsych.data.get().values();
     let rows, validationError = null;
     try { rows = prepareExportRows(originals); }

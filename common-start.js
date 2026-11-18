@@ -90,6 +90,7 @@ const consent_trial = {
         age.addEventListener('change', update);
         button.addEventListener('click', () => {
             if (!(agree.checked && age.checked)) return;
+            setLeaveWarning(true);
             jsPsych.finishTrial({ phase: 'consent', consent_given: true });
         });
     }

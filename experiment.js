@@ -81,6 +81,7 @@ const jsPsych = initJsPsych({
     on_trial_start: showProgress,
     on_trial_finish: updateProgress,
     on_finish: function() {
+        setLeaveWarning(false);
         if (submitted) showSubmission(jsPsych, debugEnabled);
     }
 });
