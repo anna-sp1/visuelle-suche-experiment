@@ -32,6 +32,12 @@ In AI Practice und Main Task erscheint beim Final Verdict zusaetzlich die Anzahl
 
 Ein Rundencounter zeigt die aktuelle Trialnummer, klein und grau rechts ueber dem KI-Panel, nicht darin (Nutzerentscheidung 09.11.2026: das KI-Panel zeigt nur die Ausgabe des Agenten; moeglichst wenig Text, daher nur die Zahl). AI Practice (PrePO) zeigt `x/10`, Main Task (PostPO) zeigt `x/30`; beide Phasen zaehlen separat ab 1.
 
+## Nutzerentscheidungen 18.11.2026 (nach dem Start des internen Piloten)
+
+- Leichterer Einstieg in die Hauptaufgabe: Hauptdurchgang 1–4 verwenden die bisher ungenutzten Kalibrierungsbilder Pre 11, 13, 15, 16 (36/44/53/58 Symbole) statt 60/60/65/65. Misses/FAs der ersetzten Durchgänge bleiben, Urteile bleiben richtig (2× Pass, 2× Reject); erstes falsches Urteil weiterhin in Durchgang 6. Stimuli_log.xlsx (PostPO und Generator Settings, Zeilen 1–4) und `scripts/source_asset_mapping.json` angepasst; alte Archive bleiben erhalten. Durch die kumulierte Ausbalancierung ändert sich in High (v2/v4) zusätzlich die Fehlerauswahl in Hauptdurchgang 9.
+- Warnung beim Verlassen/Neuladen der Seite (beforeunload) ab der Einwilligung bis zur Abgabeseite, weil JATOS einen neu geladenen Durchlauf mit FAIL beendet.
+- Änderungen nach dem Pilotstart werden in einer separaten DEV-Studie in JATOS getestet (eigene UUIDs); der Code des internen Piloten ist auf GitHub als Tag `pilot-intern` markiert.
+
 ## Nutzerentscheidungen 16.11.2026 (Betreuer-Feedback)
 
 - Pass/Reject erst ab dem Final verdict klickbar (die Regel vom 12.11. ist zurückgenommen: eine Entscheidung vor dem Urteil wäre keine Aufsicht über die Empfehlung). `responded_before_ai_verdict` und `ai_search_steps_completed` entfallen.

@@ -25,10 +25,10 @@ ZIP assignment is explicitly recorded in scripts/source_asset_mapping.json; repe
 | PrePO / 9 | 8 | PrePO_Images/visual_search_data_PrePO_8.zip | data/generated/assets/ai_practice_008/stimulus.jpg | data/generated/assets/ai_practice_008/symbols.csv | 1 | 2 | Reject |
 | PrePO / 10 | 9 | PrePO_Images/visual_search_data_PrePO_9.zip | data/generated/assets/ai_practice_009/stimulus.jpg | data/generated/assets/ai_practice_009/symbols.csv | 0 | 0 | Reject |
 | PrePO / 11 | 10 | PrePO_Images/visual_search_data_PrePO_10.zip | data/generated/assets/ai_practice_010/stimulus.jpg | data/generated/assets/ai_practice_010/symbols.csv | 1 | 0 | Pass |
-| PostPO / 2 | 1 | Post_PO_Images/visual_search_data_PostPO_1.zip | data/generated/assets/main_task_001/stimulus.jpg | data/generated/assets/main_task_001/symbols.csv | 0 | 0 | Reject |
-| PostPO / 3 | 2 | Post_PO_Images/visual_search_data_PostPO_2.zip | data/generated/assets/main_task_002/stimulus.jpg | data/generated/assets/main_task_002/symbols.csv | 1 | 1 | Reject |
-| PostPO / 4 | 3 | Post_PO_Images/visual_search_data_PostPO_3.zip | data/generated/assets/main_task_003/stimulus.jpg | data/generated/assets/main_task_003/symbols.csv | 1 | 0 | Pass |
-| PostPO / 5 | 4 | Post_PO_Images/visual_search_data_PostPO_4.zip | data/generated/assets/main_task_004/stimulus.jpg | data/generated/assets/main_task_004/symbols.csv | 0 | 2 | Pass |
+| PostPO / 2 | 1 | Post_PO_Images/visual_search_data_PostPO_1_easy_Pre11.zip | data/generated/assets/main_task_001/stimulus.jpg | data/generated/assets/main_task_001/symbols.csv | 0 | 0 | Pass |
+| PostPO / 3 | 2 | Post_PO_Images/visual_search_data_PostPO_2_easy_Pre13.zip | data/generated/assets/main_task_002/stimulus.jpg | data/generated/assets/main_task_002/symbols.csv | 1 | 1 | Reject |
+| PostPO / 4 | 3 | Post_PO_Images/visual_search_data_PostPO_3_easy_Pre15.zip | data/generated/assets/main_task_003/stimulus.jpg | data/generated/assets/main_task_003/symbols.csv | 1 | 0 | Pass |
+| PostPO / 5 | 4 | Post_PO_Images/visual_search_data_PostPO_4_easy_Pre16.zip | data/generated/assets/main_task_004/stimulus.jpg | data/generated/assets/main_task_004/symbols.csv | 0 | 2 | Reject |
 | PostPO / 6 | 5 | Post_PO_Images/visual_search_data_PostPO_5.zip | data/generated/assets/main_task_005/stimulus.jpg | data/generated/assets/main_task_005/symbols.csv | 2 | 0 | Reject |
 | PostPO / 7 | 6 | Post_PO_Images/visual_search_data_PostPO_6.zip | data/generated/assets/main_task_006/stimulus.jpg | data/generated/assets/main_task_006/symbols.csv | 2 | 0 | Pass |
 | PostPO / 8 | 7 | Post_PO_Images/visual_search_data_PostPO_7.zip | data/generated/assets/main_task_007/stimulus.jpg | data/generated/assets/main_task_007/symbols.csv | 1 | 3 | Reject |
