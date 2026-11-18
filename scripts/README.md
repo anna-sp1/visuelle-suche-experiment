@@ -1,6 +1,8 @@
 # Trial-Spezifikationen bauen
 
-## Aktueller Stand: korrigierter Main-Trial 28, neues Trainingsbild 5
+## Aktueller Stand: leichtere Main-Trials 1–4, korrigierter Main-Trial 28, neues Trainingsbild 5
+
+Main-Trials 1–4 (18.11.2026): bytegleiche Kopien der bisher ungenutzten Kalibrierungsarchive Pre 11, 13, 15, 16 (`PrePO_Images/visual_search_data(20)`, `(22)`, `(24)`, `(25).zip`) als `Post_PO_Images/visual_search_data_PostPO_<n>_easy_Pre<k>.zip`. Stimuli_log.xlsx: PostPO und Generator Settings Zeilen 1–4 entsprechend (Symbole/Ziele aus den Pre-Zeilen, Misses/FAs der ersetzten Trials). Die Datei wurde direkt im OOXML geändert, damit Formatierung und gecachte Formelwerte erhalten bleiben. Die alten Archive `visual_search_data_PostPO_1`–`_4.zip` bleiben erhalten. Neu gebaute `main_task_001`–`004/symbols.csv` mit LF gespeichert (wie die übrigen im Repository).
 
 Trainingsdurchgang 5 (11.11.2026): Das neu generierte `Training_Images/visual_search_data_training_5.zip` ersetzt das alte Bild, in dem sich zwei orange Qs berührten und wie zwei verbundene Os aussahen. Gleiche Vorgaben (40 Symbole, 7 Targets: 4 L, 3 O, 16 T, 17 Q), keine sich berührenden Symbole. Das alte Archiv bleibt als `visual_search_data_training_5_original_ambiguous.zip` erhalten. Hinweis: `--check` meldet unter Linux alle Ausgaben als „stale“, weil die CSVs im Repository LF-Zeilenenden haben und der Build die CRLF-Bytes aus den ZIPs schreibt; das betrifft den Ausgangsstand genauso und ist kein inhaltlicher Unterschied.
 

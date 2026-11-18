@@ -24,7 +24,15 @@ class BuildTests(unittest.TestCase):
         outputs = builder.build()
         main = json.loads(outputs["data/generated/main_trials.json"])
         self.assertEqual(main[23]["source"]["asset"], "Post_PO_Images/visual_search_data_PostPO_24.zip")
+        # 18.11.2026: main trials 1-4 use the unused calibration archives Pre 11, 13, 15, 16 (easier start).
+        easy = {1: (11, 20), 2: (13, 22), 3: (15, 24), 4: (16, 25)}
         for index, spec in enumerate(main, 1):
+            if index in easy:
+                pre, counter = easy[index]
+                self.assertEqual(spec["source"]["asset"], f"Post_PO_Images/visual_search_data_PostPO_{index}_easy_Pre{pre}.zip")
+                original = builder.ROOT / "PrePO_Images" / f"visual_search_data({counter}).zip"
+                self.assertEqual((builder.ROOT / spec["source"]["asset"]).read_bytes(), original.read_bytes())
+                continue
             self.assertEqual(spec["source"]["asset"], f"Post_PO_Images/visual_search_data_PostPO_{index}.zip")
             counter = index + 25 if index <= 23 else index + 26
             original = builder.ROOT / "Post_PO_Images" / f"visual_search_data({counter}).zip"
