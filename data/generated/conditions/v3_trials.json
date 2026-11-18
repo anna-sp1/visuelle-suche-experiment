@@ -1971,26 +1971,26 @@
       "stimulus_id": "main_task_001",
       "image_path": "data/generated/assets/main_task_001/stimulus.jpg",
       "symbol_table_path": "data/generated/assets/main_task_001/symbols.csv",
-      "specified_total_symbols": 60,
-      "specified_targets": 14,
+      "specified_total_symbols": 36,
+      "specified_targets": 9,
       "specified_misses": 0,
       "specified_false_alarms": 0,
-      "agent_verdict": "Reject",
+      "agent_verdict": "Pass",
       "source": {
         "workbook": "Stimuli_log.xlsx",
         "sheet": "PostPO",
         "row": 2,
-        "asset": "Post_PO_Images/visual_search_data_PostPO_1.zip",
+        "asset": "Post_PO_Images/visual_search_data_PostPO_1_easy_Pre11.zip",
         "generator_settings_row": 18
       },
       "asset_status": "supplied_source",
-      "specified_agent_marked": 14,
-      "specified_hits": 14,
+      "specified_agent_marked": 9,
+      "specified_hits": 9,
       "symbols": [
         {
           "symbol_id": "main_task_001_s001",
           "source_csv_row": 2,
-          "shape": "O",
+          "shape": "L",
           "color": "blue",
           "size": "large"
         },
@@ -1999,7 +1999,7 @@
           "source_csv_row": 3,
           "shape": "O",
           "color": "orange",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s003",
@@ -2013,14 +2013,14 @@
           "source_csv_row": 5,
           "shape": "L",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_001_s005",
           "source_csv_row": 6,
-          "shape": "Q",
+          "shape": "O",
           "color": "orange",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s006",
@@ -2032,15 +2032,15 @@
         {
           "symbol_id": "main_task_001_s007",
           "source_csv_row": 8,
-          "shape": "L",
+          "shape": "T",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s008",
           "source_csv_row": 9,
-          "shape": "L",
-          "color": "blue",
+          "shape": "Q",
+          "color": "orange",
           "size": "large"
         },
         {
@@ -2053,100 +2053,100 @@
         {
           "symbol_id": "main_task_001_s010",
           "source_csv_row": 11,
-          "shape": "Q",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s011",
-          "source_csv_row": 12,
-          "shape": "Q",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s012",
-          "source_csv_row": 13,
-          "shape": "O",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s013",
-          "source_csv_row": 14,
-          "shape": "O",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s014",
-          "source_csv_row": 15,
-          "shape": "Q",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s015",
-          "source_csv_row": 16,
           "shape": "T",
           "color": "orange",
           "size": "large"
         },
         {
-          "symbol_id": "main_task_001_s016",
-          "source_csv_row": 17,
-          "shape": "L",
+          "symbol_id": "main_task_001_s011",
+          "source_csv_row": 12,
+          "shape": "T",
           "color": "blue",
           "size": "large"
         },
         {
+          "symbol_id": "main_task_001_s012",
+          "source_csv_row": 13,
+          "shape": "Q",
+          "color": "blue",
+          "size": "small"
+        },
+        {
+          "symbol_id": "main_task_001_s013",
+          "source_csv_row": 14,
+          "shape": "T",
+          "color": "blue",
+          "size": "small"
+        },
+        {
+          "symbol_id": "main_task_001_s014",
+          "source_csv_row": 15,
+          "shape": "L",
+          "color": "orange",
+          "size": "small"
+        },
+        {
+          "symbol_id": "main_task_001_s015",
+          "source_csv_row": 16,
+          "shape": "Q",
+          "color": "blue",
+          "size": "large"
+        },
+        {
+          "symbol_id": "main_task_001_s016",
+          "source_csv_row": 17,
+          "shape": "T",
+          "color": "orange",
+          "size": "small"
+        },
+        {
           "symbol_id": "main_task_001_s017",
           "source_csv_row": 18,
-          "shape": "Q",
-          "color": "orange",
+          "shape": "T",
+          "color": "blue",
           "size": "small"
         },
         {
           "symbol_id": "main_task_001_s018",
           "source_csv_row": 19,
-          "shape": "Q",
+          "shape": "T",
           "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_001_s019",
           "source_csv_row": 20,
-          "shape": "Q",
+          "shape": "T",
           "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_001_s020",
           "source_csv_row": 21,
-          "shape": "L",
-          "color": "orange",
-          "size": "small"
+          "shape": "T",
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s021",
           "source_csv_row": 22,
-          "shape": "T",
-          "color": "orange",
+          "shape": "Q",
+          "color": "blue",
           "size": "small"
         },
         {
           "symbol_id": "main_task_001_s022",
           "source_csv_row": 23,
-          "shape": "Q",
+          "shape": "L",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s023",
           "source_csv_row": 24,
           "shape": "Q",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_001_s024",
@@ -2158,72 +2158,72 @@
         {
           "symbol_id": "main_task_001_s025",
           "source_csv_row": 26,
-          "shape": "T",
+          "shape": "Q",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s026",
           "source_csv_row": 27,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
+          "shape": "O",
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s027",
           "source_csv_row": 28,
           "shape": "T",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_001_s028",
           "source_csv_row": 29,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
+          "shape": "Q",
+          "color": "orange",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s029",
           "source_csv_row": 30,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
+          "shape": "Q",
+          "color": "orange",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s030",
           "source_csv_row": 31,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
+          "shape": "Q",
+          "color": "orange",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s031",
           "source_csv_row": 32,
-          "shape": "T",
-          "color": "blue",
-          "size": "large"
+          "shape": "Q",
+          "color": "orange",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_001_s032",
           "source_csv_row": 33,
           "shape": "T",
-          "color": "orange",
-          "size": "small"
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_001_s033",
           "source_csv_row": 34,
-          "shape": "T",
+          "shape": "Q",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_001_s034",
           "source_csv_row": 35,
-          "shape": "Q",
-          "color": "orange",
-          "size": "large"
+          "shape": "O",
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_001_s035",
@@ -2235,176 +2235,8 @@
         {
           "symbol_id": "main_task_001_s036",
           "source_csv_row": 37,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s037",
-          "source_csv_row": 38,
-          "shape": "O",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s038",
-          "source_csv_row": 39,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s039",
-          "source_csv_row": 40,
-          "shape": "T",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s040",
-          "source_csv_row": 41,
-          "shape": "Q",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s041",
-          "source_csv_row": 42,
-          "shape": "Q",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s042",
-          "source_csv_row": 43,
-          "shape": "L",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s043",
-          "source_csv_row": 44,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s044",
-          "source_csv_row": 45,
           "shape": "T",
           "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s045",
-          "source_csv_row": 46,
-          "shape": "T",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s046",
-          "source_csv_row": 47,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s047",
-          "source_csv_row": 48,
-          "shape": "T",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s048",
-          "source_csv_row": 49,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s049",
-          "source_csv_row": 50,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s050",
-          "source_csv_row": 51,
-          "shape": "Q",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s051",
-          "source_csv_row": 52,
-          "shape": "Q",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s052",
-          "source_csv_row": 53,
-          "shape": "Q",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s053",
-          "source_csv_row": 54,
-          "shape": "T",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s054",
-          "source_csv_row": 55,
-          "shape": "T",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s055",
-          "source_csv_row": 56,
-          "shape": "L",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s056",
-          "source_csv_row": 57,
-          "shape": "Q",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s057",
-          "source_csv_row": 58,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s058",
-          "source_csv_row": 59,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_001_s059",
-          "source_csv_row": 60,
-          "shape": "Q",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_001_s060",
-          "source_csv_row": 61,
-          "shape": "O",
-          "color": "blue",
           "size": "small"
         }
       ],
@@ -2416,16 +2248,11 @@
         "main_task_001_s002",
         "main_task_001_s003",
         "main_task_001_s004",
-        "main_task_001_s007",
-        "main_task_001_s008",
-        "main_task_001_s012",
-        "main_task_001_s013",
-        "main_task_001_s016",
-        "main_task_001_s020",
-        "main_task_001_s037",
-        "main_task_001_s042",
-        "main_task_001_s055",
-        "main_task_001_s060"
+        "main_task_001_s005",
+        "main_task_001_s014",
+        "main_task_001_s022",
+        "main_task_001_s026",
+        "main_task_001_s034"
       ],
       "miss_symbol_ids": [],
       "false_alarm_symbol_ids": [],
@@ -2438,8 +2265,8 @@
       "stimulus_id": "main_task_002",
       "image_path": "data/generated/assets/main_task_002/stimulus.jpg",
       "symbol_table_path": "data/generated/assets/main_task_002/symbols.csv",
-      "specified_total_symbols": 60,
-      "specified_targets": 13,
+      "specified_total_symbols": 44,
+      "specified_targets": 15,
       "specified_misses": 1,
       "specified_false_alarms": 1,
       "agent_verdict": "Reject",
@@ -2447,31 +2274,31 @@
         "workbook": "Stimuli_log.xlsx",
         "sheet": "PostPO",
         "row": 3,
-        "asset": "Post_PO_Images/visual_search_data_PostPO_2.zip",
+        "asset": "Post_PO_Images/visual_search_data_PostPO_2_easy_Pre13.zip",
         "generator_settings_row": 19
       },
       "asset_status": "supplied_source",
-      "specified_agent_marked": 13,
-      "specified_hits": 12,
+      "specified_agent_marked": 15,
+      "specified_hits": 14,
       "symbols": [
         {
           "symbol_id": "main_task_002_s001",
           "source_csv_row": 2,
-          "shape": "O",
-          "color": "blue",
+          "shape": "L",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_002_s002",
           "source_csv_row": 3,
           "shape": "L",
-          "color": "orange",
-          "size": "large"
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s003",
           "source_csv_row": 4,
-          "shape": "O",
+          "shape": "L",
           "color": "orange",
           "size": "large"
         },
@@ -2480,69 +2307,69 @@
           "source_csv_row": 5,
           "shape": "L",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_002_s005",
           "source_csv_row": 6,
           "shape": "Q",
-          "color": "blue",
-          "size": "small"
+          "color": "orange",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_002_s006",
           "source_csv_row": 7,
-          "shape": "Q",
+          "shape": "T",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s007",
           "source_csv_row": 8,
-          "shape": "T",
-          "color": "blue",
+          "shape": "O",
+          "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_002_s008",
           "source_csv_row": 9,
-          "shape": "T",
+          "shape": "Q",
           "color": "orange",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_002_s009",
           "source_csv_row": 10,
-          "shape": "Q",
+          "shape": "L",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s010",
           "source_csv_row": 11,
           "shape": "Q",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s011",
           "source_csv_row": 12,
           "shape": "Q",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s012",
           "source_csv_row": 13,
-          "shape": "Q",
+          "shape": "T",
           "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_002_s013",
           "source_csv_row": 14,
-          "shape": "L",
-          "color": "orange",
+          "shape": "O",
+          "color": "blue",
           "size": "large"
         },
         {
@@ -2555,9 +2382,9 @@
         {
           "symbol_id": "main_task_002_s015",
           "source_csv_row": 16,
-          "shape": "Q",
+          "shape": "T",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_002_s016",
@@ -2569,16 +2396,16 @@
         {
           "symbol_id": "main_task_002_s017",
           "source_csv_row": 18,
-          "shape": "Q",
+          "shape": "T",
           "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_002_s018",
           "source_csv_row": 19,
-          "shape": "Q",
+          "shape": "O",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s019",
@@ -2590,36 +2417,36 @@
         {
           "symbol_id": "main_task_002_s020",
           "source_csv_row": 21,
-          "shape": "O",
-          "color": "orange",
-          "size": "large"
+          "shape": "Q",
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s021",
           "source_csv_row": 22,
-          "shape": "Q",
-          "color": "orange",
+          "shape": "L",
+          "color": "blue",
           "size": "large"
         },
         {
           "symbol_id": "main_task_002_s022",
           "source_csv_row": 23,
+          "shape": "O",
+          "color": "orange",
+          "size": "small"
+        },
+        {
+          "symbol_id": "main_task_002_s023",
+          "source_csv_row": 24,
           "shape": "T",
           "color": "orange",
           "size": "large"
         },
         {
-          "symbol_id": "main_task_002_s023",
-          "source_csv_row": 24,
-          "shape": "L",
-          "color": "blue",
-          "size": "small"
-        },
-        {
           "symbol_id": "main_task_002_s024",
           "source_csv_row": 25,
-          "shape": "T",
-          "color": "blue",
+          "shape": "Q",
+          "color": "orange",
           "size": "large"
         },
         {
@@ -2633,8 +2460,8 @@
           "symbol_id": "main_task_002_s026",
           "source_csv_row": 27,
           "shape": "Q",
-          "color": "blue",
-          "size": "small"
+          "color": "orange",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_002_s027",
@@ -2646,77 +2473,77 @@
         {
           "symbol_id": "main_task_002_s028",
           "source_csv_row": 29,
-          "shape": "Q",
+          "shape": "O",
           "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_002_s029",
           "source_csv_row": 30,
-          "shape": "Q",
+          "shape": "T",
           "color": "orange",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_002_s030",
           "source_csv_row": 31,
           "shape": "Q",
-          "color": "orange",
-          "size": "large"
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s031",
           "source_csv_row": 32,
           "shape": "Q",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s032",
-          "source_csv_row": 33,
-          "shape": "O",
           "color": "orange",
           "size": "large"
         },
         {
-          "symbol_id": "main_task_002_s033",
-          "source_csv_row": 34,
+          "symbol_id": "main_task_002_s032",
+          "source_csv_row": 33,
           "shape": "Q",
           "color": "blue",
-          "size": "large"
+          "size": "small"
+        },
+        {
+          "symbol_id": "main_task_002_s033",
+          "source_csv_row": 34,
+          "shape": "T",
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s034",
           "source_csv_row": 35,
           "shape": "T",
-          "color": "blue",
-          "size": "large"
+          "color": "orange",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s035",
           "source_csv_row": 36,
-          "shape": "Q",
+          "shape": "O",
           "color": "blue",
           "size": "small"
         },
         {
           "symbol_id": "main_task_002_s036",
           "source_csv_row": 37,
-          "shape": "T",
-          "color": "blue",
+          "shape": "Q",
+          "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_002_s037",
           "source_csv_row": 38,
-          "shape": "Q",
+          "shape": "T",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s038",
           "source_csv_row": 39,
-          "shape": "T",
+          "shape": "L",
           "color": "blue",
           "size": "small"
         },
@@ -2724,13 +2551,13 @@
           "symbol_id": "main_task_002_s039",
           "source_csv_row": 40,
           "shape": "T",
-          "color": "blue",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_002_s040",
           "source_csv_row": 41,
-          "shape": "L",
+          "shape": "Q",
           "color": "blue",
           "size": "small"
         },
@@ -2739,138 +2566,26 @@
           "source_csv_row": 42,
           "shape": "T",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_002_s042",
           "source_csv_row": 43,
-          "shape": "T",
+          "shape": "O",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_002_s043",
           "source_csv_row": 44,
           "shape": "T",
-          "color": "orange",
-          "size": "large"
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_002_s044",
           "source_csv_row": 45,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s045",
-          "source_csv_row": 46,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s046",
-          "source_csv_row": 47,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s047",
-          "source_csv_row": 48,
-          "shape": "T",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_002_s048",
-          "source_csv_row": 49,
-          "shape": "T",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_002_s049",
-          "source_csv_row": 50,
           "shape": "L",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_002_s050",
-          "source_csv_row": 51,
-          "shape": "O",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s051",
-          "source_csv_row": 52,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s052",
-          "source_csv_row": 53,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s053",
-          "source_csv_row": 54,
-          "shape": "Q",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_002_s054",
-          "source_csv_row": 55,
-          "shape": "O",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s055",
-          "source_csv_row": 56,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s056",
-          "source_csv_row": 57,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s057",
-          "source_csv_row": 58,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s058",
-          "source_csv_row": 59,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s059",
-          "source_csv_row": 60,
-          "shape": "L",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_002_s060",
-          "source_csv_row": 61,
-          "shape": "T",
           "color": "orange",
           "size": "large"
         }
@@ -2883,25 +2598,27 @@
         "main_task_002_s002",
         "main_task_002_s003",
         "main_task_002_s004",
-        "main_task_002_s005",
+        "main_task_002_s009",
         "main_task_002_s013",
-        "main_task_002_s023",
-        "main_task_002_s032",
-        "main_task_002_s040",
-        "main_task_002_s049",
-        "main_task_002_s050",
-        "main_task_002_s054",
-        "main_task_002_s059"
+        "main_task_002_s018",
+        "main_task_002_s020",
+        "main_task_002_s021",
+        "main_task_002_s022",
+        "main_task_002_s028",
+        "main_task_002_s035",
+        "main_task_002_s038",
+        "main_task_002_s042",
+        "main_task_002_s044"
       ],
       "miss_symbol_ids": [
-        "main_task_002_s020"
+        "main_task_002_s007"
       ],
       "false_alarm_symbol_ids": [
-        "main_task_002_s005"
+        "main_task_002_s020"
       ],
       "error_symbol_ids": [
-        "main_task_002_s005",
-        "main_task_002_s020"
+        "main_task_002_s020",
+        "main_task_002_s007"
       ],
       "balance_score": 2
     },
@@ -2911,8 +2628,8 @@
       "stimulus_id": "main_task_003",
       "image_path": "data/generated/assets/main_task_003/stimulus.jpg",
       "symbol_table_path": "data/generated/assets/main_task_003/symbols.csv",
-      "specified_total_symbols": 65,
-      "specified_targets": 10,
+      "specified_total_symbols": 53,
+      "specified_targets": 8,
       "specified_misses": 1,
       "specified_false_alarms": 0,
       "agent_verdict": "Pass",
@@ -2920,12 +2637,12 @@
         "workbook": "Stimuli_log.xlsx",
         "sheet": "PostPO",
         "row": 4,
-        "asset": "Post_PO_Images/visual_search_data_PostPO_3.zip",
+        "asset": "Post_PO_Images/visual_search_data_PostPO_3_easy_Pre15.zip",
         "generator_settings_row": 20
       },
       "asset_status": "supplied_source",
-      "specified_agent_marked": 9,
-      "specified_hits": 9,
+      "specified_agent_marked": 7,
+      "specified_hits": 7,
       "symbols": [
         {
           "symbol_id": "main_task_003_s001",
@@ -2937,14 +2654,14 @@
         {
           "symbol_id": "main_task_003_s002",
           "source_csv_row": 3,
-          "shape": "O",
-          "color": "blue",
+          "shape": "L",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s003",
           "source_csv_row": 4,
-          "shape": "L",
+          "shape": "O",
           "color": "orange",
           "size": "large"
         },
@@ -2952,20 +2669,20 @@
           "symbol_id": "main_task_003_s004",
           "source_csv_row": 5,
           "shape": "L",
-          "color": "orange",
-          "size": "small"
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s005",
           "source_csv_row": 6,
           "shape": "Q",
-          "color": "orange",
+          "color": "blue",
           "size": "large"
         },
         {
           "symbol_id": "main_task_003_s006",
           "source_csv_row": 7,
-          "shape": "O",
+          "shape": "Q",
           "color": "orange",
           "size": "large"
         },
@@ -2974,7 +2691,7 @@
           "source_csv_row": 8,
           "shape": "Q",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s008",
@@ -2986,23 +2703,23 @@
         {
           "symbol_id": "main_task_003_s009",
           "source_csv_row": 10,
-          "shape": "Q",
-          "color": "orange",
+          "shape": "O",
+          "color": "blue",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s010",
           "source_csv_row": 11,
-          "shape": "T",
-          "color": "orange",
-          "size": "large"
+          "shape": "Q",
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s011",
           "source_csv_row": 12,
-          "shape": "T",
+          "shape": "Q",
           "color": "orange",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s012",
@@ -3014,156 +2731,156 @@
         {
           "symbol_id": "main_task_003_s013",
           "source_csv_row": 14,
-          "shape": "Q",
-          "color": "blue",
-          "size": "large"
+          "shape": "T",
+          "color": "orange",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s014",
           "source_csv_row": 15,
           "shape": "T",
-          "color": "blue",
-          "size": "small"
+          "color": "orange",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s015",
           "source_csv_row": 16,
           "shape": "T",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s016",
           "source_csv_row": 17,
-          "shape": "T",
+          "shape": "Q",
           "color": "blue",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s017",
           "source_csv_row": 18,
-          "shape": "Q",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_003_s018",
-          "source_csv_row": 19,
           "shape": "T",
           "color": "blue",
           "size": "large"
         },
         {
+          "symbol_id": "main_task_003_s018",
+          "source_csv_row": 19,
+          "shape": "L",
+          "color": "orange",
+          "size": "large"
+        },
+        {
           "symbol_id": "main_task_003_s019",
           "source_csv_row": 20,
-          "shape": "T",
+          "shape": "Q",
           "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s020",
           "source_csv_row": 21,
-          "shape": "Q",
-          "color": "blue",
+          "shape": "T",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s021",
           "source_csv_row": 22,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
+          "shape": "Q",
+          "color": "orange",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s022",
           "source_csv_row": 23,
-          "shape": "L",
+          "shape": "T",
           "color": "blue",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s023",
           "source_csv_row": 24,
-          "shape": "T",
+          "shape": "Q",
           "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_003_s024",
           "source_csv_row": 25,
-          "shape": "T",
+          "shape": "L",
           "color": "blue",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s025",
           "source_csv_row": 26,
-          "shape": "Q",
+          "shape": "T",
           "color": "blue",
           "size": "large"
         },
         {
           "symbol_id": "main_task_003_s026",
           "source_csv_row": 27,
-          "shape": "T",
-          "color": "blue",
+          "shape": "Q",
+          "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_003_s027",
           "source_csv_row": 28,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
+          "shape": "T",
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s028",
           "source_csv_row": 29,
           "shape": "T",
-          "color": "blue",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s029",
           "source_csv_row": 30,
           "shape": "Q",
-          "color": "orange",
+          "color": "blue",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s030",
           "source_csv_row": 31,
-          "shape": "O",
-          "color": "orange",
-          "size": "large"
+          "shape": "T",
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s031",
           "source_csv_row": 32,
           "shape": "Q",
-          "color": "orange",
+          "color": "blue",
           "size": "large"
         },
         {
           "symbol_id": "main_task_003_s032",
           "source_csv_row": 33,
-          "shape": "Q",
+          "shape": "T",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s033",
           "source_csv_row": 34,
           "shape": "T",
-          "color": "blue",
-          "size": "large"
+          "color": "orange",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s034",
           "source_csv_row": 35,
-          "shape": "Q",
+          "shape": "T",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s035",
@@ -3182,23 +2899,23 @@
         {
           "symbol_id": "main_task_003_s037",
           "source_csv_row": 38,
-          "shape": "Q",
-          "color": "blue",
+          "shape": "T",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s038",
           "source_csv_row": 39,
-          "shape": "O",
+          "shape": "T",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s039",
           "source_csv_row": 40,
-          "shape": "L",
-          "color": "orange",
-          "size": "large"
+          "shape": "Q",
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s040",
@@ -3210,7 +2927,7 @@
         {
           "symbol_id": "main_task_003_s041",
           "source_csv_row": 42,
-          "shape": "Q",
+          "shape": "O",
           "color": "orange",
           "size": "small"
         },
@@ -3218,169 +2935,85 @@
           "symbol_id": "main_task_003_s042",
           "source_csv_row": 43,
           "shape": "T",
-          "color": "orange",
-          "size": "large"
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s043",
           "source_csv_row": 44,
           "shape": "T",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s044",
           "source_csv_row": 45,
           "shape": "T",
-          "color": "blue",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s045",
           "source_csv_row": 46,
-          "shape": "T",
-          "color": "orange",
-          "size": "large"
+          "shape": "Q",
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s046",
           "source_csv_row": 47,
-          "shape": "T",
-          "color": "orange",
-          "size": "large"
+          "shape": "Q",
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s047",
           "source_csv_row": 48,
-          "shape": "T",
+          "shape": "Q",
           "color": "orange",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s048",
           "source_csv_row": 49,
-          "shape": "T",
+          "shape": "Q",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_003_s049",
           "source_csv_row": 50,
           "shape": "Q",
           "color": "orange",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s050",
           "source_csv_row": 51,
-          "shape": "Q",
+          "shape": "T",
           "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_003_s051",
           "source_csv_row": 52,
-          "shape": "T",
+          "shape": "Q",
           "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_003_s052",
           "source_csv_row": 53,
-          "shape": "Q",
+          "shape": "T",
           "color": "orange",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_003_s053",
           "source_csv_row": 54,
-          "shape": "L",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_003_s054",
-          "source_csv_row": 55,
           "shape": "T",
           "color": "blue",
           "size": "small"
-        },
-        {
-          "symbol_id": "main_task_003_s055",
-          "source_csv_row": 56,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_003_s056",
-          "source_csv_row": 57,
-          "shape": "Q",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_003_s057",
-          "source_csv_row": 58,
-          "shape": "T",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_003_s058",
-          "source_csv_row": 59,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_003_s059",
-          "source_csv_row": 60,
-          "shape": "Q",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_003_s060",
-          "source_csv_row": 61,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_003_s061",
-          "source_csv_row": 62,
-          "shape": "Q",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_003_s062",
-          "source_csv_row": 63,
-          "shape": "Q",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_003_s063",
-          "source_csv_row": 64,
-          "shape": "Q",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_003_s064",
-          "source_csv_row": 65,
-          "shape": "Q",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_003_s065",
-          "source_csv_row": 66,
-          "shape": "T",
-          "color": "orange",
-          "size": "large"
         }
       ],
       "seed": 20260909,
@@ -3391,18 +3024,16 @@
         "main_task_003_s002",
         "main_task_003_s003",
         "main_task_003_s004",
-        "main_task_003_s006",
-        "main_task_003_s022",
-        "main_task_003_s030",
-        "main_task_003_s038",
-        "main_task_003_s053"
+        "main_task_003_s009",
+        "main_task_003_s024",
+        "main_task_003_s041"
       ],
       "miss_symbol_ids": [
-        "main_task_003_s039"
+        "main_task_003_s018"
       ],
       "false_alarm_symbol_ids": [],
       "error_symbol_ids": [
-        "main_task_003_s039"
+        "main_task_003_s018"
       ],
       "balance_score": 3
     },
@@ -3412,35 +3043,35 @@
       "stimulus_id": "main_task_004",
       "image_path": "data/generated/assets/main_task_004/stimulus.jpg",
       "symbol_table_path": "data/generated/assets/main_task_004/symbols.csv",
-      "specified_total_symbols": 65,
-      "specified_targets": 8,
+      "specified_total_symbols": 58,
+      "specified_targets": 11,
       "specified_misses": 0,
       "specified_false_alarms": 2,
-      "agent_verdict": "Pass",
+      "agent_verdict": "Reject",
       "source": {
         "workbook": "Stimuli_log.xlsx",
         "sheet": "PostPO",
         "row": 5,
-        "asset": "Post_PO_Images/visual_search_data_PostPO_4.zip",
+        "asset": "Post_PO_Images/visual_search_data_PostPO_4_easy_Pre16.zip",
         "generator_settings_row": 21
       },
       "asset_status": "supplied_source",
-      "specified_agent_marked": 10,
-      "specified_hits": 8,
+      "specified_agent_marked": 13,
+      "specified_hits": 11,
       "symbols": [
         {
           "symbol_id": "main_task_004_s001",
           "source_csv_row": 2,
           "shape": "O",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s002",
           "source_csv_row": 3,
-          "shape": "O",
+          "shape": "L",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s003",
@@ -3453,22 +3084,22 @@
           "symbol_id": "main_task_004_s004",
           "source_csv_row": 5,
           "shape": "O",
-          "color": "blue",
-          "size": "small"
+          "color": "orange",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s005",
           "source_csv_row": 6,
-          "shape": "Q",
-          "color": "orange",
+          "shape": "L",
+          "color": "blue",
           "size": "large"
         },
         {
           "symbol_id": "main_task_004_s006",
           "source_csv_row": 7,
           "shape": "T",
-          "color": "orange",
-          "size": "large"
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s007",
@@ -3481,63 +3112,63 @@
           "symbol_id": "main_task_004_s008",
           "source_csv_row": 9,
           "shape": "T",
-          "color": "blue",
-          "size": "large"
+          "color": "orange",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s009",
           "source_csv_row": 10,
           "shape": "Q",
-          "color": "blue",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_004_s010",
           "source_csv_row": 11,
           "shape": "Q",
-          "color": "orange",
+          "color": "blue",
           "size": "small"
         },
         {
           "symbol_id": "main_task_004_s011",
           "source_csv_row": 12,
           "shape": "T",
-          "color": "orange",
-          "size": "small"
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s012",
           "source_csv_row": 13,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
+          "shape": "O",
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s013",
           "source_csv_row": 14,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
+          "shape": "Q",
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s014",
           "source_csv_row": 15,
-          "shape": "L",
-          "color": "orange",
-          "size": "small"
+          "shape": "T",
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s015",
           "source_csv_row": 16,
           "shape": "Q",
-          "color": "blue",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_004_s016",
           "source_csv_row": 17,
-          "shape": "Q",
-          "color": "blue",
+          "shape": "T",
+          "color": "orange",
           "size": "large"
         },
         {
@@ -3545,83 +3176,83 @@
           "source_csv_row": 18,
           "shape": "Q",
           "color": "orange",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s018",
           "source_csv_row": 19,
-          "shape": "Q",
+          "shape": "T",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s019",
           "source_csv_row": 20,
           "shape": "T",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s020",
           "source_csv_row": 21,
           "shape": "Q",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s021",
           "source_csv_row": 22,
-          "shape": "T",
+          "shape": "Q",
           "color": "blue",
-          "size": "small"
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s022",
           "source_csv_row": 23,
-          "shape": "Q",
+          "shape": "T",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s023",
           "source_csv_row": 24,
           "shape": "T",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s024",
           "source_csv_row": 25,
           "shape": "T",
-          "color": "blue",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_004_s025",
           "source_csv_row": 26,
           "shape": "T",
-          "color": "blue",
+          "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_004_s026",
           "source_csv_row": 27,
-          "shape": "T",
-          "color": "blue",
+          "shape": "Q",
+          "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_004_s027",
           "source_csv_row": 28,
           "shape": "Q",
-          "color": "blue",
+          "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_004_s028",
           "source_csv_row": 29,
           "shape": "T",
-          "color": "blue",
+          "color": "orange",
           "size": "small"
         },
         {
@@ -3629,35 +3260,35 @@
           "source_csv_row": 30,
           "shape": "T",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s030",
           "source_csv_row": 31,
-          "shape": "T",
-          "color": "orange",
+          "shape": "O",
+          "color": "blue",
           "size": "small"
         },
         {
           "symbol_id": "main_task_004_s031",
           "source_csv_row": 32,
-          "shape": "T",
+          "shape": "Q",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s032",
           "source_csv_row": 33,
           "shape": "T",
-          "color": "blue",
+          "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_004_s033",
           "source_csv_row": 34,
-          "shape": "L",
-          "color": "orange",
-          "size": "large"
+          "shape": "T",
+          "color": "blue",
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s034",
@@ -3669,15 +3300,15 @@
         {
           "symbol_id": "main_task_004_s035",
           "source_csv_row": 36,
-          "shape": "T",
-          "color": "orange",
+          "shape": "Q",
+          "color": "blue",
           "size": "large"
         },
         {
           "symbol_id": "main_task_004_s036",
           "source_csv_row": 37,
           "shape": "T",
-          "color": "orange",
+          "color": "blue",
           "size": "small"
         },
         {
@@ -3690,92 +3321,92 @@
         {
           "symbol_id": "main_task_004_s038",
           "source_csv_row": 39,
-          "shape": "Q",
+          "shape": "L",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s039",
           "source_csv_row": 40,
           "shape": "Q",
-          "color": "orange",
-          "size": "small"
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s040",
           "source_csv_row": 41,
           "shape": "Q",
           "color": "blue",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s041",
           "source_csv_row": 42,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
+          "shape": "Q",
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s042",
           "source_csv_row": 43,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
+          "shape": "L",
+          "color": "blue",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s043",
           "source_csv_row": 44,
-          "shape": "Q",
-          "color": "blue",
+          "shape": "T",
+          "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_004_s044",
           "source_csv_row": 45,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_004_s045",
-          "source_csv_row": 46,
-          "shape": "T",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_004_s046",
-          "source_csv_row": 47,
           "shape": "Q",
           "color": "blue",
           "size": "small"
         },
         {
+          "symbol_id": "main_task_004_s045",
+          "source_csv_row": 46,
+          "shape": "Q",
+          "color": "blue",
+          "size": "small"
+        },
+        {
+          "symbol_id": "main_task_004_s046",
+          "source_csv_row": 47,
+          "shape": "T",
+          "color": "blue",
+          "size": "large"
+        },
+        {
           "symbol_id": "main_task_004_s047",
           "source_csv_row": 48,
-          "shape": "Q",
+          "shape": "T",
           "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_004_s048",
           "source_csv_row": 49,
-          "shape": "O",
+          "shape": "Q",
           "color": "orange",
           "size": "small"
         },
         {
           "symbol_id": "main_task_004_s049",
           "source_csv_row": 50,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
+          "shape": "Q",
+          "color": "orange",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s050",
           "source_csv_row": 51,
-          "shape": "Q",
-          "color": "orange",
+          "shape": "T",
+          "color": "blue",
           "size": "small"
         },
         {
@@ -3795,14 +3426,14 @@
         {
           "symbol_id": "main_task_004_s053",
           "source_csv_row": 54,
-          "shape": "Q",
-          "color": "blue",
+          "shape": "L",
+          "color": "orange",
           "size": "large"
         },
         {
           "symbol_id": "main_task_004_s054",
           "source_csv_row": 55,
-          "shape": "T",
+          "shape": "Q",
           "color": "orange",
           "size": "large"
         },
@@ -3811,77 +3442,28 @@
           "source_csv_row": 56,
           "shape": "Q",
           "color": "orange",
-          "size": "large"
+          "size": "small"
         },
         {
           "symbol_id": "main_task_004_s056",
           "source_csv_row": 57,
-          "shape": "Q",
-          "color": "blue",
-          "size": "small"
+          "shape": "O",
+          "color": "orange",
+          "size": "large"
         },
         {
           "symbol_id": "main_task_004_s057",
           "source_csv_row": 58,
-          "shape": "T",
+          "shape": "Q",
           "color": "blue",
           "size": "large"
         },
         {
           "symbol_id": "main_task_004_s058",
           "source_csv_row": 59,
-          "shape": "Q",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_004_s059",
-          "source_csv_row": 60,
-          "shape": "Q",
-          "color": "orange",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_004_s060",
-          "source_csv_row": 61,
-          "shape": "T",
-          "color": "blue",
-          "size": "large"
-        },
-        {
-          "symbol_id": "main_task_004_s061",
-          "source_csv_row": 62,
           "shape": "T",
           "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_004_s062",
-          "source_csv_row": 63,
-          "shape": "L",
-          "color": "blue",
           "size": "large"
-        },
-        {
-          "symbol_id": "main_task_004_s063",
-          "source_csv_row": 64,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_004_s064",
-          "source_csv_row": 65,
-          "shape": "T",
-          "color": "blue",
-          "size": "small"
-        },
-        {
-          "symbol_id": "main_task_004_s065",
-          "source_csv_row": 66,
-          "shape": "Q",
-          "color": "orange",
-          "size": "small"
         }
       ],
       "seed": 20260909,
@@ -3892,21 +3474,24 @@
         "main_task_004_s002",
         "main_task_004_s003",
         "main_task_004_s004",
-        "main_task_004_s006",
-        "main_task_004_s014",
-        "main_task_004_s033",
-        "main_task_004_s046",
-        "main_task_004_s048",
-        "main_task_004_s062"
+        "main_task_004_s005",
+        "main_task_004_s010",
+        "main_task_004_s012",
+        "main_task_004_s030",
+        "main_task_004_s032",
+        "main_task_004_s038",
+        "main_task_004_s042",
+        "main_task_004_s053",
+        "main_task_004_s056"
       ],
       "miss_symbol_ids": [],
       "false_alarm_symbol_ids": [
-        "main_task_004_s046",
-        "main_task_004_s006"
+        "main_task_004_s010",
+        "main_task_004_s032"
       ],
       "error_symbol_ids": [
-        "main_task_004_s046",
-        "main_task_004_s006"
+        "main_task_004_s010",
+        "main_task_004_s032"
       ],
       "balance_score": 0
     },
