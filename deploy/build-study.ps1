@@ -32,7 +32,8 @@ $Output = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPat
 # What the page loads at runtime (index.html, its scripts, style.css, the preview image and
 # table, the prepared trial plans and stimuli). Source archives, docs and tests stay out.
 $Files = @('index.html', 'style.css', 'ai-trial.js', 'common-start.js', 'conditions.js', 'config.js',
-           'customization.js', 'daisy-ui.js', 'experiment.js', 'functions.js', 'standard.js', 'storage.js')
+           'customization.js', 'daisy-ui.js', 'experiment.js', 'functions.js', 'standard.js', 'storage.js',
+           'lib/jspsych.js', 'lib/plugin-html-button-response.js', 'lib/plugin-survey-text.js', 'lib/plugin-survey-likert.js', 'lib/jspsych.css', 'lib/daisyui.css', 'lib/papaparse.min.js')
 $Directories = @('bilder', 'tabellen', 'data/generated')
 
 # The study's properties, as JATOS 3.x writes them into an archive (serial version 3).
